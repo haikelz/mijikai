@@ -13,8 +13,8 @@
 
 ## Support
 
-github: [haikelz]
-custom: ["https://trakteer.id/haikelz/tip"]
+[Github sponsor](https://github.com/sponsors/haikelz)
+[Trakteer](https://trakteer.id/haikelz/tip)
 
 ## License
 

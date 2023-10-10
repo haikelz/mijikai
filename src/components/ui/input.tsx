@@ -18,7 +18,7 @@ export const Input = forwardRef<HTMLInputElement>((props, ref) => {
           "flex w-full rounded-r-md h-11 border border-input font-medium",
           "bg-background px-3 py-2 text-sm ring-offset-background",
           "file:border-0 file:bg-transparent file:text-sm file:font-medium",
-          "placeholder:text-muted-foreground focus-visible:outline-none",
+          "placeholder:text-muted-foreground   focus-visible:outline-none",
           "focus-visible:ring-ring",
           "disabled:cursor-not-allowed disabled:opacity-50"
         )}

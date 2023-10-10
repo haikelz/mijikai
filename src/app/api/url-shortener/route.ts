@@ -1,14 +1,12 @@
 import { customAlphabet } from "nanoid";
 import { NextResponse } from "next/server";
 import { db } from "~lib/utils/db";
+import { ShortenedUrlProps } from "~types";
 
 type PostOperationProps = Promise<
   | NextResponse<{
       status: string;
-      data: {
-        original_url: string;
-        shortened_url: string;
-      };
+      data: ShortenedUrlProps;
     }>
   | NextResponse<{
       message: string;
@@ -22,7 +20,7 @@ export async function POST(req: Request, res: Response): PostOperationProps {
 
     const replaceHttpsUrl = url.replace(/^https?\:\/\/|^http?\:\/\/|^\:\/\//gi, "");
 
-    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz", 5);
+    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz", 7);
     const randomizedUrl = customUrl();
 
     const { error } = await db.from("shortened_url").insert([

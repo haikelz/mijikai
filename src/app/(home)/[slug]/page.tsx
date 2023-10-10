@@ -21,11 +21,10 @@ async function getShortenedUrl(slug: string): Promise<GetShortenedUrlProps[]> {
   return data;
 }
 
-export default async function SlugPage({ params }: { params: { slug: string } }) {
+export default async function SlugPage({ params }: { params: SlugProps }) {
   const { slug } = params;
   const shortenedUrl = await getShortenedUrl(slug);
 
   if (shortenedUrl) return redirect(`https://${shortenedUrl[0].original_url}`);
-
   return;
 }
