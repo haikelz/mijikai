@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
-import { tw } from "~lib/helpers/tw";
+import { tw } from "~lib/helpers";
 
 import { Paragraph } from "./typography";
 

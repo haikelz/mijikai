@@ -20,9 +20,9 @@ export default async function Home() {
       <div>
         <Heading as="h1">Mijikai / 短い</Heading>
         <Paragraph>
-          Mijikai is a free shorten URL Website. No ads, no tracker! There are{" "}
-          <span className="font-bold">{totalShortenedUrl} link</span> that already shortened using
-          this service.
+          Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b> There are{" "}
+          <b className="font-bold">{totalShortenedUrl} link</b> that already shortened using this
+          service.
         </Paragraph>
         <HomeClient />
       </div>
