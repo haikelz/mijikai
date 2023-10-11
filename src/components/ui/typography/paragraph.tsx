@@ -6,7 +6,10 @@ type ParagraphProps = HTMLAttributes<HTMLParagraphElement> & ChildrenProps;
 
 export function Paragraph({ children, className, ...props }: ParagraphProps) {
   return (
-    <p className={tw("leading-7 [&:not(:first-child)]:mt-6", className)} {...props}>
+    <p
+      className={tw("leading-7 [&:not(:first-child)]:mt-6", className)}
+      {...props}
+    >
       {children}
     </p>
   );

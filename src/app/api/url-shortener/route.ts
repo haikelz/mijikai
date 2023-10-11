@@ -18,7 +18,10 @@ export async function POST(req: Request, res: Response): PostOperationProps {
   try {
     const { url } = await req.json();
 
-    const replaceHttpsUrl = url.replace(/^https?\:\/\/|^http?\:\/\/|^\:\/\//gi, "");
+    const replaceHttpsUrl = url.replace(
+      /^https?\:\/\/|^http?\:\/\/|^\:\/\//gi,
+      ""
+    );
 
     const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz", 7);
     const randomizedUrl = customUrl();

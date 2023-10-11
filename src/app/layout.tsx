@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   description: "Mijikai is a free shorten URL Website. No ads, no tracker!",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout(
+  { children }: { children: React.ReactNode }
+) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>

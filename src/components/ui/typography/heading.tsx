@@ -16,9 +16,13 @@ export function Heading({ children, as }: HeadingProps) {
           {children}
         </h2>
       ) : as === "h3" ? (
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">{children}</h3>
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          {children}
+        </h3>
       ) : as === "h4" ? (
-        <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">{children}</h4>
+        <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+          {children}
+        </h4>
       ) : null}
     </>
   );

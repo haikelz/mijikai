@@ -5,7 +5,9 @@ type SlugProps = {
   slug: string;
 };
 
-export async function generateStaticParams({ slug }: SlugProps): Promise<SlugProps[]> {
+export async function generateStaticParams(
+  { slug }: SlugProps
+): Promise<SlugProps[]> {
   return [{ slug }];
 }
 
@@ -15,7 +17,10 @@ type GetShortenedUrlProps = {
 };
 
 async function getShortenedUrl(slug: string): Promise<GetShortenedUrlProps[]> {
-  const { data, error } = await db.from("shortened_url").select().eq("shortened_url", slug);
+  const { data, error } = await db
+    .from("shortened_url")
+    .select()
+    .eq("shortened_url", slug);
 
   if (error) throw error;
   return data;

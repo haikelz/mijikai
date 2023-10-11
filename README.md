@@ -3,6 +3,11 @@
   <p>Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b></p>
 </div>
 
+## Key Features
+
+- Shorten long URL
+- Conver URL to QR Code
+
 ## Screenshots
 
 ![ss 1](public/docs/ss-1.png)

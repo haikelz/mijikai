@@ -7,7 +7,10 @@ const condition = process.env.NODE_ENV;
 
 const axios = Axios.create({
   responseType: "json",
-  baseURL: condition === "development" ? NEXT_PUBLIC_DEVELOPMENT_URL : NEXT_PUBLIC_PRODUCTION_URL,
+  baseURL:
+    condition === "development"
+      ? NEXT_PUBLIC_DEVELOPMENT_URL
+      : NEXT_PUBLIC_PRODUCTION_URL,
 });
 
 export async function postData(url: string) {

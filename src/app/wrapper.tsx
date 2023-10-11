@@ -9,7 +9,12 @@ export default function Wrapper({ children }: ChildrenProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" enableSystem defaultTheme="system" disableTransitionOnChange>
+      <ThemeProvider
+        attribute="class"
+        enableSystem
+        defaultTheme="system"
+        disableTransitionOnChange
+      >
         {children}
       </ThemeProvider>
     </QueryClientProvider>
