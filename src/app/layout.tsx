@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { tw } from "~lib/helpers";
 
 import "./globals.css";
 import Wrapper from "./wrapper";
@@ -18,7 +19,12 @@ export default function RootLayout(
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Wrapper>
-          <main className="w-full max-w-full flex justify-center md:min-h-screen items-center p-4">
+          <main
+            className={tw(
+              "w-full max-w-full flex justify-center",
+              "md:min-h-screen items-center p-4"
+            )}
+          >
             {children}
           </main>
         </Wrapper>

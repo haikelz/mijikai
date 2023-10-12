@@ -6,7 +6,7 @@ import { ShortenedUrlProps } from "~types";
 type PostOperationProps = Promise<
   | NextResponse<{
       status: string;
-      data: ShortenedUrlProps;
+      data: Omit<ShortenedUrlProps, "id" | "created_at">;
     }>
   | NextResponse<{
       message: string;

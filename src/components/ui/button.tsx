@@ -3,8 +3,12 @@ import { type VariantProps, cva } from "class-variance-authority";
 import { forwardRef } from "react";
 import { tw } from "~lib/helpers";
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+export const buttonVariants = cva(
+  tw(
+    "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
+    "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+    "focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+  ),
   {
     variants: {
       variant: {
@@ -37,7 +41,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
     asChild?: boolean;
   };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -50,5 +54,3 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 Button.displayName = "Button";
-
-export { Button, buttonVariants };

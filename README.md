@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="https://raw.githubusercontent.com/haikelz/mijikai/master/public/docs/logo.png?token=GHSAT0AAAAAACIFDD27EE4JJWVP3RJM6AI4ZJHMYSQ" width="200px" height="200px" alt="logo" />
   <h1>Mijikai</h1>
   <p>Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b></p>
 </div>
@@ -6,7 +7,7 @@
 ## Key Features
 
 - Shorten long URL
-- Conver URL to QR Code
+- Convert URL to QR Code
 
 ## Screenshots
 
@@ -20,12 +21,13 @@
 
 - Next JS 13
 - Tailwind CSS with shadcn/ui
+- Jotai
 - Supabase
 
 ## Support
 
-[Github sponsor](https://github.com/sponsors/haikelz)
-[Trakteer](https://trakteer.id/haikelz/tip)
+- [Github sponsor](https://github.com/sponsors/haikelz)
+- [Trakteer](https://trakteer.id/haikelz/tip)
 
 ## License
 
