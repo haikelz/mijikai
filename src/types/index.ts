@@ -9,4 +9,7 @@ export type ShortenedUrlProps = {
   created_at: string;
   original_url: string;
   shortened_url: string;
+  email: string;
+  image: string;
+  name: string;
 };

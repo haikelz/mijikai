@@ -1,12 +1,18 @@
 import { customAlphabet } from "nanoid";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { db } from "~lib/utils/db";
 import { ShortenedUrlProps } from "~types";
 
+import { options } from "../auth/[...nextauth]/options";
+
 type PostOperationProps = Promise<
   | NextResponse<{
       status: string;
-      data: Omit<ShortenedUrlProps, "id" | "created_at">;
+      data: Omit<
+        ShortenedUrlProps,
+        "id" | "created_at" | "image" | "name" | "email"
+      >;
     }>
   | NextResponse<{
       message: string;
@@ -16,6 +22,7 @@ type PostOperationProps = Promise<
 
 export async function POST(req: Request, res: Response): PostOperationProps {
   try {
+    const session = await getServerSession(options);
     const { url } = await req.json();
 
     const replaceHttpsUrl = url.replace(
@@ -30,6 +37,9 @@ export async function POST(req: Request, res: Response): PostOperationProps {
       {
         original_url: replaceHttpsUrl,
         shortened_url: randomizedUrl,
+        email: session?.user.email,
+        image: session?.user.image,
+        name: session?.user.name,
       },
     ]);
 

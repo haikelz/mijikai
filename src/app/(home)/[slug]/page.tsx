@@ -31,5 +31,5 @@ export default async function SlugPage({ params }: { params: SlugProps }) {
   const shortenedUrl = await getShortenedUrl(slug);
 
   if (shortenedUrl) return redirect(`https://${shortenedUrl[0].original_url}`);
-  return;
+  return redirect("/");
 }

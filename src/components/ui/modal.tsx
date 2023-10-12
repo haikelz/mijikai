@@ -4,21 +4,21 @@ import { useAtom } from "jotai";
 import { HTMLAttributes, useRef } from "react";
 import { useClickOutside } from "~hooks";
 import { tw } from "~lib/helpers";
-import { isShowedModalAtom } from "~store";
+import { isShowModalAtom } from "~store";
 import { ChildrenProps } from "~types";
 
 type ModalProps = ChildrenProps & HTMLAttributes<HTMLDivElement>;
 
-export default function Modal({ children, ...props }: ModalProps) {
-  const [isShowedModal, setIsShowedModal] = useAtom(isShowedModalAtom);
+export function Modal({ children, ...props }: ModalProps) {
+  const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(setIsShowedModal, modalRef);
+  useClickOutside(setIsShowModal, modalRef);
 
   return (
     <>
-      {isShowedModal ? (
+      {isShowModal ? (
         <div
           className={tw(
             "fixed z-10 inset-0 w-full h-full min-h-screen",
