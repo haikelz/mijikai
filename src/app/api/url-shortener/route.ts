@@ -35,8 +35,8 @@ export async function POST(req: Request, res: Response): PostOperationProps {
 
     const { error } = await db.from("shortened_url").insert([
       {
-        original_url: replaceHttpsUrl,
-        shortened_url: randomizedUrl,
+        original_url: `https://${replaceHttpsUrl}`,
+        shortened_url: `https://mijikai.space/${randomizedUrl}`, 
         email: session?.user.email,
         image: session?.user.image,
         name: session?.user.name,

@@ -22,7 +22,7 @@ async function getShortenedUrl(slug: string): Promise<GetShortenedUrlProps[]> {
   const { data, error } = await db
     .from("shortened_url")
     .select()
-    .eq("shortened_url", slug);
+    .eq("shortened_url", `https://mijikai.space/${slug}`);
 
   if (error) throw error;
   return data;
@@ -32,6 +32,6 @@ export default async function SlugPage({ params }: SlugProps) {
   const { slug } = params;
   const shortenedUrl = await getShortenedUrl(slug);
 
-  if (shortenedUrl) return redirect(`https://${shortenedUrl[0].original_url}`);
+  if (shortenedUrl) return redirect(shortenedUrl[0].original_url);
   return redirect("/");
 }

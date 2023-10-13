@@ -132,7 +132,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
               <div className="flex flex-col mt-3 justify-start items-start">
                 <Paragraph>Result:</Paragraph>
                 <Link
-                  href={`${detail.data.shortened_url}`}
+                  href={detail.data.shortened_url}
                   className="mt-4 underline underline-offset-2 font-bold"
                   target="_blank"
                   rel="noopener noreferrer"

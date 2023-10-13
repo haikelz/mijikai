@@ -68,7 +68,7 @@ export default async function UsersLinkList() {
   if (!session) return redirect("/login");
 
   return (
-    <section className="max-w-2xl w-full flex flex-col justify-center items-center">
+    <section className="max-w-3xl w-full flex flex-col justify-center items-center">
       <div className="w-full">
         <div className="text-center">
           <div className="flex justify-center items-center space-x-3">
@@ -108,20 +108,20 @@ export default async function UsersLinkList() {
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell className="font-bold underline underline-offset-2">
                     <Link
-                      href={`https://${item.original_url}`}
+                      href={item.original_url}
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.original_url}
+                      {item.original_url.replace(/^https?\:\/\//gi, '')}
                     </Link>
                   </TableCell>
                   <TableCell className="font-bold underline underline-offset-2">
                     <Link
-                      href={`https://mijikai.space/${item.shortened_url}`}
+                      href={item.shortened_url}
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.shortened_url}
+                      {item.shortened_url.replace(/^https?\:\/\/mijikai.space\//gi, '')}
                     </Link>
                   </TableCell>
                   <TableCell>

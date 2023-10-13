@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
-    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/supabase-js": "^2.38.0",
     "@t3-oss/env-nextjs": "^0.7.0",

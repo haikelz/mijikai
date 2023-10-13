@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <section className="max-w-2xl w-full flex flex-col justify-center items-center">
+    <section className="max-w-3xl w-full flex flex-col justify-center items-center">
       <div className="flex flex-col justify-center items-center w-full">
         <div className="flex justify-center items-center space-x-3">
           <div className="w-52 h-10 bg-gray-300 animate-pulse"></div>

@@ -6,5 +6,8 @@ export const inputSchema = z.object({
     .min(1, { message: "Please input more than one character" })
     .regex(/[\w]/gi, {
       message: "Please input only alphabet or number!",
+    })
+    .regex(/^(?!(https|http))/, {
+      message: "Please not input https or http again!",
     }),
 });
