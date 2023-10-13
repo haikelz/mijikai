@@ -12,8 +12,44 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { Heading } from "~components/ui/typography";
+import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 import { ShortenedUrlProps } from "~types";
+
+import { BackToHomeButton, DeleteLinkButton } from "./client";
+
+const baseMetadata = {
+  title: "Users Link List",
+  description: "Users Link List",
+  url: `${SITE_URL}/users-link-list`,
+};
+
+const { title, description, url } = baseMetadata;
+
+export const metadata = {
+  title,
+  description,
+  openGraph: {
+    type: "website",
+    url,
+    title,
+    description,
+    siteName: "mijikai.space/users-link-list",
+    images: [
+      {
+        url: DEFAULT_OG_URL,
+        alt: "OG Image",
+      },
+    ],
+  },
+  twitter: {
+    title,
+    description,
+    site: url,
+    card: "summary_large_image",
+  },
+  metadataBase: new URL(url),
+};
 
 async function getUsersLinkList(email: string): Promise<ShortenedUrlProps[]> {
   const { data, error } = await db
@@ -40,7 +76,7 @@ export default async function UsersLinkList() {
               as="h2"
               className="font-bold border-b-0 pb-0 tracking-normal"
             >
-              Your Link list
+              Your Link List
             </Heading>
             <Image
               className="rounded-full"
@@ -53,6 +89,7 @@ export default async function UsersLinkList() {
           </div>
           <p className="font-medium mt-2">{session.user.email}</p>
         </div>
+        <BackToHomeButton />
         <Table className="mt-8">
           <TableHeader>
             <TableRow>
@@ -60,33 +97,47 @@ export default async function UsersLinkList() {
               <TableHead className="font-bold">Name</TableHead>
               <TableHead className="font-bold">Original URL</TableHead>
               <TableHead className="font-bold">Shortened URL</TableHead>
+              <TableHead className="font-bold">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {usersLinkList.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.email}</TableCell>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell className="font-bold underline underline-offset-2">
-                  <Link
-                    href={`https://${item.original_url}`}
-                    target="_blank"
-                    rel="noreferreer noopener"
-                  >
-                    {item.original_url}
-                  </Link>
-                </TableCell>
-                <TableCell className="font-bold underline underline-offset-2">
-                  <Link
-                    href={`https://mijikai.space/${item.shortened_url}`}
-                    target="_blank"
-                    rel="noreferreer noopener"
-                  >
-                    {item.shortened_url}
-                  </Link>
-                </TableCell>
+            {usersLinkList.length ? (
+              usersLinkList.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.email}</TableCell>
+                  <TableCell className="font-medium">{item.name}</TableCell>
+                  <TableCell className="font-bold underline underline-offset-2">
+                    <Link
+                      href={`https://${item.original_url}`}
+                      target="_blank"
+                      rel="noreferreer noopener"
+                    >
+                      {item.original_url}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="font-bold underline underline-offset-2">
+                    <Link
+                      href={`https://mijikai.space/${item.shortened_url}`}
+                      target="_blank"
+                      rel="noreferreer noopener"
+                    >
+                      {item.shortened_url}
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <DeleteLinkButton id={Number(item.id)} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell className="font-medium">No data</TableCell>
+                <TableCell className="font-medium">No data</TableCell>
+                <TableCell className="font-medium">No data</TableCell>
+                <TableCell className="font-medium">No data</TableCell>
+                <TableCell className="font-medium">No data</TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>

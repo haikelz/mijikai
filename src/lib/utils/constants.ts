@@ -5,4 +5,4 @@ export const SITE_URL =
     ? "http://localhost:3000"
     : "https://mijikai.space";
 
-export const DEFAULT_OG_URL = "";
+export const DEFAULT_OG_URL = "/images/og.png";

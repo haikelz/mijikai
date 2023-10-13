@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/haikelz/mijikai/master/public/docs/logo.png?token=GHSAT0AAAAAACIFDD27EE4JJWVP3RJM6AI4ZJHMYSQ" width="200px" height="200px" alt="logo" />
+  <img src="" width="200px" height="200px" alt="logo" />
   <h1>Mijikai</h1>
   <p>Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b></p>
 </div>

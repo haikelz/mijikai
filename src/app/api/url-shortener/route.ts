@@ -30,7 +30,7 @@ export async function POST(req: Request, res: Response): PostOperationProps {
       ""
     );
 
-    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz", 7);
+    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 7);
     const randomizedUrl = customUrl();
 
     const { error } = await db.from("shortened_url").insert([

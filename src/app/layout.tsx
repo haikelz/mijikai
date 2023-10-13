@@ -50,7 +50,7 @@ export default function RootLayout(
           <main
             className={tw(
               "w-full max-w-full flex justify-center",
-              "md:min-h-screen items-center p-4"
+              "items-center md:min-h-screen p-4"
             )}
           >
             {children}
