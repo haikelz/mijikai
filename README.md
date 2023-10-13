@@ -1,13 +1,14 @@
 <div align="center">
-  <img src="" width="200px" height="200px" alt="logo" />
+  <img src="https://raw.githubusercontent.com/haikelz/mijikai/master/public/docs/logo.png?token=GHSAT0AAAAAACIFDD27GZYNY6RUNEZGSTRWZJJXDSQ" width="200px" height="200px" alt="logo" />
   <h1>Mijikai</h1>
   <p>Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b></p>
 </div>
 
-## Key Features
+## Features
 
 - Shorten long URL
 - Convert URL to QR Code
+- Show users link list
 
 ## Screenshots
 
@@ -16,6 +17,8 @@
 ![ss 2](public/docs/ss-2.png)
 
 ![ss 3](public/docs/ss-3.png)
+
+![ss 4](public/docs/ss-4.png)
 
 ## Tech Stack
 
