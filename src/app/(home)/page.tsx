@@ -1,9 +1,43 @@
 import { getServerSession } from "next-auth";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
+import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 
 import HomeClient, { SignOut } from "./client";
+
+const baseMetadata = {
+  title: "Mijikai",
+  description: "Mijikai is a free shorten URL Website. No ads, no tracker!",
+  url: SITE_URL,
+};
+
+const { title, description, url } = baseMetadata;
+
+export const metadata = {
+  title,
+  description,
+  openGraph: {
+    type: "website",
+    url,
+    title,
+    description,
+    siteName: "mijikai.space",
+    images: [
+      {
+        url: DEFAULT_OG_URL,
+        alt: "OG Image",
+      },
+    ],
+  },
+  twitter: {
+    title,
+    description,
+    site: url,
+    card: "summary_large_image",
+  },
+  metadataBase: new URL(url),
+};
 
 async function getTotal(): Promise<number> {
   const { count, error } = await db
@@ -12,16 +46,6 @@ async function getTotal(): Promise<number> {
 
   if (error) throw error;
   return count as number;
-}
-
-async function getUsersLinkList(email: string) {
-  const { data, error } = await db
-    .from("shortened_url")
-    .select("email")
-    .eq("email", email);
-
-  if (error) throw error;
-  return data;
 }
 
 export default async function Home() {

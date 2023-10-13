@@ -2,12 +2,14 @@ import { redirect } from "next/navigation";
 import { db } from "~lib/utils/db";
 
 type SlugProps = {
-  slug: string;
+  params: {
+    slug: string;
+  };
 };
 
 export async function generateStaticParams(
-  { slug }: SlugProps
-): Promise<SlugProps[]> {
+  { params: { slug } }: SlugProps
+): Promise<{ slug: string }[]> {
   return [{ slug }];
 }
 
@@ -26,7 +28,7 @@ async function getShortenedUrl(slug: string): Promise<GetShortenedUrlProps[]> {
   return data;
 }
 
-export default async function SlugPage({ params }: { params: SlugProps }) {
+export default async function SlugPage({ params }: SlugProps) {
   const { slug } = params;
   const shortenedUrl = await getShortenedUrl(slug);
 

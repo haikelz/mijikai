@@ -28,7 +28,6 @@ import ErrorClient from "./error-client";
 import LoadingClient from "./loading-client";
 
 const isGenerateQrCodeAtom = atom<boolean>(false);
-const isShowUsersLinkListAtom = atom<boolean>(false);
 
 const Modal = dynamic(() =>
   import("~components/ui/modal").then((obj) => obj.Modal)
@@ -41,9 +40,6 @@ type DataProps = {
 export default function HomeClient({ session }: { session: Session | null }) {
   const [isGenerateQrCode, setIsGenerateQrCode] = useAtom(isGenerateQrCodeAtom);
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
-  const [isShowUsersLinkList, setIsShowUsersLinkList] = useAtom(
-    isShowUsersLinkListAtom
-  );
 
   const {
     getValues,
