@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { tw } from "~lib/helpers";
 import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
@@ -15,9 +16,19 @@ const baseMetadata = {
 
 const { title, description, url } = baseMetadata;
 
-export const metadata = {
+export const metadata: Metadata = {
   title,
   description,
+  manifest: "/manifest.json",
+  themeColor: "#FFFFFF",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title,
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     type: "website",
     url,

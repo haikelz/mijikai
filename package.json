@@ -18,6 +18,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^9.7.1",
     "@hookform/resolvers": "^3.3.1",
     "@radix-ui/react-slot": "^1.0.2",
     "@supabase/supabase-js": "^2.38.0",

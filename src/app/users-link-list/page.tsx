@@ -68,81 +68,79 @@ export default async function UsersLinkList() {
   if (!session) return redirect("/");
 
   return (
-    <section className="max-w-3xl w-full flex flex-col justify-center items-center">
-      <div className="w-full">
-        <div className="text-center">
-          <div className="flex justify-center items-center space-x-3">
-            <Heading
-              as="h2"
-              className="font-bold border-b-0 pb-0 tracking-normal"
-            >
-              Your Link List
-            </Heading>
-            <Image
-              className="rounded-full"
-              src={session.user.image ?? "/images/no-image.jpeg"}
-              alt={session.user.name}
-              width={40}
-              height={40}
-              draggable={false}
-            />
-          </div>
-          <p className="font-medium mt-2">{session.user.email}</p>
+    <section className="max-w-2xl w-full flex flex-col justify-center items-center">
+      <div className="text-center">
+        <div className="flex justify-center items-center space-x-3">
+          <Heading
+            as="h2"
+            className="font-bold border-b-0 pb-0 tracking-normal"
+          >
+            Your Link List
+          </Heading>
+          <Image
+            className="rounded-full"
+            src={session.user.image ?? "/images/no-image.jpeg"}
+            alt={session.user.name}
+            width={40}
+            height={40}
+            draggable={false}
+          />
         </div>
-        <Table className="mt-8">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="font-bold">Email</TableHead>
-              <TableHead className="font-bold">Name</TableHead>
-              <TableHead className="font-bold">Original URL</TableHead>
-              <TableHead className="font-bold">Shortened URL</TableHead>
-              <TableHead className="font-bold">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {usersLinkList.length ? (
-              usersLinkList.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.email}</TableCell>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell className="font-bold underline underline-offset-2">
-                    <Link
-                      href={item.original_url}
-                      target="_blank"
-                      rel="noreferreer noopener"
-                    >
-                      {item.original_url.replace(/^https?\:\/\//gi, "")}
-                    </Link>
-                  </TableCell>
-                  <TableCell className="font-bold underline underline-offset-2">
-                    <Link
-                      href={item.shortened_url}
-                      target="_blank"
-                      rel="noreferreer noopener"
-                    >
-                      {item.shortened_url.replace(
-                        /^https?\:\/\/mijikai.space\//gi,
-                        ""
-                      )}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <DeleteLinkButton id={Number(item.id)} />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell className="font-medium">No data</TableCell>
-                <TableCell className="font-medium">No data</TableCell>
-                <TableCell className="font-medium">No data</TableCell>
-                <TableCell className="font-medium">No data</TableCell>
-                <TableCell className="font-medium">No data</TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <p className="font-medium mt-2">{session.user.email}</p>
       </div>
+      <Table className="mt-8">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="font-bold">Email</TableHead>
+            <TableHead className="font-bold">Name</TableHead>
+            <TableHead className="font-bold">Original URL</TableHead>
+            <TableHead className="font-bold">Shortened URL</TableHead>
+            <TableHead className="font-bold">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {usersLinkList.length ? (
+            usersLinkList.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.email}</TableCell>
+                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell className="font-bold underline underline-offset-2">
+                  <Link
+                    href={item.original_url}
+                    target="_blank"
+                    rel="noreferreer noopener"
+                  >
+                    {item.original_url.replace(/^https?\:\/\//gi, "")}
+                  </Link>
+                </TableCell>
+                <TableCell className="font-bold underline underline-offset-2">
+                  <Link
+                    href={item.shortened_url}
+                    target="_blank"
+                    rel="noreferreer noopener"
+                  >
+                    {item.shortened_url.replace(
+                      /^https?\:\/\/mijikai.space\//gi,
+                      ""
+                    )}
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <DeleteLinkButton id={Number(item.id)} />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell className="font-medium">No data</TableCell>
+              <TableCell className="font-medium">No data</TableCell>
+              <TableCell className="font-medium">No data</TableCell>
+              <TableCell className="font-medium">No data</TableCell>
+              <TableCell className="font-medium">No data</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </section>
   );
 }
