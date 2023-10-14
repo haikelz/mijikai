@@ -25,17 +25,12 @@ export async function POST(req: Request, res: Response): PostOperationProps {
     const session = await getServerSession(options);
     const { url } = await req.json();
 
-    const replaceHttpsUrl = url.replace(
-      /^https?\:\/\/|^http?\:\/\/|^\:\/\//gi,
-      ""
-    );
-
     const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 7);
     const randomizedUrl = customUrl();
 
     const { error } = await db.from("shortened_url").insert([
       {
-        original_url: `https://${replaceHttpsUrl}`,
+        original_url: `https://${url}`,
         shortened_url: `https://mijikai.space/${randomizedUrl}`, 
         email: session?.user.email,
         image: session?.user.image,
@@ -49,7 +44,7 @@ export async function POST(req: Request, res: Response): PostOperationProps {
       {
         status: "OK",
         data: {
-          original_url: replaceHttpsUrl,
+          original_url: url,
           shortened_url: randomizedUrl,
         },
       },

@@ -16,7 +16,7 @@ import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 import { ShortenedUrlProps } from "~types";
 
-import { BackToHomeButton, DeleteLinkButton } from "./client";
+import { DeleteLinkButton } from "./client";
 
 const baseMetadata = {
   title: "Users Link List",
@@ -80,7 +80,7 @@ export default async function UsersLinkList() {
             </Heading>
             <Image
               className="rounded-full"
-              src={session.user.image}
+              src={session.user.image ?? "/images/no-image.jpeg"}
               alt={session.user.name}
               width={40}
               height={40}
@@ -89,7 +89,6 @@ export default async function UsersLinkList() {
           </div>
           <p className="font-medium mt-2">{session.user.email}</p>
         </div>
-        <BackToHomeButton />
         <Table className="mt-8">
           <TableHeader>
             <TableRow>
@@ -112,7 +111,7 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.original_url.replace(/^https?\:\/\//gi, '')}
+                      {item.original_url}
                     </Link>
                   </TableCell>
                   <TableCell className="font-bold underline underline-offset-2">
@@ -121,7 +120,7 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.shortened_url.replace(/^https?\:\/\/mijikai.space\//gi, '')}
+                      {item.shortened_url}
                     </Link>
                   </TableCell>
                   <TableCell>

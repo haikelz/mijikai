@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
+import { tw } from "~lib/helpers";
 import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 
@@ -53,24 +54,31 @@ export default async function Home() {
   const session = await getServerSession(options);
 
   return (
-    <section className="max-w-xl w-full flex flex-col justify-center items-center">
-      <div>
-        <Heading as="h1">Mijikai / 短い</Heading>
-        <Paragraph>
-          Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b>{" "}
-          There are{" "}
-          <b className="font-bold">
-            {totalShortenedUrl} link{totalShortenedUrl <= 1 ? "" : "s"}
-          </b>{" "}
-          that already shortened using this service.{" "}
-          {session ? (
-            <>
-              <span>Want to logout?</span> <SignOut />
-            </>
-          ) : null}
-        </Paragraph>
-        <HomeClient session={session} />
-      </div>
-    </section>
+    <main
+      className={tw(
+        "w-full max-w-full min-h-screen flex justify-center",
+        "items-center p-4"
+      )}
+    >
+      <section className="max-w-xl w-full flex flex-col justify-center items-center">
+        <div>
+          <Heading as="h1">Mijikai / 短い</Heading>
+          <Paragraph>
+            Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b>{" "}
+            There are{" "}
+            <b className="font-bold">
+              {totalShortenedUrl} link{totalShortenedUrl <= 1 ? "" : "s"}
+            </b>{" "}
+            that already shortened using this service.{" "}
+            {session ? (
+              <>
+                <span>Want to logout?</span> <SignOut />
+              </>
+            ) : null}
+          </Paragraph>
+          <HomeClient session={session} />
+        </div>
+      </section>
+    </main>
   );
 }

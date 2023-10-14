@@ -44,18 +44,9 @@ export default function RootLayout(
   { children }: { children: React.ReactNode }
 ) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <Wrapper>
-          <main
-            className={tw(
-              "w-full max-w-full flex justify-center",
-              "items-center md:min-h-screen p-4"
-            )}
-          >
-            {children}
-          </main>
-        </Wrapper>
+    <html lang="en">
+      <body className={tw(inter.className)}>
+        <Wrapper>{children}</Wrapper>
       </body>
     </html>
   );

@@ -164,6 +164,8 @@ export default function HomeClient({ session }: { session: Session | null }) {
                     </div>
                   </Button>
                   <Button
+                    type="button"
+                    aria-label="generate qr code"
                     onClick={() => {
                       setIsGenerateQrCode(true);
                       setIsShowModal(true);
