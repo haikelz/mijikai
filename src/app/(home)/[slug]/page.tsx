@@ -81,6 +81,6 @@ export default async function RedirectPage({ params }: SlugProps) {
   const { slug } = params;
   const shortenedUrl = await getShortenedUrl(slug);
 
-  if (shortenedUrl) return redirect(shortenedUrl[0].original_url);
+  if (shortenedUrl.length) return redirect(shortenedUrl[0].original_url);
   return redirect("/");
 }

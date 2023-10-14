@@ -18,7 +18,7 @@ const axios = Axios.create({
 });
 
 // post
-export async function post(url: string) {
+export async function postData(url: string) {
   const response = await axios.post(
     "/api/url-shortener",
     { url: url },
@@ -31,7 +31,15 @@ export async function post(url: string) {
 }
 
 // get
-export async function get(url: string) {
+export async function getData(url: string) {
   const response = await axios.get(url, { method: "GET" });
   return response.data;
+}
+
+// delete
+export async function deleteData(id: number) {
+  await axios.delete("/api/url-shortener", {
+    method: "POST",
+    data: { id: id },
+  });
 }

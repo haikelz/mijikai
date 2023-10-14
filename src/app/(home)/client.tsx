@@ -19,7 +19,7 @@ import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
-import { post } from "~lib/utils/axios-config";
+import { postData } from "~lib/utils/axios-config";
 import { inputSchema } from "~lib/utils/schema";
 import { isShowModalAtom } from "~store";
 import { ShortenedUrlProps } from "~types";
@@ -56,7 +56,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
   const queryClient: QueryClient = useQueryClient();
 
   const { data, isLoading, isError, mutate } = useMutation({
-    mutationFn: post,
+    mutationFn: postData,
     onSuccess: () => queryClient.invalidateQueries(),
   });
 

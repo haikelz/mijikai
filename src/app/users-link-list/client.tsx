@@ -1,16 +1,28 @@
 "use client";
 
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Button } from "~components/ui/button";
-import { db } from "~lib/utils/db";
+import { deleteData } from "~lib/utils/axios-config";
 
 export function DeleteLinkButton({ id }: { id: number }) {
-  async function deleteLink(): Promise<void> {
-    await db.from("shortened_url").delete().eq("id", id);
+  const queryClient: QueryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteData,
+    onSuccess: () => queryClient.invalidateQueries(),
+  });
+
+  function handleClick() {
+    mutate(id);
     window.location.reload();
   }
 
   return (
-    <Button onClick={deleteLink} variant="destructive" className="font-bold">
+    <Button onClick={handleClick} variant="destructive" className="font-bold">
       Delete
     </Button>
   );

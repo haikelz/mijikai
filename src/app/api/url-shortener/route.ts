@@ -42,7 +42,7 @@ export async function POST(req: Request, res: Response): PostOperationProps {
 
     return NextResponse.json(
       {
-        status: "OK",
+        status: "SUCCESS!",
         data: {
           original_url: url,
           shortened_url: randomizedUrl,
@@ -52,7 +52,31 @@ export async function POST(req: Request, res: Response): PostOperationProps {
     );
   } catch (err) {
     return NextResponse.json(
-      { message: `Failed to fetch API, server error!`, err },
+      { message: `Failed to do POST Operation, server error!`, err },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: Request, res: Response) {
+  try {
+    const { id } = await req.json();
+    const { error } = await db
+      .from("shortened_url")
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (error) throw error;
+
+    return NextResponse.json(
+      {
+        status: "SUCCESS!",
+      },
+      { status: 200 }
+    );
+  } catch (err) {
+    return NextResponse.json(
+      { message: `Failed to do DELETE Operation, server error!`, err },
       { status: 500 }
     );
   }

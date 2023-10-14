@@ -68,7 +68,7 @@ export default async function UsersLinkList() {
   if (!session) return redirect("/");
 
   return (
-    <section className="max-w-2xl w-full flex flex-col justify-center items-center">
+    <section className="max-w-3xl w-full flex flex-col justify-center items-center">
       <div className="text-center">
         <div className="flex justify-center items-center space-x-3">
           <Heading
