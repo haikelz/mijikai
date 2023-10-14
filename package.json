@@ -3,7 +3,7 @@
   "author": "Haikel Ilham Hakim",
   "version": "1.0.0",
   "private": true,
-  "license": "MIT",
+  "license": "Apache-2.0",
   "description": "Mijikai is a free shorten URL Website. No ads, no tracker!",
   "homepage": "https://mijikai.space",
   "repository": {
