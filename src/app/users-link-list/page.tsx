@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -62,10 +62,10 @@ async function getUsersLinkList(email: string): Promise<ShortenedUrlProps[]> {
 }
 
 export default async function UsersLinkList() {
-  const session = await getServerSession(options);
-  const usersLinkList = await getUsersLinkList(session?.user.email as string);
+  const session = (await getServerSession(options)) as Session;
+  const usersLinkList = await getUsersLinkList(session.user.email as string);
 
-  if (!session) return redirect("/login");
+  if (!session) return redirect("/");
 
   return (
     <section className="max-w-3xl w-full flex flex-col justify-center items-center">
@@ -111,7 +111,7 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.original_url}
+                      {item.original_url.replace(/^https?\:\/\//gi, "")}
                     </Link>
                   </TableCell>
                   <TableCell className="font-bold underline underline-offset-2">
@@ -120,7 +120,10 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {item.shortened_url}
+                      {item.shortened_url.replace(
+                        /^https?\:\/\/mijikai.space\//gi,
+                        ""
+                      )}
                     </Link>
                   </TableCell>
                   <TableCell>

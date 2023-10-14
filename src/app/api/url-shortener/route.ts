@@ -1,5 +1,5 @@
 import { customAlphabet } from "nanoid";
-import { getServerSession } from "next-auth";
+import { Session, getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { db } from "~lib/utils/db";
 import { ShortenedUrlProps } from "~types";
@@ -22,7 +22,7 @@ type PostOperationProps = Promise<
 
 export async function POST(req: Request, res: Response): PostOperationProps {
   try {
-    const session = await getServerSession(options);
+    const session = (await getServerSession(options)) as Session;
     const { url } = await req.json();
 
     const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 7);
@@ -31,10 +31,10 @@ export async function POST(req: Request, res: Response): PostOperationProps {
     const { error } = await db.from("shortened_url").insert([
       {
         original_url: `https://${url}`,
-        shortened_url: `https://mijikai.space/${randomizedUrl}`, 
-        email: session?.user.email,
-        image: session?.user.image,
-        name: session?.user.name,
+        shortened_url: `https://mijikai.space/${randomizedUrl}`,
+        email: session.user.email,
+        image: session.user.image,
+        name: session.user.name,
       },
     ]);
 
