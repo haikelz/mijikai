@@ -41,6 +41,10 @@ export default function HomeClient({ session }: { session: Session | null }) {
   const [isGenerateQrCode, setIsGenerateQrCode] = useAtom(isGenerateQrCodeAtom);
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
 
+  const clipboard = useClipboard({ copiedTimeout: 900 });
+
+  const queryClient: QueryClient = useQueryClient();
+
   const {
     getValues,
     register,
@@ -50,10 +54,6 @@ export default function HomeClient({ session }: { session: Session | null }) {
     defaultValues: { original_url: "" },
     resolver: zodResolver(inputSchema),
   });
-
-  const clipboard = useClipboard({ copiedTimeout: 900 });
-
-  const queryClient: QueryClient = useQueryClient();
 
   const { data, isLoading, isError, mutate } = useMutation({
     mutationFn: postData,
@@ -76,7 +76,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
           <form className="mt-3" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-center items-center">
               <div className="px-3 py-2 rounded-l-md bg-gray-300">
-                <Paragraph className="font-bold">https://</Paragraph>
+                <Paragraph className="font-bold">Link</Paragraph>
               </div>
               <input
                 {...register("original_url", { required: true })}

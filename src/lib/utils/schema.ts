@@ -7,7 +7,7 @@ export const inputSchema = z.object({
     .regex(/[\w]/gi, {
       message: "Please input only alphabet or number!",
     })
-    .regex(/^(?!(https|http))/, {
-      message: "Please not input https or http again!",
+    .regex(/^https.*$/, {
+      message: "Only link with https prefix are allowed!",
     }),
 });

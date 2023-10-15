@@ -35,12 +35,12 @@ export async function POST(req: Request, res: Response): PostOperationProps {
     const session = (await getServerSession(options)) as Session;
     const { url } = await req.json();
 
-    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 7);
+    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 5);
     const randomizedUrl = customUrl();
 
     const { error } = await db.from("shortened_url").insert([
       {
-        original_url: `https://${url}`,
+        original_url: url,
         shortened_url: `https://mijikai.space/${randomizedUrl}`,
         email: session.user.email,
         image: session.user.image,
