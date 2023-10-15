@@ -13,6 +13,7 @@ export function DeleteLinkButton({ id }: { id: number }) {
 
   const { mutate } = useMutation({
     mutationFn: deleteData,
+    mutationKey: ["id"],
     onSuccess: () => queryClient.invalidateQueries(),
   });
 

@@ -57,6 +57,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
 
   const { data, isLoading, isError, mutate } = useMutation({
     mutationFn: postData,
+    mutationKey: ["original_url"],
     onSuccess: () => queryClient.invalidateQueries(),
   });
 

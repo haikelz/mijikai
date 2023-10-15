@@ -39,7 +39,7 @@ export async function getData(url: string) {
 // delete
 export async function deleteData(id: number) {
   await axios.delete("/api/url-shortener", {
-    method: "POST",
+    method: "DELETE",
     data: { id: id },
   });
 }
