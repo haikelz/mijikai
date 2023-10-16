@@ -65,7 +65,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
     mutate(getValues("original_url"));
   }
 
-  const detail: DataProps = data;
+  const detail = data as DataProps;
 
   if (isLoading) return <LoadingClient />;
   if (isError) return <ErrorClient />;

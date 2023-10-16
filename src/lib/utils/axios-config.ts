@@ -1,5 +1,6 @@
 import Axios from "axios";
 import { env } from "~env.mjs";
+import { ShortenedUrlProps } from "~types";
 
 const { NEXT_PUBLIC_DEVELOPMENT_URL, NEXT_PUBLIC_PRODUCTION_URL } = env;
 
@@ -18,7 +19,9 @@ const axios = Axios.create({
 });
 
 // post
-export async function postData(url: string) {
+export async function postData(
+  url: string
+): Promise<{ data: ShortenedUrlProps }> {
   const response = await axios.post(
     "/api/url-shortener",
     { url: url },
@@ -30,14 +33,8 @@ export async function postData(url: string) {
   return response.data;
 }
 
-// get
-export async function getData(url: string) {
-  const response = await axios.get(url, { method: "GET" });
-  return response.data;
-}
-
 // delete
-export async function deleteData(id: number) {
+export async function deleteData(id: number): Promise<void> {
   await axios.delete("/api/url-shortener", {
     method: "DELETE",
     data: { id: id },
