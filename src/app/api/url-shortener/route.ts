@@ -20,16 +20,6 @@ type PostOperationProps = Promise<
     }>
 >;
 
-type DeleteOperationProps = Promise<
-  | NextResponse<{
-      status: string;
-    }>
-  | NextResponse<{
-      message: string;
-      err: unknown;
-    }>
->;
-
 export async function POST(req: Request, res: Response): PostOperationProps {
   try {
     const session = (await getServerSession(options)) as Session;
@@ -68,10 +58,17 @@ export async function POST(req: Request, res: Response): PostOperationProps {
   }
 }
 
-export async function DELETE(
-  req: Request,
-  res: Response
-): DeleteOperationProps {
+type DeleteOperationProps = Promise<
+  | NextResponse<{
+      status: string;
+    }>
+  | NextResponse<{
+      message: string;
+      err: unknown;
+    }>
+>;
+
+export async function DELETE(req: Request): DeleteOperationProps {
   try {
     const { id } = await req.json();
     const { error } = await db

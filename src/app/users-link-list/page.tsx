@@ -12,8 +12,10 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { Heading } from "~components/ui/typography";
-import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
+import { replaceHttpPrefix } from "~lib/helpers";
+import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
+import { Og } from "~lib/utils/enums";
 import { ShortenedUrlProps } from "~types";
 
 import { DeleteLinkButton } from "./client";
@@ -37,7 +39,7 @@ export const metadata = {
     siteName: "mijikai.space/users-link-list",
     images: [
       {
-        url: DEFAULT_OG_URL,
+        url: Og.DEFAULT_OG_URL,
         alt: "OG Image",
       },
     ],
@@ -61,9 +63,34 @@ async function getUsersLinkList(email: string): Promise<ShortenedUrlProps[]> {
   return data;
 }
 
+const tableHeadData = [
+  {
+    id: 1,
+    content: "Email",
+  },
+  {
+    id: 2,
+    content: "Name",
+  },
+  {
+    id: 3,
+    content: "Original URL",
+  },
+  {
+    id: 4,
+    content: "Shortened URL",
+  },
+  {
+    id: 5,
+    content: "Actions",
+  },
+];
+
 export default async function UsersLinkList() {
   const session = (await getServerSession(options)) as Session;
-  const usersLinkList = await getUsersLinkList(session.user.email as string);
+  const usersLinkList = await getUsersLinkList(session.user.email);
+
+  const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
 
   if (!session) return redirect("/");
 
@@ -91,11 +118,11 @@ export default async function UsersLinkList() {
       <Table className="mt-8">
         <TableHeader>
           <TableRow>
-            <TableHead className="font-bold">Email</TableHead>
-            <TableHead className="font-bold">Name</TableHead>
-            <TableHead className="font-bold">Original URL</TableHead>
-            <TableHead className="font-bold">Shortened URL</TableHead>
-            <TableHead className="font-bold">Actions</TableHead>
+            {tableHeadData.map((item) => (
+              <TableHead key={item.id} className="font-bold">
+                {item.content}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -110,7 +137,7 @@ export default async function UsersLinkList() {
                     target="_blank"
                     rel="noreferreer noopener"
                   >
-                    {item.original_url.replace(/^https?\:\/\//gi, "")}
+                    {replaceHttpPrefix(item.original_url)}
                   </Link>
                 </TableCell>
                 <TableCell className="font-bold underline underline-offset-2">
@@ -119,10 +146,7 @@ export default async function UsersLinkList() {
                     target="_blank"
                     rel="noreferreer noopener"
                   >
-                    {item.shortened_url.replace(
-                      /^https?\:\/\/mijikai.space\//gi,
-                      ""
-                    )}
+                    {replaceHttpPrefix(item.shortened_url)}
                   </Link>
                 </TableCell>
                 <TableCell>
@@ -132,11 +156,11 @@ export default async function UsersLinkList() {
             ))
           ) : (
             <TableRow>
-              <TableCell className="font-medium">No data</TableCell>
-              <TableCell className="font-medium">No data</TableCell>
-              <TableCell className="font-medium">No data</TableCell>
-              <TableCell className="font-medium">No data</TableCell>
-              <TableCell className="font-medium">No data</TableCell>
+              {tableBodyNoData.map((item) => (
+                <TableCell key={item} className="font-medium">
+                  No data
+                </TableCell>
+              ))}
             </TableRow>
           )}
         </TableBody>

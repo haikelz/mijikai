@@ -23,7 +23,13 @@ export function DeleteLinkButton({ id }: { id: number }) {
   }
 
   return (
-    <Button onClick={handleClick} variant="destructive" className="font-bold">
+    <Button
+      type="button"
+      aria-label="delete"
+      onClick={handleClick}
+      variant="destructive"
+      className="font-bold"
+    >
       Delete
     </Button>
   );

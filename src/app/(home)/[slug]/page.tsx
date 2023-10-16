@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { DEFAULT_OG_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
+import { Og } from "~lib/utils/enums";
 import { ShortenedUrlProps } from "~types";
 
 type SlugProps = {
@@ -25,6 +25,7 @@ export async function generateMetadata(
     .from("shortened_url")
     .select()
     .eq("shortened_url", `https://mijikai.space/${slug}`);
+
   if (error) throw error;
 
   const { original_url, shortened_url } = data[0] as ShortenedUrlProps;
@@ -47,7 +48,7 @@ export async function generateMetadata(
       siteName: shortened_url,
       images: [
         {
-          url: DEFAULT_OG_URL,
+          url: Og.DEFAULT_OG_URL,
           alt: "OG Image",
         },
       ],

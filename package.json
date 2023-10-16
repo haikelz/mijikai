@@ -32,6 +32,7 @@
     "nanoid": "^5.0.1",
     "next": "13.5.4",
     "next-auth": "^4.23.2",
+    "next-themes": "^0.2.1",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -57,6 +58,7 @@
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",
+    "turbo": "^1.10.15",
     "typescript": "^5.2.2"
   },
   "config": {

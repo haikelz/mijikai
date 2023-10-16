@@ -2,8 +2,9 @@ import { getServerSession } from "next-auth";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
-import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
+import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
+import { Og } from "~lib/utils/enums";
 
 import HomeClient, { SignOut } from "./client";
 
@@ -26,7 +27,7 @@ export const metadata = {
     siteName: "mijikai.space",
     images: [
       {
-        url: DEFAULT_OG_URL,
+        url: Og.DEFAULT_OG_URL,
         alt: "OG Image",
       },
     ],

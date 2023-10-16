@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { tw } from "~lib/helpers";
-import { DEFAULT_OG_URL, SITE_URL } from "~lib/utils/constants";
+import { SITE_URL } from "~lib/utils/constants";
+import { Og } from "~lib/utils/enums";
 
 import "./globals.css";
 import Wrapper from "./wrapper";
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "mijikai.space",
     images: [
       {
-        url: DEFAULT_OG_URL,
+        url: Og.DEFAULT_OG_URL,
         alt: "OG Image",
       },
     ],
