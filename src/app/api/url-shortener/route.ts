@@ -20,7 +20,7 @@ type PostOperationProps = Promise<
     }>
 >;
 
-export async function POST(req: Request, res: Response): PostOperationProps {
+export async function POST(req: Request): PostOperationProps {
   try {
     const session = (await getServerSession(options)) as Session;
     const { url } = await req.json();
