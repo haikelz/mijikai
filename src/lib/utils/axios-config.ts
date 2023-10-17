@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios, { AxiosRequestConfig } from "axios";
 import { env } from "~env.mjs";
 import { ShortenedUrlProps } from "~types";
 
@@ -6,8 +6,8 @@ const { NEXT_PUBLIC_DEVELOPMENT_URL, NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 const condition = process.env.NODE_ENV;
 
-// base
-const axios = Axios.create({
+// axios base config
+const config: AxiosRequestConfig = {
   responseType: "json",
   baseURL:
     condition === "development"
@@ -16,7 +16,9 @@ const axios = Axios.create({
   headers: {
     "content-type": "application/json",
   },
-});
+};
+
+const axios = Axios.create(config);
 
 // post
 export async function postData(

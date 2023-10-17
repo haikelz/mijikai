@@ -1,2 +1,2 @@
-export { replaceHttpPrefix } from "./replaceHttpPrefix";
+export { replaceHttpsPrefix } from "./replaceHttpsPrefix";
 export { tw } from "./tw";

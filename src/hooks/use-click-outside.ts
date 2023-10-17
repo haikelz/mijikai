@@ -1,6 +1,11 @@
 import { SetStateAction } from "jotai";
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
 
+/**
+ * A custom hook to detect if we click outside of element
+ * @param {Dispatch<SetStateAction<boolean>>} set setter
+ * @param {RefObject<HTMLDivElement>} ref reference to div element
+ */
 export function useClickOutside(
   set: Dispatch<SetStateAction<boolean>>,
   ref: RefObject<HTMLDivElement>

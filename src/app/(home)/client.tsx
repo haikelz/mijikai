@@ -144,25 +144,24 @@ export default function HomeClient({ session }: { session: Session | null }) {
                   <Button
                     type="button"
                     aria-label="copy to clipboard"
+                    className="space-x-2.5 flex"
                     onClick={() =>
                       clipboard.copy(
                         `https://mijikai.space/${detail.data.shortened_url}`
                       )
                     }
                   >
-                    <div className="space-x-2.5 flex">
-                      {clipboard.copied ? (
-                        <>
-                          <span>Copied!</span>
-                          <CopyCheckIcon />
-                        </>
-                      ) : (
-                        <>
-                          <span>Copy</span>
-                          <CopyIcon />
-                        </>
-                      )}
-                    </div>
+                    {clipboard.copied ? (
+                      <>
+                        <span>Copied!</span>
+                        <CopyCheckIcon />
+                      </>
+                    ) : (
+                      <>
+                        <span>Copy</span>
+                        <CopyIcon />
+                      </>
+                    )}
                   </Button>
                   <Button
                     type="button"

@@ -13,7 +13,7 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { Heading } from "~components/ui/typography";
-import { replaceHttpPrefix } from "~lib/helpers";
+import { replaceHttpsPrefix } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
@@ -144,7 +144,7 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {replaceHttpPrefix(item.original_url)}
+                      {replaceHttpsPrefix(item.original_url)}
                     </Link>
                   </TableCell>
                   <TableCell className="font-bold underline underline-offset-2">
@@ -153,7 +153,7 @@ export default async function UsersLinkList() {
                       target="_blank"
                       rel="noreferreer noopener"
                     >
-                      {replaceHttpPrefix(item.shortened_url)}
+                      {replaceHttpsPrefix(item.shortened_url)}
                     </Link>
                   </TableCell>
                   <TableCell>

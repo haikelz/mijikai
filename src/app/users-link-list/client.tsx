@@ -17,7 +17,8 @@ export function ConfirmDeleteLinkModal() {
   const idLink = useAtomValue(idLinkAtom);
 
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
-  const [isSuccessDelete, setIsSuccessDelete] = useAtom(isSuccessDeleteAtom);
+
+  const setIsSuccessDelete = useSetAtom(isSuccessDeleteAtom);
 
   const queryClient: QueryClient = useQueryClient();
 
