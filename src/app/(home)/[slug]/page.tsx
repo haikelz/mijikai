@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import { db } from "~lib/utils/db";
 
 type SlugProps = {
@@ -34,6 +34,9 @@ export default async function RedirectPage({ params }: SlugProps) {
   const { slug } = params;
   const shortenedUrl = await getShortenedUrl(slug);
 
-  if (shortenedUrl.length) return redirect(shortenedUrl[0].original_url);
-  return redirect("/");
+  if (shortenedUrl.length) {
+    return permanentRedirect(shortenedUrl[0].original_url);
+  }
+
+  return permanentRedirect("/");
 }
