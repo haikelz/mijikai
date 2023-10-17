@@ -9,13 +9,15 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Button } from "~components/ui/button";
 import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
+import { tw } from "~lib/helpers";
 import { deleteData } from "~lib/utils/axios-config";
-import { idLinkAtom, isShowModalAtom } from "~store";
+import { idLinkAtom, isShowModalAtom, isSuccessDeleteAtom } from "~store";
 
 export function ConfirmDeleteLinkModal() {
   const idLink = useAtomValue(idLinkAtom);
 
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
+  const [isSuccessDelete, setIsSuccessDelete] = useAtom(isSuccessDeleteAtom);
 
   const queryClient: QueryClient = useQueryClient();
 
@@ -27,6 +29,13 @@ export function ConfirmDeleteLinkModal() {
 
   function handleDelete() {
     mutate(idLink);
+    setIsShowModal(false);
+
+    setTimeout(() => {
+      setIsSuccessDelete(false);
+    }, 2000);
+
+    setIsSuccessDelete(true);
     window.location.reload();
   }
 
@@ -85,5 +94,30 @@ export function DeleteLinkButton({ id }: { id: number }) {
     >
       Delete
     </Button>
+  );
+}
+
+export function SuccessModal() {
+  const isSuccessDelete = useAtomValue(isSuccessDeleteAtom);
+
+  return (
+    <>
+      {isSuccessDelete ? (
+        <div
+          className={tw(
+            "fixed z-10 inset-0 w-full h-full min-h-screen",
+            "flex bg-black/70 justify-center items-center"
+          )}
+        >
+          <div className="bg-white rounded-md p-6 shadow-md">
+            <div className="flex justify-center items-center flex-col">
+              <Paragraph className="font-bold text-xl">
+                Success delete data!
+              </Paragraph>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }

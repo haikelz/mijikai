@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,11 @@ import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 import { ShortenedUrlProps } from "~types";
 
-import { ConfirmDeleteLinkModal, DeleteLinkButton } from "./client";
+import {
+  ConfirmDeleteLinkModal,
+  DeleteLinkButton,
+  SuccessModal,
+} from "./client";
 
 const baseMetadata = {
   title: "Users Link List",
@@ -28,7 +33,7 @@ const baseMetadata = {
 
 const { title, description, url } = baseMetadata;
 
-export const metadata = {
+export const metadata: Metadata = {
   title,
   description,
   openGraph: {
@@ -168,6 +173,7 @@ export default async function UsersLinkList() {
           </TableBody>
         </Table>
       </section>
+      <SuccessModal />
       <ConfirmDeleteLinkModal />
     </>
   );

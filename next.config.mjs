@@ -1,6 +1,6 @@
 import withPWAInit from "@ducanh2912/next-pwa";
 
-import { env } from "./src/env.mjs";
+import "./src/env.mjs";
 
 /** @type {import('next').NextConfig} */
 const withPWA = withPWAInit({ dest: "public" });

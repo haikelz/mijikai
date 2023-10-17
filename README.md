@@ -7,7 +7,7 @@
 ## Features
 
 - Shorten long URL
-- Convert URL to QR Code
+- Convert shortened URL to QR Code
 - Show users link list
 - PWA
 

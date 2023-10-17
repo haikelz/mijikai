@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
@@ -8,6 +9,8 @@ import { Og } from "~lib/utils/enums";
 
 import HomeClient, { SignOut } from "./client";
 
+export const revalidate = 60;
+
 const baseMetadata = {
   title: "Mijikai",
   description: "Mijikai is a free shorten URL Website. No ads, no tracker!",
@@ -16,7 +19,7 @@ const baseMetadata = {
 
 const { title, description, url } = baseMetadata;
 
-export const metadata = {
+export const metadata: Metadata = {
   title,
   description,
   openGraph: {
@@ -42,9 +45,10 @@ export const metadata = {
 };
 
 async function getTotal(): Promise<number> {
-  const { count, error } = await db
-    .from("shortened_url")
-    .select("id", { count: "exact", head: true });
+  const { count, error } = await db.from("shortened_url").select("id", {
+    count: "exact",
+    head: true,
+  });
 
   if (error) throw error;
   return count as number;
