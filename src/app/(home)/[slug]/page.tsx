@@ -18,10 +18,12 @@ type GetShortenedUrlProps = {
   original_url: string;
 };
 
-async function getShortenedUrl(slug: string): Promise<GetShortenedUrlProps[]> {
+async function getShortenedUrl(
+  slug: string
+): Promise<Omit<GetShortenedUrlProps, "shortened_url">[]> {
   const { data, error } = await db
     .from("shortened_url")
-    .select()
+    .select("original_url")
     .eq("shortened_url", `https://mijikai.space/${slug}`);
 
   if (error) throw error;
