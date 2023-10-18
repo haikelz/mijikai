@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -20,14 +19,11 @@ import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 import { ShortenedUrlProps } from "~types";
 
-import { DeleteLinkButton } from "./client";
-
-const ConfirmDeleteLinkModal = dynamic(() =>
-  import("./client").then((obj) => obj.ConfirmDeleteLinkModal)
-);
-const SuccessModal = dynamic(() =>
-  import("./client").then((obj) => obj.SuccessModal)
-);
+import {
+  ConfirmDeleteLinkModal,
+  DeleteLinkButton,
+  SuccessModal,
+} from "./client";
 
 const baseMetadata = {
   title: "Users Link List",
@@ -117,14 +113,16 @@ export default async function UsersLinkList() {
             >
               Your Link List
             </Heading>
-            <Image
-              className="rounded-full"
-              src={session.user.image ?? "/images/no-image.jpeg"}
-              alt={session.user.name}
-              width={40}
-              height={40}
-              draggable={false}
-            />
+            <div className="rounded-full border-2 overflow-hidden border-destructive cursor-pointer">
+              <Image
+                className="rounded-full transition-all hover:scale-110"
+                src={session.user.image ?? "/images/no-image.jpeg"}
+                alt={session.user.name}
+                width={40}
+                height={40}
+                draggable={false}
+              />
+            </div>
           </div>
           <p className="font-medium mt-2">{session.user.email}</p>
         </div>
