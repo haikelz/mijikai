@@ -144,7 +144,7 @@ export default async function UsersLinkList() {
                     <Link
                       href={item.original_url}
                       target="_blank"
-                      rel="noreferreer noopener"
+                      rel="noopener noreferrer"
                     >
                       {replaceHttpsPrefix(item.original_url)}
                     </Link>

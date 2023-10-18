@@ -6,16 +6,14 @@ export default async function middleware(
 ): Promise<NextResponse<unknown> | undefined> {
   if (req.method === "GET") {
     try {
-      let pathname = req.nextUrl.pathname.split("/");
-      let slug = pathname[pathname.length - 1];
+      const pathname = req.nextUrl.pathname.split("/");
+      const slug = pathname[pathname.length - 1];
 
       const { data, error } = await db
         .from("shortened_url")
         .select("original_url")
         .eq("shortened_url", `https://mijikai.space/${slug}`)
         .single();
-
-      console.log(slug);
 
       if (error) throw error;
 
