@@ -21,6 +21,12 @@
 
 ![ss 4](public/docs/ss-4.png)
 
+![ss 5](public/docs/ss-5.png)
+
+![ss 6](public/docs/ss-6.png)
+
+![ss 7](public/docs/ss-7.png)
+
 ## Tech Stack
 
 - Next JS 13

@@ -1,6 +1,3 @@
-import { permanentRedirect } from "next/navigation";
-import { db } from "~lib/utils/db";
-
 type SlugProps = {
   params: {
     slug: string;
@@ -13,30 +10,6 @@ export async function generateStaticParams(
   return [{ slug }];
 }
 
-type GetShortenedUrlProps = {
-  shortened_url: string;
-  original_url: string;
-};
-
-async function getShortenedUrl(
-  slug: string
-): Promise<Omit<GetShortenedUrlProps, "shortened_url">[]> {
-  const { data, error } = await db
-    .from("shortened_url")
-    .select("original_url")
-    .eq("shortened_url", `https://mijikai.space/${slug}`);
-
-  if (error) throw error;
-  return data;
-}
-
-export default async function RedirectPage({ params }: SlugProps) {
-  const { slug } = params;
-  const shortenedUrl = await getShortenedUrl(slug);
-
-  if (shortenedUrl.length) {
-    return permanentRedirect(shortenedUrl[0].original_url);
-  }
-
-  return permanentRedirect("/");
+export default async function RedirectPage() {
+  return;
 }
