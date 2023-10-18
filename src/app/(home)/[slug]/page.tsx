@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 type SlugProps = {
   params: {
     slug: string;
@@ -10,6 +12,6 @@ export async function generateStaticParams(
   return [{ slug }];
 }
 
-export default async function RedirectPage() {
-  return;
+export default function SlugPage() {
+  return redirect("/");
 }

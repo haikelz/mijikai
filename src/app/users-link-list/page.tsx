@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -19,11 +20,14 @@ import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 import { ShortenedUrlProps } from "~types";
 
-import {
-  ConfirmDeleteLinkModal,
-  DeleteLinkButton,
-  SuccessModal,
-} from "./client";
+import { DeleteLinkButton } from "./client";
+
+const ConfirmDeleteLinkModal = dynamic(() =>
+  import("./client").then((obj) => obj.ConfirmDeleteLinkModal)
+);
+const SuccessModal = dynamic(() =>
+  import("./client").then((obj) => obj.SuccessModal)
+);
 
 const baseMetadata = {
   title: "Users Link List",
