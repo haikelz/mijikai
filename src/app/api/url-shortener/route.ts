@@ -71,6 +71,7 @@ type DeleteOperationProps = Promise<
 export async function DELETE(req: Request): DeleteOperationProps {
   try {
     const { id } = await req.json();
+
     const { error } = await db
       .from("shortened_url")
       .delete({ count: "exact" })

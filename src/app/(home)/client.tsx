@@ -52,10 +52,11 @@ export default function HomeClient({ session }: { session: Session | null }) {
     resolver: zodResolver(inputSchema),
   });
 
-  const { data, isLoading, isError, mutate } = useMutation({
+  const { data, isPending, isError, mutate } = useMutation({
     mutationFn: postData,
     mutationKey: ["original_url"],
-    onSuccess: () => queryClient.invalidateQueries(),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["original_url"] }),
   });
 
   function onSubmit() {
@@ -64,7 +65,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
 
   const detail = data as DataProps;
 
-  if (isLoading) return <LoadingClient />;
+  if (isPending) return <LoadingClient />;
   if (isError) return <ErrorClient />;
 
   return (
