@@ -27,12 +27,13 @@ export function ConfirmDeleteLinkModal() {
   const { mutate } = useMutation({
     mutationFn: deleteData,
     mutationKey: [idLink],
-    onSettled: async () =>
-      await queryClient.invalidateQueries({ queryKey: [idLink] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [idLink] }),
   });
 
   function handleDelete() {
     mutate(idLink);
+    router.refresh();
+
     setIsShowModal(false);
 
     setTimeout(() => {
@@ -40,7 +41,6 @@ export function ConfirmDeleteLinkModal() {
     }, 2000);
 
     setIsSuccessDelete(true);
-    router.refresh();
   }
 
   return (
