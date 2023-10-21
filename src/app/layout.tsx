@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
+import { ChildrenProps } from "~types";
 
 import "./globals.css";
 import Wrapper from "./wrapper";
@@ -52,9 +53,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
 };
 
-export default function RootLayout(
-  { children }: { children: React.ReactNode }
-) {
+export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <body className={tw(inter.className)}>

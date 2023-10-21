@@ -22,7 +22,7 @@ import { ShortenedUrlProps } from "~types";
 import {
   ConfirmDeleteLinkModal,
   DeleteLinkButton,
-  SuccessModal,
+  SuccessDeleteLinkModal,
 } from "./client";
 
 const baseMetadata = {
@@ -177,7 +177,7 @@ export default async function UsersLinkList() {
           </TableBody>
         </Table>
       </section>
-      <SuccessModal />
+      <SuccessDeleteLinkModal />
       <ConfirmDeleteLinkModal />
     </>
   );

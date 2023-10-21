@@ -6,8 +6,8 @@ export default async function middleware(
 ): Promise<NextResponse<unknown> | undefined> {
   if (req.method === "GET") {
     try {
-      const pathname = req.nextUrl.pathname.split("/");
-      const slug = pathname[pathname.length - 1];
+      const pathname: string[] = req.nextUrl.pathname.split("/");
+      const slug: string = pathname[pathname.length - 1];
 
       const { data, error } = await db
         .from("shortened_url")
@@ -25,6 +25,5 @@ export default async function middleware(
 }
 
 export const config = {
-  matcher:
-    "/((?!.*\\.|session|users-link-list|api|image|static|favicon.ico).*)",
+  matcher: "/((?!.*\\.|session|users-link-list|api|img|static|favicon.ico).*)",
 };

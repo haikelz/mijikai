@@ -42,3 +42,14 @@
 ## License
 
 Apache-2.0
+
+## Test with Docker
+
+- Give permission to `build.sh` file.
+
+```
+chmod +x build.sh
+```
+
+- After that, run `./build.sh`.
+- `./run.sh`

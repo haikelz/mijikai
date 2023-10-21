@@ -11,14 +11,13 @@ import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
 import { deleteData } from "~lib/utils/axios-config";
-import { idLinkAtom, isShowModalAtom, isSuccessDeleteAtom } from "~store";
+import { idLinkAtom, isShowModalAtom, isSuccessDeleteLinkAtom } from "~store";
 
 export function ConfirmDeleteLinkModal() {
-  const idLink = useAtomValue(idLinkAtom);
-
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
 
-  const setIsSuccessDelete = useSetAtom(isSuccessDeleteAtom);
+  const idLink = useAtomValue(idLinkAtom);
+  const setIsSuccessDelete = useSetAtom(isSuccessDeleteLinkAtom);
 
   const queryClient: QueryClient = useQueryClient();
 
@@ -98,12 +97,12 @@ export function DeleteLinkButton({ id }: { id: number }) {
   );
 }
 
-export function SuccessModal() {
-  const isSuccessDelete = useAtomValue(isSuccessDeleteAtom);
+export function SuccessDeleteLinkModal() {
+  const isSuccessDeleteLink = useAtomValue(isSuccessDeleteLinkAtom);
 
   return (
     <>
-      {isSuccessDelete ? (
+      {isSuccessDeleteLink ? (
         <div
           className={tw(
             "fixed z-10 inset-0 w-full h-full min-h-screen",
@@ -113,7 +112,7 @@ export function SuccessModal() {
           <div className="bg-white rounded-md p-6 shadow-md">
             <div className="flex justify-center items-center flex-col">
               <Paragraph className="font-bold text-xl">
-                Success delete data!
+                Success delete Link!
               </Paragraph>
             </div>
           </div>

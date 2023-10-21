@@ -14,7 +14,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useClipboard } from "use-clipboard-copy";
-import QrCode from "~components/qr-code";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Paragraph } from "~components/ui/typography";
@@ -27,11 +26,9 @@ import { ShortenedUrlProps } from "~types";
 import ErrorClient from "./error-client";
 import LoadingClient from "./loading-client";
 
-const isGenerateQrCodeAtom = atom<boolean>(false);
+const QrCode = dynamic(() => import("~components/qr-code"));
 
-const Modal = dynamic(() =>
-  import("~components/ui/modal").then((obj) => obj.Modal)
-);
+const isGenerateQrCodeAtom = atom<boolean>(false);
 
 type DataProps = {
   data: ShortenedUrlProps;
@@ -184,9 +181,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
                 </Link>
               </div>
               {isGenerateQrCode && isShowModal ? (
-                <Modal>
-                  <QrCode url={detail.data.original_url} />
-                </Modal>
+                <QrCode url={detail.data.original_url} />
               ) : null}
             </>
           ) : null
