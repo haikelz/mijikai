@@ -6,7 +6,6 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { Button } from "~components/ui/button";
 import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
@@ -20,19 +19,16 @@ export function ConfirmDeleteLinkModal() {
   const idLink = useAtomValue(idLinkAtom);
   const setIsSuccessDelete = useSetAtom(isSuccessDeleteLinkAtom);
 
-  const router = useRouter();
-
   const queryClient: QueryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: deleteData,
     mutationKey: [idLink],
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [idLink] }),
+    onSuccess: () => queryClient.invalidateQueries(),
   });
 
   function handleDelete() {
     mutate(idLink);
-    router.refresh();
 
     setIsShowModal(false);
 
@@ -41,6 +37,7 @@ export function ConfirmDeleteLinkModal() {
     }, 2000);
 
     setIsSuccessDelete(true);
+    window.location.reload();
   }
 
   return (

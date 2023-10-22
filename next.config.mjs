@@ -11,7 +11,6 @@ const nextConfig = withPWA({
   images: {
     domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
   },
-  output: "standalone",
 });
 
 export default nextConfig;
