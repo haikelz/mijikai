@@ -32,6 +32,7 @@
 - Next JS 13
 - Tailwind CSS with shadcn/ui
 - Jotai
+- React Query
 - Supabase
 
 ## Support
