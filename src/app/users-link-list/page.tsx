@@ -67,7 +67,6 @@ async function getUsersLinkList(
     .eq("email", email);
 
   if (error) throw error;
-
   return data;
 }
 
@@ -96,11 +95,12 @@ const tableHeadData: Array<{ id: number; content: string }> = [
 
 export default async function UsersLinkList() {
   const session = (await getServerSession(options)) as Session;
+
+  if (!session) return redirect("/");
+
   const usersLinkList = await getUsersLinkList(session.user.email);
 
   const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
-
-  if (!session) return redirect("/");
 
   return (
     <>
