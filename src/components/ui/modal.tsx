@@ -21,7 +21,7 @@ export function Modal({ children, ...props }: ModalProps) {
       {isShowModal ? (
         <div
           className={tw(
-            "fixed z-10 inset-0 w-full h-full min-h-screen",
+            "fixed z-10 inset-0 w-full h-full min-h-screen backdrop-blur-md",
             "flex bg-black/70 justify-center items-center"
           )}
           {...props}

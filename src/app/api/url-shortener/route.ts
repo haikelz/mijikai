@@ -23,15 +23,37 @@ type PostOperationProps = Promise<
 export async function POST(req: Request): PostOperationProps {
   try {
     const session = (await getServerSession(options)) as Session;
-    const { url } = await req.json();
+    const { url, custom_slug, is_custom_slug } = await req.json();
 
     const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 5);
     const randomizedUrl = customUrl();
 
+    if (is_custom_slug) {
+      const { data, error } = await db
+        .from("shortened_url")
+        .select("shortened_url")
+        .eq("shortened_url", `https://mijikai.space/${custom_slug}`);
+
+      /**
+       * Detect if custom_slug same as shortened_url from supabase
+       * If true, then throw error
+       * Otherwise, don't return anything and go to the next code below
+       */
+      if (
+        (data!.length &&
+          data![0].shortened_url === `https://mijikai.space/${custom_slug}`) ||
+        error
+      ) {
+        throw error;
+      }
+    }
+
     const { error } = await db.from("shortened_url").insert([
       {
         original_url: url,
-        shortened_url: `https://mijikai.space/${randomizedUrl}`,
+        shortened_url: `https://mijikai.space/${
+          is_custom_slug ? custom_slug : randomizedUrl
+        }`,
         email: session.user.email,
         image: session.user.image,
         name: session.user.name,
@@ -45,7 +67,7 @@ export async function POST(req: Request): PostOperationProps {
         status: "SUCCESS!",
         data: {
           original_url: url,
-          shortened_url: randomizedUrl,
+          shortened_url: is_custom_slug ? custom_slug : randomizedUrl,
         },
       },
       { status: 200 }

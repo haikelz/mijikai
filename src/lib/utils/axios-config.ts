@@ -21,12 +21,18 @@ const config: AxiosRequestConfig = {
 const axios = Axios.create(config);
 
 // post
+type PostDataProps = {
+  url: string;
+  custom_slug: string;
+  is_custom_slug: boolean;
+};
+
 export async function postData(
-  url: string
+  { url, custom_slug, is_custom_slug }: PostDataProps
 ): Promise<{ data: ShortenedUrlProps }> {
   const response = await axios.post(
     "/api/url-shortener",
-    { url: url },
+    { url: url, custom_slug: custom_slug, is_custom_slug: is_custom_slug },
     {
       method: "POST",
     }

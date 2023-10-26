@@ -8,6 +8,7 @@
 
 - Shorten long URL
 - Convert shortened URL to QR Code
+- Custom URL slug
 - Show users link list
 - PWA
 

@@ -7,7 +7,13 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
-import { CopyCheckIcon, CopyIcon, GithubIcon, QrCodeIcon } from "lucide-react";
+import {
+  CopyCheckIcon,
+  CopyIcon,
+  GithubIcon,
+  InfoIcon,
+  QrCodeIcon,
+} from "lucide-react";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import dynamic from "next/dynamic";
@@ -16,10 +22,21 @@ import { useForm } from "react-hook-form";
 import { useClipboard } from "use-clipboard-copy";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
+import { Input } from "~components/ui/input";
+import { Label } from "~components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "~components/ui/radio";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
 import { postData } from "~lib/utils/axios-config";
-import { inputSchema } from "~lib/utils/schema";
+import {
+  withCustomSlugSchema,
+  withoutCustomSlugSchema,
+} from "~lib/utils/schema";
 import { isShowModalAtom } from "~store";
 import { ShortenedUrlProps } from "~types";
 
@@ -29,12 +46,14 @@ import LoadingClient from "./loading-client";
 const QrCode = dynamic(() => import("~components/qr-code"));
 
 const isGenerateQrCodeAtom = atom<boolean>(false);
+const isCustomSlugAtom = atom<boolean>(true);
 
 type DataProps = {
   data: ShortenedUrlProps;
 };
 
 export default function HomeClient({ session }: { session: Session | null }) {
+  const [isCustomSlug, setIsCustomSlug] = useAtom(isCustomSlugAtom);
   const [isGenerateQrCode, setIsGenerateQrCode] = useAtom(isGenerateQrCodeAtom);
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
 
@@ -48,19 +67,25 @@ export default function HomeClient({ session }: { session: Session | null }) {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { original_url: "" },
-    resolver: zodResolver(inputSchema),
+    defaultValues: { original_url: "", custom_slug: "" },
+    resolver: zodResolver(
+      isCustomSlug ? withCustomSlugSchema : withoutCustomSlugSchema
+    ),
   });
 
   const { data, isPending, isError, mutate } = useMutation({
     mutationFn: postData,
-    mutationKey: ["original_url"],
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["original_url"] }),
+    mutationKey: ["postData"],
+    onSuccess: () => queryClient.invalidateQueries(),
   });
 
   function onSubmit() {
-    mutate(getValues("original_url"));
+    // submit custom slug or random slug
+    mutate({
+      url: getValues("original_url"),
+      custom_slug: getValues("custom_slug"),
+      is_custom_slug: isCustomSlug,
+    });
   }
 
   const detail = data as DataProps;
@@ -69,126 +94,190 @@ export default function HomeClient({ session }: { session: Session | null }) {
   if (isError) return <ErrorClient />;
 
   return (
-    <>
-      <div>
-        {session ? (
-          <form className="mt-3" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex justify-center items-center">
-              <div className="px-3 py-2 rounded-l-md bg-gray-300">
-                <Paragraph className="font-bold">Link</Paragraph>
-              </div>
-              <input
-                {...register("original_url", { required: true })}
-                type="text"
-                className={tw(
-                  "flex w-full rounded-r-md h-11 border border-input font-medium",
-                  "bg-background px-3 py-2 text-sm ring-offset-background",
-                  "file:border-0 file:bg-transparent file:text-sm file:font-medium",
-                  "placeholder:text-muted-foreground focus-visible:outline-none",
-                  "focus-visible:ring-ring",
-                  "disabled:cursor-not-allowed disabled:opacity-50"
-                )}
+    <div>
+      {session ? (
+        <>
+          <Paragraph className="mt-2 font-bold">Choose slug options</Paragraph>
+          <RadioGroup
+            defaultValue="option-custom"
+            className="flex space-x-4 items-center mt-2"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="option-custom"
+                onClick={() => setIsCustomSlug(true)}
+                id="option-custom"
               />
+              <Label htmlFor="option-custom" className="font-bold">
+                Custom
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button type="button" aria-label="info icon button">
+                    <InfoIcon size={16} />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Paragraph className="font-medium">
+                    You can custom your slug, with any name!{" "}
+                    <span className="font-bold">Limitation:</span> you can't
+                    input the name that already used, or it will produce error!
+                  </Paragraph>
+                </PopoverContent>
+              </Popover>
             </div>
-            {errors.original_url ? (
-              <p className="mt-2 font-semibold">
-                {errors.original_url.message}{" "}
-              </p>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem
+                value="option-random"
+                onClick={() => setIsCustomSlug(false)}
+                id="option-random"
+              />
+              <Label htmlFor="option-random" className="font-bold">
+                Random
+              </Label>
+            </div>
+          </RadioGroup>
+          <form
+            className={tw("mt-4", isCustomSlug ? "space-y-3" : "")}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div>
+              <div className="flex justify-center items-center">
+                <div className="px-3 py-2 rounded-l-md bg-gray-300">
+                  <Paragraph className="font-bold">Link</Paragraph>
+                </div>
+                <Input
+                  {...register("original_url", { required: true })}
+                  type="text"
+                  name="original_url"
+                />
+              </div>
+              {errors.original_url ? (
+                <p className="mt-2 font-semibold">
+                  {errors.original_url.message}{" "}
+                </p>
+              ) : null}
+            </div>
+            {isCustomSlug ? (
+              <div>
+                <div className="flex justify-center items-center">
+                  <div className="px-3 py-2 rounded-l-md bg-gray-300">
+                    <Paragraph className="font-bold">Slug</Paragraph>
+                  </div>
+                  <Input
+                    {...register("custom_slug", { required: true })}
+                    type="text"
+                    name="custom_slug"
+                  />
+                </div>
+                {errors.custom_slug ? (
+                  <p className="mt-2 font-semibold">
+                    {errors.custom_slug.message}
+                  </p>
+                ) : null}
+                <Button
+                  type="submit"
+                  aria-label="submit"
+                  className="mt-5 font-bold"
+                >
+                  Submit
+                </Button>
+              </div>
             ) : null}
           </form>
-        ) : null}
-        {!session ? (
+        </>
+      ) : null}
+      {!session ? (
+        <>
+          <Paragraph className="font-bold mt-3 mb-2">
+            Sign In first to try
+          </Paragraph>
+          <div className="flex items-center space-x-3">
+            <Button
+              className="flex items-center space-x-2"
+              type="button"
+              aria-label="sign in with github"
+              onClick={() => signIn("github")}
+            >
+              <span className="font-bold">Github</span>
+              <GithubIcon />
+            </Button>
+            <Button
+              variant="secondary"
+              className="flex items-center space-x-2"
+              type="button"
+              aria-label="sign in with google"
+              onClick={() => signIn("google")}
+            >
+              <span className="font-bold">Google</span>
+              <GoogleIcon />
+            </Button>
+          </div>
+        </>
+      ) : null}
+      {session ? (
+        data ? (
           <>
-            <Paragraph className="font-bold mt-3 mb-2">
-              Sign In first to try
-            </Paragraph>
-            <div className="flex items-center space-x-3">
-              <Button
-                className="flex items-center space-x-2"
-                type="button"
-                aria-label="sign in with github"
-                onClick={() => signIn("github")}
+            <div className="flex flex-col mt-3 justify-start items-start">
+              <Paragraph>Result:</Paragraph>
+              <Link
+                href={detail.data.shortened_url}
+                className="mt-4 underline underline-offset-2 font-bold"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <span className="font-bold">Github</span>
-                <GithubIcon />
-              </Button>
-              <Button
-                variant="secondary"
-                className="flex items-center space-x-2"
-                type="button"
-                aria-label="sign in with google"
-                onClick={() => signIn("google")}
-              >
-                <span className="font-bold">Google</span>
-                <GoogleIcon />
-              </Button>
-            </div>
-          </>
-        ) : null}
-        {session ? (
-          data ? (
-            <>
-              <div className="flex flex-col mt-3 justify-start items-start">
-                <Paragraph>Result:</Paragraph>
-                <Link
-                  href={detail.data.shortened_url}
-                  className="mt-4 underline underline-offset-2 font-bold"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                https://mijikai.space/{detail.data.shortened_url}
+              </Link>
+              <div className="flex items-center space-x-2 mt-3">
+                <Button
+                  type="button"
+                  aria-label="copy to clipboard"
+                  className="space-x-2.5 font-bold"
+                  onClick={() =>
+                    clipboard.copy(
+                      `https://mijikai.space/${detail.data.shortened_url}`
+                    )
+                  }
                 >
-                  https://mijikai.space/{detail.data.shortened_url}
-                </Link>
-                <div className="flex items-center space-x-2 mt-3">
-                  <Button
-                    type="button"
-                    aria-label="copy to clipboard"
-                    className="space-x-2.5 flex"
-                    onClick={() =>
-                      clipboard.copy(
-                        `https://mijikai.space/${detail.data.shortened_url}`
-                      )
-                    }
-                  >
-                    {clipboard.copied ? (
-                      <>
-                        <span>Copied!</span>
-                        <CopyCheckIcon />
-                      </>
-                    ) : (
-                      <>
-                        <span>Copy</span>
-                        <CopyIcon />
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    type="button"
-                    aria-label="generate qr code"
-                    onClick={() => {
-                      setIsGenerateQrCode(true);
-                      setIsShowModal(true);
-                    }}
-                    className="space-x-2.5"
-                  >
-                    <span>Generate QR Code</span>
-                    <QrCodeIcon />
-                  </Button>
-                </div>
-                <Link
-                  href="/users-link-list"
-                  className="font-bold underline underline-offset-2 mt-3"
+                  {clipboard.copied ? (
+                    <>
+                      <span>Copied!</span>
+                      <CopyCheckIcon />
+                    </>
+                  ) : (
+                    <>
+                      <span>Copy</span>
+                      <CopyIcon />
+                    </>
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  aria-label="generate qr code"
+                  onClick={() => {
+                    setIsGenerateQrCode(true);
+                    setIsShowModal(true);
+                  }}
+                  className="space-x-2.5 font-bold"
                 >
-                  <Paragraph>See your link list</Paragraph>
-                </Link>
+                  <span>Generate QR Code</span>
+                  <QrCodeIcon />
+                </Button>
               </div>
-              {isGenerateQrCode && isShowModal ? (
-                <QrCode url={detail.data.original_url} />
-              ) : null}
-            </>
-          ) : null
-        ) : null}
-      </div>
-    </>
+              <Link
+                href="/users-link-list"
+                className="font-bold underline underline-offset-2 mt-3"
+              >
+                <Paragraph>See your link list</Paragraph>
+              </Link>
+            </div>
+            {isGenerateQrCode && isShowModal ? (
+              <QrCode url={detail.data.original_url} />
+            ) : null}
+          </>
+        ) : null
+      ) : null}
+    </div>
   );
 }
 
