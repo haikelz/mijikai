@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
+import dynamic from "next/dynamic";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
@@ -8,6 +9,8 @@ import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 
 import HomeClient, { SignOut } from "./client";
+
+const SwitchTheme = dynamic(() => import("~components/ui/switch-theme"));
 
 export const revalidate = 60;
 
@@ -67,7 +70,10 @@ export default async function Home() {
     >
       <section className="max-w-xl w-full flex flex-col justify-center items-center">
         <div>
-          <Heading as="h1">Mijikai / 短い</Heading>
+          <div className="w-full flex items-center justify-between">
+            <Heading as="h1">Mijikai / 短い</Heading>
+            <SwitchTheme />
+          </div>
           <Paragraph>
             Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b>{" "}
             There are{" "}

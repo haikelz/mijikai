@@ -26,7 +26,7 @@ export function Modal({ children, ...props }: ModalProps) {
           )}
           {...props}
         >
-          <div ref={modalRef} className="bg-white rounded-md p-6 shadow-md">
+          <div ref={modalRef} className="bg-card rounded-md p-6 shadow-md">
             {children}
           </div>
         </div>

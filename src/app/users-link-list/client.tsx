@@ -110,7 +110,7 @@ export function SuccessDeleteLinkModal() {
             "flex bg-black/70 justify-center items-center"
           )}
         >
-          <div className="bg-white rounded-md p-6 shadow-md">
+          <div className="bg-card rounded-md p-6 shadow-md">
             <div className="flex justify-center items-center flex-col">
               <Paragraph className="font-bold text-xl">
                 Success delete Link!

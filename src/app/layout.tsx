@@ -55,7 +55,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: ChildrenProps) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={tw(inter.className)}>
         <Wrapper>{children}</Wrapper>
       </body>

@@ -143,7 +143,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
           >
             <div>
               <div className="flex justify-center items-center">
-                <div className="px-3 py-2 rounded-l-md bg-gray-300">
+                <div className="px-3 py-2 rounded-l-md bg-slate-300 dark:bg-slate-800">
                   <Paragraph className="font-bold">Link</Paragraph>
                 </div>
                 <Input
@@ -161,7 +161,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
             {isCustomSlug ? (
               <div>
                 <div className="flex justify-center items-center">
-                  <div className="px-3 py-2 rounded-l-md bg-gray-300">
+                  <div className="px-3 py-2 rounded-l-md bg-slate-300 dark:bg-slate-800">
                     <Paragraph className="font-bold">Slug</Paragraph>
                   </div>
                   <Input
@@ -272,7 +272,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
               </Link>
             </div>
             {isGenerateQrCode && isShowModal ? (
-              <QrCode url={detail.data.original_url} />
+              <QrCode url={detail.data.shortened_url} />
             ) : null}
           </>
         ) : null
