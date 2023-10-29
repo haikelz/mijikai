@@ -13,5 +13,8 @@ export async function generateStaticParams(
 }
 
 export default function SlugPage() {
+  /**
+   * Redirect user to home when the slug and shortened_url from supabase are not matched
+   */
   return redirect("/");
 }

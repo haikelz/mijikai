@@ -47,6 +47,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
 };
 
+// get total shortened URL
 async function getTotal(): Promise<number> {
   const { count, error } = await db.from("shortened_url").select("id", {
     count: "exact",
@@ -70,11 +71,15 @@ export default async function Home() {
     >
       <section className="max-w-xl w-full flex flex-col justify-center items-center">
         <div>
+          {/** Title and dark mode button */}
           <div className="w-full flex items-center justify-between">
-            <Heading as="h1">Mijikai / 短い</Heading>
+            <Heading data-cy="heading-title" as="h1">
+              Mijikai / 短い
+            </Heading>
             <SwitchTheme />
           </div>
-          <Paragraph>
+          {/** Description */}
+          <Paragraph data-cy="description">
             Mijikai is a free shorten URL Website. <b>No ads, no tracker!</b>{" "}
             There are{" "}
             <b className="font-bold">

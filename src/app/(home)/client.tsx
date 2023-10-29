@@ -75,7 +75,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
 
   const { data, isPending, isError, mutate } = useMutation({
     mutationFn: postData,
-    mutationKey: ["postData"],
+    mutationKey: ["post-data"],
     onSuccess: () => queryClient.invalidateQueries(),
   });
 
@@ -97,6 +97,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
     <div>
       {session ? (
         <>
+          {/** Slug Options */}
           <Paragraph className="mt-2 font-bold">Choose slug options</Paragraph>
           <RadioGroup
             defaultValue="option-custom"
@@ -137,6 +138,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
               </Label>
             </div>
           </RadioGroup>
+          {/** Form */}
           <form
             className={tw("mt-4", isCustomSlug ? "space-y-3" : "")}
             onSubmit={handleSubmit(onSubmit)}
@@ -189,11 +191,12 @@ export default function HomeClient({ session }: { session: Session | null }) {
       ) : null}
       {!session ? (
         <>
-          <Paragraph className="font-bold mt-3 mb-2">
+          <Paragraph data-cy="sign-in-first" className="font-bold mt-3 mb-2">
             Sign In first to try
           </Paragraph>
           <div className="flex items-center space-x-3">
             <Button
+              data-cy="sign-in-with-github-button"
               className="flex items-center space-x-2"
               type="button"
               aria-label="sign in with github"
@@ -203,6 +206,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
               <GithubIcon />
             </Button>
             <Button
+              data-cy="sign-in-with-google-button"
               variant="secondary"
               className="flex items-center space-x-2"
               type="button"
@@ -230,6 +234,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
               </Link>
               <div className="flex items-center space-x-2 mt-3">
                 <Button
+                  data-cy="copy-to-clipboard-button"
                   type="button"
                   aria-label="copy to clipboard"
                   className="space-x-2.5 font-bold"
@@ -252,6 +257,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
                   )}
                 </Button>
                 <Button
+                  data-cy="generate-qr-code-button"
                   type="button"
                   aria-label="generate qr code"
                   onClick={() => {
@@ -284,6 +290,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
 export function SignOut() {
   return (
     <button
+      data-cy="sign-out-button"
       className="font-bold underline underline-offset-2"
       type="button"
       aria-label="sign out"

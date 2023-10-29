@@ -14,7 +14,7 @@ export default function ErrorPage() {
       <section className="max-w-xl w-full flex flex-col justify-center items-center">
         <div className="text-center">
           <Heading as="h2">500 Error!</Heading>
-          <Paragraph>Sepertinya ada kesalahan di sisi server!</Paragraph>
+          <Paragraph>There are something wrong in the server side!</Paragraph>
         </div>
       </section>
     </main>

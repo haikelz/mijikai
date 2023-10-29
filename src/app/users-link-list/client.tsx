@@ -6,6 +6,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { Button } from "~components/ui/button";
 import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
@@ -19,12 +20,15 @@ export function ConfirmDeleteLinkModal() {
   const idLink = useAtomValue(idLinkAtom);
   const setIsSuccessDelete = useSetAtom(isSuccessDeleteLinkAtom);
 
+  const router = useRouter();
+
   const queryClient: QueryClient = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: deleteData,
     mutationKey: [idLink],
-    onSuccess: () => queryClient.invalidateQueries(),
+    onSuccess: () =>
+      queryClient.refetchQueries({ queryKey: [idLink], exact: true }),
   });
 
   function handleDelete() {
@@ -37,13 +41,13 @@ export function ConfirmDeleteLinkModal() {
     }, 2000);
 
     setIsSuccessDelete(true);
-    window.location.reload();
+    router.refresh();
   }
 
   return (
     <>
       {isShowModal ? (
-        <Modal>
+        <Modal data-cy="confirm-delete-link-modal">
           <div className="flex justify-center items-center flex-col">
             <Paragraph className="text-xl font-bold">
               You want to delete this link?
@@ -87,6 +91,7 @@ export function DeleteLinkButton({ id }: { id: number }) {
 
   return (
     <Button
+      data-cy="confirm-delete-link-button"
       type="button"
       aria-label="confirm delete link"
       onClick={handleClick}
@@ -105,6 +110,7 @@ export function SuccessDeleteLinkModal() {
     <>
       {isSuccessDeleteLink ? (
         <div
+          data-cy="success-delete-link-modal"
           className={tw(
             "fixed z-10 inset-0 w-full h-full min-h-screen backdrop-blur-md",
             "flex bg-black/70 justify-center items-center"

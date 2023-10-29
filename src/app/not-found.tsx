@@ -12,7 +12,9 @@ export default function NotFound() {
       <section className="max-w-xl w-full flex flex-col justify-center items-center">
         <div className="text-center">
           <Heading as="h2">404 Not Found!</Heading>
-          <Paragraph>Maaf, halaman yang anda tuju tidak ditemukan.</Paragraph>
+          <Paragraph>
+            Sorry, the page that you want to visit is not found!
+          </Paragraph>
         </div>
       </section>
     </main>

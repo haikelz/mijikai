@@ -1,3 +1,5 @@
+"use client";
+
 import { SetStateAction } from "jotai";
 import { Dispatch, RefObject, useCallback, useEffect } from "react";
 

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -24,6 +25,8 @@ import {
   DeleteLinkButton,
   SuccessDeleteLinkModal,
 } from "./client";
+
+const BackToTop = dynamic(() => import("~components/back-to-top"));
 
 const baseMetadata = {
   title: "Users Link List",
@@ -58,6 +61,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
 };
 
+// get users link list from supabase
 async function getUsersLinkList(
   email: string
 ): Promise<Omit<ShortenedUrlProps, "created_at">[]> {
@@ -107,14 +111,18 @@ export default async function UsersLinkList() {
       <section className="max-w-5xl w-full flex flex-col justify-center items-center">
         <div className="text-center">
           <div className="flex justify-center items-center space-x-3">
+            {/** Title */}
             <Heading
+              data-cy="heading-users-link-list"
               as="h2"
               className="font-bold border-b-0 pb-0 tracking-normal"
             >
               Your Link List
             </Heading>
+            {/** User's image */}
             <div className="rounded-full border-2 overflow-hidden border-destructive cursor-pointer">
               <Image
+                data-cy="user-image"
                 className="rounded-full transition-all hover:scale-110"
                 src={session.user.image ?? "/images/no-image.jpeg"}
                 alt={session.user.name}
@@ -124,8 +132,11 @@ export default async function UsersLinkList() {
               />
             </div>
           </div>
-          <p className="font-medium mt-2">{session.user.email}</p>
+          <p data-cy="user-email" className="font-medium mt-2">
+            {session.user.email}
+          </p>
         </div>
+        {/** Table of data */}
         <Table className="mt-8">
           <TableHeader>
             <TableRow>
@@ -140,9 +151,16 @@ export default async function UsersLinkList() {
             {usersLinkList.length ? (
               usersLinkList.map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.email}</TableCell>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell className="font-bold underline underline-offset-2">
+                  <TableCell data-cy="table-email" className="font-medium">
+                    {item.email}
+                  </TableCell>
+                  <TableCell data-cy="table-name" className="font-medium">
+                    {item.name}
+                  </TableCell>
+                  <TableCell
+                    data-cy="table-original-url"
+                    className="font-bold underline underline-offset-2"
+                  >
                     <Link
                       href={item.original_url}
                       target="_blank"
@@ -151,7 +169,10 @@ export default async function UsersLinkList() {
                       {replaceHttpsPrefix(item.original_url)}
                     </Link>
                   </TableCell>
-                  <TableCell className="font-bold underline underline-offset-2">
+                  <TableCell
+                    data-cy="table-shortened-url"
+                    className="font-bold underline underline-offset-2"
+                  >
                     <Link
                       href={item.shortened_url}
                       target="_blank"
@@ -161,7 +182,10 @@ export default async function UsersLinkList() {
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <DeleteLinkButton id={item.id} />
+                    <DeleteLinkButton
+                      data-cy="delete-link-button"
+                      id={item.id}
+                    />
                   </TableCell>
                 </TableRow>
               ))
@@ -177,6 +201,7 @@ export default async function UsersLinkList() {
           </TableBody>
         </Table>
       </section>
+      <BackToTop />
       <SuccessDeleteLinkModal />
       <ConfirmDeleteLinkModal />
     </>
