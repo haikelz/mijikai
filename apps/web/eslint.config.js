@@ -1,7 +1,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  ignorePatterns: ["apps/**", "packages/**"],
-  extends: ["@mijikai/eslint-config/library.js"],
+  root: true,
+  extends: ["@mijikai/eslint-config/next.js"],
   parserOptions: {
     project: true,
   },
