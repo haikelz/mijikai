@@ -22,7 +22,7 @@
 
 ![ss 4](static/docs/ss-4.png)
 
-![ss 5](public/docs/ss-5.png)
+![ss 5](static/docs/ss-5.png)
 
 ![ss 6](static/docs/ss-6.png)
 
