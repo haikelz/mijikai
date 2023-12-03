@@ -1,10 +1,10 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ChildrenProps } from "@types";
 import { Provider } from "jotai";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import { ChildrenProps } from "~types";
 
 export default function Wrapper({ children }: ChildrenProps) {
   const queryClient: QueryClient = new QueryClient();

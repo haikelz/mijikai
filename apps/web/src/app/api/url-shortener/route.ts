@@ -1,8 +1,8 @@
+import { ShortenedUrlProps } from "@types";
 import { customAlphabet } from "nanoid";
 import { Session, getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { db } from "~lib/utils/db";
-import { ShortenedUrlProps } from "~types";
 
 import { options } from "../auth/[...nextauth]/options";
 

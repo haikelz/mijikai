@@ -1,5 +1,5 @@
+import { ChildrenProps } from "@types";
 import { tw } from "~lib/helpers";
-import { ChildrenProps } from "~types";
 
 export default function UsersLinkListLayout({ children }: ChildrenProps) {
   return (

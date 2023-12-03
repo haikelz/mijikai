@@ -1,11 +1,11 @@
 "use client";
 
+import { ChildrenProps } from "@types";
 import { useAtom } from "jotai";
 import { HTMLAttributes, useRef } from "react";
 import { useClickOutside } from "~hooks";
 import { tw } from "~lib/helpers";
 import { isShowModalAtom } from "~store";
-import { ChildrenProps } from "~types";
 
 type ModalProps = ChildrenProps & HTMLAttributes<HTMLDivElement>;
 

@@ -1,6 +1,6 @@
+import { ChildrenProps } from "@types";
 import { HTMLAttributes } from "react";
 import { tw } from "~lib/helpers";
-import { ChildrenProps } from "~types";
 
 type HeadingProps = ChildrenProps & {
   as: "h1" | "h2" | "h3" | "h4";

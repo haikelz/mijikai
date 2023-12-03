@@ -4,5 +4,5 @@ cypress
 .husky
 .github
 .git
-apps/jadwal-sholat/cypress
-apps/jadwal-sholat/cypress.config.ts
+apps/web/cypress
+apps/web/cypress.config.ts

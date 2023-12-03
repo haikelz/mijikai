@@ -1,9 +1,9 @@
+import { ChildrenProps } from "@types";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
-import { ChildrenProps } from "~types";
 
 import "./globals.css";
 import Wrapper from "./wrapper";

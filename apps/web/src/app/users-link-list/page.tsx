@@ -1,3 +1,4 @@
+import { ShortenedUrlProps } from "@types";
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
@@ -18,7 +19,6 @@ import { replaceHttpsPrefix } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
-import { ShortenedUrlProps } from "~types";
 
 import {
   ConfirmDeleteLinkModal,

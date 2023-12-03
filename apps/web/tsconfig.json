@@ -1,30 +1,15 @@
 {
+  "extends": "@mijikai/typescript-config/nextjs.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "~*": [
-        "./src/*"
+        "src/*"
       ]
     }
   },
@@ -32,7 +17,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    "next.config.mjs",
+    ".next/types/**/*.ts",
+    "postcss.config.js"
   ],
   "exclude": [
     "node_modules"

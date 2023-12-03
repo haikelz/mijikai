@@ -6,6 +6,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import { ShortenedUrlProps } from "@types";
 import { atom, useAtom } from "jotai";
 import {
   CopyCheckIcon,
@@ -38,7 +39,6 @@ import {
   withoutCustomSlugSchema,
 } from "~lib/utils/schema";
 import { isShowModalAtom } from "~store";
-import { ShortenedUrlProps } from "~types";
 
 import ErrorClient from "./error-client";
 import LoadingClient from "./loading-client";

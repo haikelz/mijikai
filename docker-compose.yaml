@@ -5,11 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mijikai
+    container_name: web
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
-      - /app/apps/mijikai/node_modules
-      - /app/packages/eslint-config-custom/node_modules
+      - /app/apps/web/node_modules
+      - /app/packages/eslint-config/node_modules

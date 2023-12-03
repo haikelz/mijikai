@@ -1,6 +1,6 @@
+import { ShortenedUrlProps } from "@types";
 import Axios, { AxiosRequestConfig } from "axios";
 import { env } from "~env.mjs";
-import { ShortenedUrlProps } from "~types";
 
 const { NEXT_PUBLIC_DEVELOPMENT_URL, NEXT_PUBLIC_PRODUCTION_URL } = env;
 
