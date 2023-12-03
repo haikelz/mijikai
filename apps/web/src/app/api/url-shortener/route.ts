@@ -48,6 +48,7 @@ export async function POST(req: Request): PostOperationProps {
       }
     }
 
+    // insert data to supabase
     const { error } = await db.from("shortened_url").insert([
       {
         original_url: url,
@@ -94,6 +95,7 @@ export async function DELETE(req: Request): DeleteOperationProps {
   try {
     const { id } = await req.json();
 
+    // delete data based on id
     const { error } = await db.from("shortened_url").delete().eq("id", id);
 
     if (error) throw error;
