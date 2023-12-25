@@ -2,19 +2,20 @@ import { ShortenedUrlProps } from "@types";
 import Axios, { AxiosRequestConfig } from "axios";
 import { env } from "~env.mjs";
 
-const { NEXT_PUBLIC_DEVELOPMENT_URL, NEXT_PUBLIC_PRODUCTION_URL } = env;
+import { CONDITION } from "./constants";
 
-const condition = process.env.NODE_ENV;
+const { NEXT_PUBLIC_DEVELOPMENT_URL, NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 // axios base config
 const config: AxiosRequestConfig = {
   responseType: "json",
   baseURL:
-    condition === "development"
+    CONDITION === "development"
       ? NEXT_PUBLIC_DEVELOPMENT_URL
       : NEXT_PUBLIC_PRODUCTION_URL,
   headers: {
-    "content-type": "application/json",
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
 };
 

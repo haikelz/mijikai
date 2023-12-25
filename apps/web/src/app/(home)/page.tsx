@@ -10,7 +10,12 @@ import { Og } from "~lib/utils/enums";
 
 import HomeClient, { SignOut } from "./client";
 
-const SwitchTheme = dynamic(() => import("~components/ui/switch-theme"));
+const SwitchTheme = dynamic(() => import("~components/ui/switch-theme"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-10 h-10 bg-slate-300 animate-pulse dark:bg-slate-700 rounded-md"></div>
+  ),
+});
 
 export const revalidate = 60;
 
@@ -48,7 +53,7 @@ export const metadata: Metadata = {
 };
 
 // get total shortened URL
-async function getTotal(): Promise<number> {
+async function getTotalShortenedUrl(): Promise<number> {
   const { count, error } = await db.from("shortened_url").select("id", {
     count: "exact",
     head: true,
@@ -59,7 +64,7 @@ async function getTotal(): Promise<number> {
 }
 
 export default async function Home() {
-  const totalShortenedUrl = await getTotal();
+  const totalShortenedUrl = await getTotalShortenedUrl();
   const session = await getServerSession(options);
 
   return (
