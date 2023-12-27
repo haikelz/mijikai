@@ -2,9 +2,12 @@ import { ShortenedUrlProps } from "@types";
 import { customAlphabet } from "nanoid";
 import { Session, getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { env } from "~env.mjs";
 import { db } from "~lib/utils/db";
 
 import { options } from "../auth/[...nextauth]/options";
+
+const { NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 type PostOperationProps = Promise<
   | NextResponse<{
@@ -32,7 +35,7 @@ export async function POST(req: Request): PostOperationProps {
       const { data, error } = await db
         .from("shortened_url")
         .select("shortened_url")
-        .eq("shortened_url", `https://mijikai.space/${custom_slug}`);
+        .eq("shortened_url", `${NEXT_PUBLIC_PRODUCTION_URL}/${custom_slug}`);
 
       /**
        * Detect if custom_slug same as shortened_url from supabase
@@ -41,7 +44,8 @@ export async function POST(req: Request): PostOperationProps {
        */
       if (
         (data!.length &&
-          data![0].shortened_url === `https://mijikai.space/${custom_slug}`) ||
+          data![0].shortened_url ===
+            `${NEXT_PUBLIC_PRODUCTION_URL}/${custom_slug}`) ||
         error
       ) {
         throw error;
@@ -52,7 +56,7 @@ export async function POST(req: Request): PostOperationProps {
     const { error } = await db.from("shortened_url").insert([
       {
         original_url: url,
-        shortened_url: `https://mijikai.space/${
+        shortened_url: `${NEXT_PUBLIC_PRODUCTION_URL}/${
           is_custom_slug ? custom_slug : randomizedUrl
         }`,
         email: session.user.email,

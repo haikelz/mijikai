@@ -1,6 +1,7 @@
 import { ChildrenProps } from "@types";
 import { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { env } from "~env.mjs";
 import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
@@ -9,6 +10,8 @@ import "./globals.css";
 import Wrapper from "./wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const { NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 const baseMetadata = {
   title: "Mijikai",
@@ -36,7 +39,7 @@ export const metadata: Metadata = {
     url,
     title,
     description,
-    siteName: "mijikai.space",
+    siteName: NEXT_PUBLIC_PRODUCTION_URL,
     images: [
       {
         url: Og.DEFAULT_OG_URL,

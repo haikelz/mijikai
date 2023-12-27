@@ -3,12 +3,15 @@ import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import { Heading, Paragraph } from "~components/ui/typography";
+import { env } from "~env.mjs";
 import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 
 import HomeClient, { SignOut } from "./client";
+
+const { NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 const SwitchTheme = dynamic(() => import("~components/ui/switch-theme"), {
   ssr: false,
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     url,
     title,
     description,
-    siteName: "mijikai.space",
+    siteName: NEXT_PUBLIC_PRODUCTION_URL,
     images: [
       {
         url: Og.DEFAULT_OG_URL,

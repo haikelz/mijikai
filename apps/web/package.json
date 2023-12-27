@@ -5,7 +5,6 @@
   "private": true,
   "license": "Apache-2.0",
   "description": "Mijikai is a free shorten URL Website. No ads, no tracker!",
-  "homepage": "https://mijikai.space",
   "repository": {
     "type": "git",
     "url": "https://github.com/haikelz/mijikai"
