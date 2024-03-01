@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     url,
     title,
     description,
-    siteName: "mijikai-haikelz.vercel.app/users-link-list",
+    siteName: "mijikai.space/users-link-list",
     images: [
       {
         url: Og.DEFAULT_OG_URL,
