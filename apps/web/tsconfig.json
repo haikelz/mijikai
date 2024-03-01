@@ -1,5 +1,5 @@
 {
-  "extends": "@web/typescript-config/nextjs.json",
+  "extends": "@mijikai/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

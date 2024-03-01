@@ -8,9 +8,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@mijikai/eslint-config": "workspace:*",
+    "@mijikai/typescript-config": "workspace:*",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
-    "@web/eslint-config": "workspace:*",
-    "@web/typescript-config": "workspace:*",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.52.0",

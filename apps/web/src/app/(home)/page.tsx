@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 };
 
 // get total shortened URL
-async function getTotalShortenedUrl(): Promise<number> {
+async function getTotal(): Promise<number> {
   const { count, error } = await db.from("shortened_url").select("id", {
     count: "exact",
     head: true,
@@ -67,7 +67,7 @@ async function getTotalShortenedUrl(): Promise<number> {
 }
 
 export default async function Home() {
-  const totalShortenedUrl = await getTotalShortenedUrl();
+  const totalShortenedUrl = await getTotal();
   const session = await getServerSession(options);
 
   return (

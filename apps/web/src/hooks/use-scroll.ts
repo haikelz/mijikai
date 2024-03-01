@@ -1,14 +1,15 @@
 "use client";
 
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
-import { scrollAtom } from "~store";
+
+const scrollAtom = atom<number>(0);
 
 /**
  * A custom hook to detect browser height based on user's scroll
  * @returns {number} scroll - scroll value
  */
-export function useScroll(): number {
+export function useScroll() {
   const [scroll, setScroll] = useAtom(scrollAtom);
 
   const handleScroll = useCallback(() => {

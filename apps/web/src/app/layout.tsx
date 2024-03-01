@@ -1,5 +1,5 @@
 import { ChildrenProps } from "@types";
-import { Metadata, Viewport } from "next";
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { env } from "~env.mjs";
 import { tw } from "~lib/helpers";
@@ -54,12 +54,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   metadataBase: new URL(url),
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: ChildrenProps) {

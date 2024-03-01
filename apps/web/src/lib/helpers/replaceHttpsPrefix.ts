@@ -3,5 +3,6 @@
  * @param {string} str
  * @return {string} replaced https string
  */
-export const replaceHttpsPrefix = (str: string): string =>
-  str.replace(/^https?\:\/\//gi, "");
+export function replaceHttpsPrefix(str: string): string {
+  return str.replace(/^https?\:\/\//gi, "");
+}

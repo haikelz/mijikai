@@ -129,7 +129,6 @@ export default async function UsersLinkList() {
                 width={40}
                 height={40}
                 draggable={false}
-                fetchPriority="high"
               />
             </div>
           </div>
