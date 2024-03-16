@@ -10,7 +10,7 @@ import {
 } from "~components/ui/dropdown";
 import { tw } from "~lib/helpers";
 
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 export default function SwitchTheme() {
   const { setTheme } = useTheme();
@@ -36,19 +36,19 @@ export default function SwitchTheme() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
-          className="font-medium"
+          className="font-semibold"
           onClick={() => setTheme("light")}
         >
           Light
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="font-medium"
+          className="font-semibold"
           onClick={() => setTheme("dark")}
         >
           Dark
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="font-medium"
+          className="font-semibold"
           onClick={() => setTheme("system")}
         >
           System

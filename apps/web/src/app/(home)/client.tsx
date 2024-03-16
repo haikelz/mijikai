@@ -8,28 +8,18 @@ import {
 } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
 import { atom, useAtom } from "jotai";
-import {
-  CopyCheckIcon,
-  CopyIcon,
-  GithubIcon,
-  InfoIcon,
-  QrCodeIcon,
-} from "lucide-react";
+import { CopyCheckIcon, CopyIcon, GithubIcon, QrCodeIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useClipboard } from "use-clipboard-copy";
+import Info from "~components/info";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Input } from "~components/ui/input";
 import { Label } from "~components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "~components/ui/radio";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
@@ -112,20 +102,11 @@ export default function HomeClient({ session }: { session: Session | null }) {
               <Label htmlFor="option-custom" className="font-bold">
                 Custom
               </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button type="button" aria-label="info icon button">
-                    <InfoIcon size={16} />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <Paragraph className="font-medium">
-                    You can custom your slug, with any name!{" "}
-                    <span className="font-bold">Limitation:</span> you can't
-                    input the name that already used, or it will produce error!
-                  </Paragraph>
-                </PopoverContent>
-              </Popover>
+              <Info size="sm">
+                You can custom your slug, with any name!{" "}
+                <span className="font-semibold">Limitation:</span> you can't
+                input the name that already used, or it will produce error!
+              </Info>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem
@@ -240,7 +221,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
                   className="space-x-2.5 font-bold"
                   onClick={() =>
                     clipboard.copy(
-                      `$https://mijikai.space/${detail.data.shortened_url}`
+                      `https://mijikai.space/${detail.data.shortened_url}`
                     )
                   }
                 >

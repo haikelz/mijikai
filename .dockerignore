@@ -6,3 +6,5 @@ cypress
 .git
 apps/web/cypress
 apps/web/cypress.config.ts
+apps/web/node_modules
+apps/web/.next
