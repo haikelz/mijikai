@@ -32,12 +32,8 @@ export function ConfirmDeleteLinkModal() {
     mutate(idLink);
 
     setIsShowModal(false);
-
-    setTimeout(() => {
-      setIsSuccessDelete(false);
-    }, 2000);
-
     setIsSuccessDelete(true);
+
     window.location.reload();
   }
 
@@ -47,7 +43,7 @@ export function ConfirmDeleteLinkModal() {
         <Modal data-cy="confirm-delete-link-modal">
           <div className="flex justify-center items-center flex-col">
             <Paragraph className="text-xl font-bold">
-              You want to delete this link?
+              Are you sure you want to delete this link?
             </Paragraph>
             <div className="flex justify-center items-center mt-3 space-x-3 w-full">
               <Button

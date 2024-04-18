@@ -141,32 +141,34 @@ export default function HomeClient({ session }: { session: Session | null }) {
                 </p>
               ) : null}
             </div>
-            {isCustomSlug ? (
-              <div>
-                <div className="flex justify-center items-center">
-                  <div className="px-3 py-2 rounded-l-md bg-slate-300 dark:bg-slate-800">
-                    <Paragraph className="font-bold">Slug</Paragraph>
+            <div>
+              {isCustomSlug ? (
+                <>
+                  <div className="flex justify-center items-center">
+                    <div className="px-3 py-2 rounded-l-md bg-slate-300 dark:bg-slate-800">
+                      <Paragraph className="font-bold">Slug</Paragraph>
+                    </div>
+                    <Input
+                      {...register("custom_slug", { required: true })}
+                      type="text"
+                      name="custom_slug"
+                    />
                   </div>
-                  <Input
-                    {...register("custom_slug", { required: true })}
-                    type="text"
-                    name="custom_slug"
-                  />
-                </div>
-                {errors.custom_slug ? (
-                  <p className="mt-2 font-semibold">
-                    {errors.custom_slug.message}
-                  </p>
-                ) : null}
-                <Button
-                  type="submit"
-                  aria-label="submit"
-                  className="mt-5 font-bold"
-                >
-                  Submit
-                </Button>
-              </div>
-            ) : null}
+                  {errors.custom_slug ? (
+                    <p className="mt-2 font-semibold">
+                      {errors.custom_slug.message}
+                    </p>
+                  ) : null}
+                </>
+              ) : null}
+              <Button
+                type="submit"
+                aria-label="submit"
+                className="mt-5 font-bold"
+              >
+                Submit
+              </Button>
+            </div>
           </form>
         </>
       ) : null}

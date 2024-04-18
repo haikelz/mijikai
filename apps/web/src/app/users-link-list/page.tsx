@@ -103,7 +103,6 @@ export default async function UsersLinkList() {
   if (!session) return redirect("/");
 
   const usersLinkList = await getUsersLinkList(session.user.email);
-
   const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
 
   return (
@@ -120,17 +119,15 @@ export default async function UsersLinkList() {
               Your Link List
             </Heading>
             {/** User's image */}
-            <div className="rounded-full border-2 overflow-hidden border-destructive cursor-pointer">
-              <Image
-                data-cy="user-image"
-                className="rounded-full transition-all hover:scale-110"
-                src={session.user.image ?? "/images/no-image.jpeg"}
-                alt={session.user.name}
-                width={40}
-                height={40}
-                draggable={false}
-              />
-            </div>
+            <Image
+              data-cy="user-image"
+              className="rounded-full"
+              src={session.user.image ?? "/images/no-image.jpeg"}
+              alt={session.user.name}
+              width={40}
+              height={40}
+              draggable={false}
+            />
           </div>
           <p data-cy="user-email" className="font-medium mt-2">
             {session.user.email}
