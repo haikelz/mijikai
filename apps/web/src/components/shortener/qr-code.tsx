@@ -1,9 +1,9 @@
 import { QRCodeSVG } from "qrcode.react";
 
-import { Modal } from "./ui/modal";
-import { Heading } from "./ui/typography";
+import { Modal } from "../ui/modal";
+import { Heading } from "../ui/typography";
 
-export default function QrCode({ url }: { url: string }) {
+export function QrCode({ url }: { url: string }) {
   return (
     <Modal>
       <div>

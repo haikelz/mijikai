@@ -1,41 +1,24 @@
-import { ShortenedUrlProps } from "@types";
 import { customAlphabet } from "nanoid";
 import { Session, getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { env } from "~env.mjs";
 import { db } from "~lib/utils/db";
 
+import { ALPHABET_AND_NUMBER, SITE_URL } from "~lib/utils/constants";
 import { options } from "../auth/[...nextauth]/options";
 
-const { NEXT_PUBLIC_PRODUCTION_URL } = env;
-
-type PostOperationProps = Promise<
-  | NextResponse<{
-      status: string;
-      data: Omit<
-        ShortenedUrlProps,
-        "id" | "created_at" | "image" | "name" | "email"
-      >;
-    }>
-  | NextResponse<{
-      message: string;
-      err: unknown;
-    }>
->;
-
-export async function POST(req: Request): PostOperationProps {
+export async function POST(req: Request) {
   try {
     const session = (await getServerSession(options)) as Session;
     const { url, custom_slug, is_custom_slug } = await req.json();
 
-    const customUrl = customAlphabet("abcdefghijklmnopqrstuvwxyz123456789", 5);
+    const customUrl = customAlphabet(ALPHABET_AND_NUMBER, 5);
     const randomizedUrl = customUrl();
 
     if (is_custom_slug) {
       const { data, error } = await db
         .from("shortened_url")
         .select("shortened_url")
-        .eq("shortened_url", `${NEXT_PUBLIC_PRODUCTION_URL}/${custom_slug}`);
+        .eq("shortened_url", `${SITE_URL}/${custom_slug}`);
 
       /**
        * Detect if custom_slug same as shortened_url from supabase
@@ -44,11 +27,16 @@ export async function POST(req: Request): PostOperationProps {
        */
       if (
         (data!.length &&
-          data![0].shortened_url ===
-            `${NEXT_PUBLIC_PRODUCTION_URL}/${custom_slug}`) ||
+          data![0].shortened_url === `${SITE_URL}/${custom_slug}`) ||
         error
       ) {
-        throw error;
+        return NextResponse.json(
+          {
+            status: "BAD REQUEST!",
+            message: "Failed to shorten URL, found the same custom slug!",
+          },
+          { status: 400 }
+        );
       }
     }
 
@@ -56,7 +44,7 @@ export async function POST(req: Request): PostOperationProps {
     const { error } = await db.from("shortened_url").insert([
       {
         original_url: url,
-        shortened_url: `${NEXT_PUBLIC_PRODUCTION_URL}/${
+        shortened_url: `${SITE_URL}/${
           is_custom_slug ? custom_slug : randomizedUrl
         }`,
         email: session.user.email,
@@ -65,11 +53,20 @@ export async function POST(req: Request): PostOperationProps {
       },
     ]);
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json(
+        {
+          status: "BAD REQUEST!",
+          message: "Failed to shorten URL, bad request!",
+        },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json(
       {
         status: "SUCCESS!",
+        message: "Success shorten URL!",
         data: {
           original_url: url,
           shortened_url: is_custom_slug ? custom_slug : randomizedUrl,
@@ -79,23 +76,16 @@ export async function POST(req: Request): PostOperationProps {
     );
   } catch (err) {
     return NextResponse.json(
-      { message: `Failed to do POST Operation, server error!`, err },
+      {
+        status: "SERVER ERROR!",
+        message: `Failed to do POST Operation, server error!`,
+      },
       { status: 500 }
     );
   }
 }
 
-type DeleteOperationProps = Promise<
-  | NextResponse<{
-      status: string;
-    }>
-  | NextResponse<{
-      message: string;
-      err: unknown;
-    }>
->;
-
-export async function DELETE(req: Request): DeleteOperationProps {
+export async function DELETE(req: Request) {
   try {
     const { id } = await req.json();
 
@@ -107,12 +97,16 @@ export async function DELETE(req: Request): DeleteOperationProps {
     return NextResponse.json(
       {
         status: "SUCCESS!",
+        message: "Success delete specified URL!",
       },
       { status: 200 }
     );
   } catch (err) {
     return NextResponse.json(
-      { message: `Failed to do DELETE Operation, server error!`, err },
+      {
+        status: "SERVER ERROR!",
+        message: `Failed to do DELETE Operation, server error!`,
+      },
       { status: 500 }
     );
   }

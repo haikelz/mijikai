@@ -3,9 +3,9 @@
 import { ArrowUpIcon } from "lucide-react";
 import { useScroll } from "~hooks";
 
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-export default function BackToTop() {
+export function BackToTop() {
   const scroll = useScroll();
 
   return (

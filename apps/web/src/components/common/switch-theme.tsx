@@ -10,9 +10,9 @@ import {
 } from "~components/ui/dropdown";
 import { tw } from "~lib/helpers";
 
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-export default function SwitchTheme() {
+export function SwitchTheme() {
   const { setTheme } = useTheme();
 
   return (

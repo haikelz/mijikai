@@ -2,31 +2,26 @@ import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { options } from "~app/api/auth/[...nextauth]/options";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~components/ui/table";
 import { Heading } from "~components/ui/typography";
-import { replaceHttpsPrefix } from "~lib/helpers";
+import { TableLinkList } from "~components/users-link-list/table-link-list";
 import { SITE_URL } from "~lib/utils/constants";
-import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 
-import { ShortenedUrlProps } from "@types";
-import {
-  ConfirmDeleteLinkModal,
-  DeleteLinkButton,
-  SuccessDeleteLinkModal,
-} from "./client";
-
-const BackToTop = dynamic(() => import("~components/back-to-top"));
+const ModalConfirmDeleteLink = dynamic(() =>
+  import("~components/users-link-list/modal-confirm-delete-link").then(
+    (comp) => comp.ModalConfirmDeleteLink
+  )
+);
+const ModalSuccessDeleteLink = dynamic(() =>
+  import("~components/users-link-list/modal-success-delete-link").then(
+    (comp) => comp.ModalSuccessDeleteLink
+  )
+);
+const BackToTop = dynamic(() =>
+  import("~components/common/back-to-top").then((comp) => comp.BackToTop)
+);
 
 const baseMetadata = {
   title: "Users Link List",
@@ -61,47 +56,10 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
 };
 
-// get users link list from supabase
-async function getUsersLinkList(email: string): Promise<ShortenedUrlProps[]> {
-  const { data, error } = await db
-    .from("shortened_url")
-    .select("id, email, shortened_url, original_url, image, name")
-    .eq("email", email);
-
-  if (error) throw error;
-  return data as ShortenedUrlProps[];
-}
-
-const tableHeadData: Array<{ id: number; content: string }> = [
-  {
-    id: 1,
-    content: "Email",
-  },
-  {
-    id: 2,
-    content: "Name",
-  },
-  {
-    id: 3,
-    content: "Original URL",
-  },
-  {
-    id: 4,
-    content: "Shortened URL",
-  },
-  {
-    id: 5,
-    content: "Actions",
-  },
-];
-
 export default async function UsersLinkList() {
   const session = (await getServerSession(options)) as Session;
 
   if (!session) return redirect("/");
-
-  const usersLinkList = await getUsersLinkList(session.user.email);
-  const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
 
   return (
     <>
@@ -132,73 +90,11 @@ export default async function UsersLinkList() {
           </p>
         </div>
         {/** Table of data */}
-        <Table className="mt-8">
-          <TableHeader>
-            <TableRow>
-              {tableHeadData.map((item) => (
-                <TableHead key={item.id} className="font-bold">
-                  {item.content}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {usersLinkList.length ? (
-              usersLinkList.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell data-cy="table-email" className="font-medium">
-                    {item.email}
-                  </TableCell>
-                  <TableCell data-cy="table-name" className="font-medium">
-                    {item.name}
-                  </TableCell>
-                  <TableCell
-                    data-cy="table-original-url"
-                    className="font-bold underline underline-offset-2"
-                  >
-                    <Link
-                      href={item.original_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {replaceHttpsPrefix(item.original_url)}
-                    </Link>
-                  </TableCell>
-                  <TableCell
-                    data-cy="table-shortened-url"
-                    className="font-bold underline underline-offset-2"
-                  >
-                    <Link
-                      href={item.shortened_url}
-                      target="_blank"
-                      rel="noreferreer noopener"
-                    >
-                      {replaceHttpsPrefix(item.shortened_url)}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <DeleteLinkButton
-                      data-cy="delete-link-button"
-                      id={item.id}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                {tableBodyNoData.map((item) => (
-                  <TableCell key={item} className="font-medium">
-                    No data
-                  </TableCell>
-                ))}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+        <TableLinkList />
       </section>
       <BackToTop />
-      <SuccessDeleteLinkModal />
-      <ConfirmDeleteLinkModal />
+      <ModalSuccessDeleteLink />
+      <ModalConfirmDeleteLink />
     </>
   );
 }

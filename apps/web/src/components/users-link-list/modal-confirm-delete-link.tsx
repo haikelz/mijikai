@@ -1,5 +1,3 @@
-"use client";
-
 import {
   QueryClient,
   useMutation,
@@ -9,11 +7,10 @@ import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Button } from "~components/ui/button";
 import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
-import { tw } from "~lib/helpers";
-import { deleteData } from "~lib/utils/axios-config";
+import { deleteUrl } from "~services";
 import { idLinkAtom, isShowModalAtom, isSuccessDeleteLinkAtom } from "~store";
 
-export function ConfirmDeleteLinkModal() {
+export function ModalConfirmDeleteLink() {
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
 
   const idLink = useAtomValue(idLinkAtom);
@@ -21,20 +18,18 @@ export function ConfirmDeleteLinkModal() {
 
   const queryClient: QueryClient = useQueryClient();
 
-  const { mutate } = useMutation({
-    mutationFn: deleteData,
+  const deleteMutation = useMutation({
+    mutationFn: async () => await deleteUrl(idLink),
     mutationKey: [idLink],
     onSuccess: () =>
       queryClient.refetchQueries({ queryKey: [idLink], exact: true }),
   });
 
-  function handleDelete() {
-    mutate(idLink);
-
-    setIsShowModal(false);
-    setIsSuccessDelete(true);
-
-    window.location.reload();
+  async function handleDelete() {
+    await deleteMutation.mutateAsync().then(() => {
+      setIsShowModal(false);
+      setIsSuccessDelete(true);
+    });
   }
 
   return (
@@ -67,56 +62,6 @@ export function ConfirmDeleteLinkModal() {
             </div>
           </div>
         </Modal>
-      ) : null}
-    </>
-  );
-}
-
-export function DeleteLinkButton({ id }: { id: number }) {
-  const setIdLink = useSetAtom(idLinkAtom);
-
-  const setConfirmDeleteLink = useSetAtom(isShowModalAtom);
-
-  function handleClick() {
-    setConfirmDeleteLink(true);
-    setIdLink(id);
-  }
-
-  return (
-    <Button
-      data-cy="confirm-delete-link-button"
-      type="button"
-      aria-label="confirm delete link"
-      onClick={handleClick}
-      variant="destructive"
-      className="font-bold"
-    >
-      Delete
-    </Button>
-  );
-}
-
-export function SuccessDeleteLinkModal() {
-  const isSuccessDeleteLink = useAtomValue(isSuccessDeleteLinkAtom);
-
-  return (
-    <>
-      {isSuccessDeleteLink ? (
-        <div
-          data-cy="success-delete-link-modal"
-          className={tw(
-            "fixed z-10 inset-0 w-full h-full min-h-screen backdrop-blur-md",
-            "flex bg-black/70 justify-center items-center"
-          )}
-        >
-          <div className="bg-card rounded-md p-6 shadow-md">
-            <div className="flex justify-center items-center flex-col">
-              <Paragraph className="font-bold text-xl">
-                Success delete Link!
-              </Paragraph>
-            </div>
-          </div>
-        </div>
       ) : null}
     </>
   );

@@ -8,3 +8,5 @@ export const SITE_URL =
   CONDITION === "development"
     ? "http://localhost:3000"
     : NEXT_PUBLIC_PRODUCTION_URL;
+
+export const ALPHABET_AND_NUMBER = "abcdefghijklmnopqrstuvwxyz1234567890";

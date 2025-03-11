@@ -1,6 +1,6 @@
 import { Heading, Paragraph } from "~components/ui/typography";
 
-export default function ErrorClient() {
+export function ErrorClient() {
   return (
     <div className="w-full text-left mt-2">
       <Heading as="h2">Error!</Heading>

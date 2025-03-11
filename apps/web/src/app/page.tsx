@@ -3,23 +3,29 @@ import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { options } from "~app/api/auth/[...nextauth]/options";
-import Info from "~components/info";
 import { Heading, Paragraph } from "~components/ui/typography";
 import { env } from "~env.mjs";
 import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
-import { db } from "~lib/utils/db";
 import { Og } from "~lib/utils/enums";
 
-import HomeClient, { SignOut } from "./client";
+import { List } from "lucide-react";
+import { Info } from "~components/common/info";
+import { FormShortener, SignOut } from "~components/shortener/form-shortener";
+import { Button } from "~components/ui/button";
+import { getTotal, getUserTotal } from "./actions";
 
 const { NEXT_PUBLIC_PRODUCTION_URL } = env;
 
-const SwitchTheme = dynamic(() => import("~components/switch-theme"), {
-  loading: () => (
-    <div className="w-10 h-10 bg-slate-300 animate-pulse dark:bg-slate-700 rounded-md"></div>
-  ),
-});
+const SwitchTheme = dynamic(
+  () =>
+    import("~components/common/switch-theme").then((comp) => comp.SwitchTheme),
+  {
+    loading: () => (
+      <div className="w-10 h-10 bg-slate-300 animate-pulse dark:bg-slate-700 rounded-md"></div>
+    ),
+  }
+);
 
 export const revalidate = 60;
 
@@ -56,29 +62,6 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
 };
 
-// get total shortened URL
-async function getTotal(): Promise<number> {
-  const { count, error } = await db
-    .from("shortened_url")
-    .select("original_url", {
-      count: "exact",
-      head: true,
-    });
-
-  if (error) throw error;
-  return count as number;
-}
-
-async function getUserTotal(email: string): Promise<number> {
-  const { count, error } = await db
-    .from("shortened_url")
-    .select("original_url", { count: "exact", head: true })
-    .eq("email", email);
-
-  if (error) throw error;
-  return count as number;
-}
-
 export default async function Home() {
   const session = await getServerSession(options);
   const totalShortenedUrl = await getTotal();
@@ -101,6 +84,11 @@ export default async function Home() {
               Mijikai / 短い
             </Heading>
             <div className="flex justify-center items-center space-x-2">
+              <Link href="/users-link-list">
+                <Button size="icon" variant="outline">
+                  <List />
+                </Button>
+              </Link>
               <Info size="icon">
                 This service is under{" "}
                 <Link
@@ -144,7 +132,7 @@ export default async function Home() {
               </>
             ) : null}
           </Paragraph>
-          <HomeClient session={session} />
+          <FormShortener session={session} />
         </div>
       </section>
     </main>

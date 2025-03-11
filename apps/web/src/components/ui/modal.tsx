@@ -14,7 +14,7 @@ export function Modal({ children, ...props }: ModalProps) {
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(setIsShowModal, modalRef);
+  useClickOutside(setIsShowModal, modalRef as any);
 
   return (
     <>

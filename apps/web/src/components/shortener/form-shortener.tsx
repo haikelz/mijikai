@@ -15,7 +15,9 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useClipboard } from "use-clipboard-copy";
-import Info from "~components/info";
+import { Info } from "~components/common/info";
+import { ErrorClient } from "~components/react-query/error-client";
+import { LoadingClient } from "~components/react-query/loading-client";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Input } from "~components/ui/input";
@@ -23,17 +25,16 @@ import { Label } from "~components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~components/ui/radio";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
-import { postData } from "~lib/utils/axios-config";
 import {
   withCustomSlugSchema,
   withoutCustomSlugSchema,
 } from "~lib/utils/schema";
+import { createNewUrl } from "~services";
 import { isShowModalAtom } from "~store";
 
-import ErrorClient from "./error-client";
-import LoadingClient from "./loading-client";
-
-const QrCode = dynamic(() => import("~components/qr-code"));
+const QrCode = dynamic(() =>
+  import("~components/shortener/qr-code").then((comp) => comp.QrCode)
+);
 
 const isGenerateQrCodeAtom = atom<boolean>(false);
 const isCustomSlugAtom = atom<boolean>(true);
@@ -42,7 +43,7 @@ type DataProps = {
   data: ShortenedUrlProps;
 };
 
-export default function HomeClient({ session }: { session: Session | null }) {
+export function FormShortener({ session }: { session: Session | null }) {
   const [isCustomSlug, setIsCustomSlug] = useAtom(isCustomSlugAtom);
   const [isGenerateQrCode, setIsGenerateQrCode] = useAtom(isGenerateQrCodeAtom);
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
@@ -63,25 +64,26 @@ export default function HomeClient({ session }: { session: Session | null }) {
     ),
   });
 
-  const { data, isPending, isError, mutate } = useMutation({
-    mutationFn: postData,
+  const createNewUrlMutation = useMutation({
+    mutationFn: async () =>
+      await createNewUrl({
+        url: getValues("original_url"),
+        custom_slug: getValues("custom_slug"),
+        is_custom_slug: isCustomSlug,
+      }),
     mutationKey: ["post-data"],
     onSuccess: () => queryClient.invalidateQueries(),
   });
 
-  function onSubmit() {
+  async function onSubmit() {
     // submit custom slug or random slug
-    mutate({
-      url: getValues("original_url"),
-      custom_slug: getValues("custom_slug"),
-      is_custom_slug: isCustomSlug,
-    });
+    await createNewUrlMutation.mutateAsync();
   }
 
-  const detail = data as DataProps;
+  const detail = createNewUrlMutation.data as DataProps;
 
-  if (isPending) return <LoadingClient />;
-  if (isError) return <ErrorClient />;
+  if (createNewUrlMutation.isPending) return <LoadingClient />;
+  if (createNewUrlMutation.isError) return <ErrorClient />;
 
   return (
     <div>
@@ -203,7 +205,7 @@ export default function HomeClient({ session }: { session: Session | null }) {
         </>
       ) : null}
       {session ? (
-        data ? (
+        createNewUrlMutation.data ? (
           <>
             <div className="flex flex-col mt-3 justify-start items-start">
               <Paragraph>Result:</Paragraph>

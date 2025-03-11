@@ -6,6 +6,7 @@ import { tw } from "~lib/helpers";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
 
+import { Toaster } from "~components/ui/sonner";
 import "./globals.css";
 import Wrapper from "./wrapper";
 
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: ChildrenProps) {
     <html lang="en" suppressHydrationWarning>
       <body className={tw(inter.className)}>
         <Wrapper>{children}</Wrapper>
+        <Toaster />
       </body>
     </html>
   );

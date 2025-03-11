@@ -1,13 +1,13 @@
 import { ChildrenProps } from "@types";
 import { InfoIcon } from "lucide-react";
 
-import { Button } from "./ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Paragraph } from "./ui/typography";
+import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Paragraph } from "../ui/typography";
 
 type InfoProps = ChildrenProps & { size: "icon" | "sm" };
 
-export default function Info({ children, size }: InfoProps) {
+export function Info({ children, size }: InfoProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
