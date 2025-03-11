@@ -31,3 +31,8 @@ export async function deleteUrl(id: number): Promise<void> {
     data: { id: id },
   });
 }
+
+export async function getUsersLinkList() {
+  const response = await axiosClient.get("/api/users-link-list");
+  return response.data;
+}

@@ -1,15 +1,27 @@
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "~lib/utils/db";
+import { options } from "../auth/[...nextauth]/options";
 
 export async function GET(req: NextRequest) {
   try {
-    const { email } = await req.json();
+    const session = await getServerSession(options);
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          status: "UNAUTHORIZED",
+          message: "Unauthorized!",
+        },
+        { status: 401 }
+      );
+    }
 
     // get users link list from supabase
     const { data, error } = await db
       .from("shortened_url")
       .select("id, email, shortened_url, original_url, image, name")
-      .eq("email", email);
+      .eq("email", session.user.email);
 
     if (error) {
       return NextResponse.json(

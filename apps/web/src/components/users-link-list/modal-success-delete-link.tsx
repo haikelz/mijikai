@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtomValue } from "jotai";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";

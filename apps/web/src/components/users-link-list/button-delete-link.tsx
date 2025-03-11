@@ -1,3 +1,5 @@
+"use client";
+
 import { useSetAtom } from "jotai";
 import { Button } from "~components/ui/button";
 import { idLinkAtom, isShowModalAtom } from "~store";

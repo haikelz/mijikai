@@ -8,17 +8,17 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@mijikai/eslint-config": "workspace:*",
+    "@biomejs/biome": "^1.9.4",
     "@mijikai/typescript-config": "workspace:*",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "commitizen": "^4.3.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.0.0",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
-    "prettier": "^3.2.5",
-    "turbo": "^1.13.2"
+    "eslint": "^9.22.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.10.0",
   "engines": {
     "node": ">=18"
   },
