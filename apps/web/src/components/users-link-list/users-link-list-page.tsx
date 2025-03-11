@@ -58,7 +58,7 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
     refetchOnReconnect: false,
   });
 
-  if (isPending)
+  if ((!data && isError) || isPending)
     return (
       <section
         data-cy="loading-users-link-list"
@@ -81,7 +81,7 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
         </div>
       </section>
     );
-  if (isError) return <ErrorClient />;
+  if (isError || typeof data.data === "undefined") return <ErrorClient />;
 
   const usersLinkList = data.data as ShortenedUrlProps[];
 

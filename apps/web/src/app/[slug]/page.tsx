@@ -9,7 +9,7 @@ type SlugProps = {
 export async function generateStaticParams({
   params: { slug },
 }: SlugProps): Promise<[{ slug: string }]> {
-  return [{ slug }];
+  return [{ slug: slug ?? "" }];
 }
 
 export default function SlugPage() {
