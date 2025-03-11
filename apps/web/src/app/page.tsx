@@ -91,20 +91,22 @@ export default async function Home() {
               Mijikai / 短い
             </Heading>
             <div className="flex justify-center items-center space-x-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Link href="/users-link-list">
-                      <Button size="icon" variant="outline">
-                        <List />
-                      </Button>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Your Link List</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              {session ? (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link href="/users-link-list">
+                        <Button size="icon" variant="outline">
+                          <List />
+                        </Button>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Your Link List</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ) : null}
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>

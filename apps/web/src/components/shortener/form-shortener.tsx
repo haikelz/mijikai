@@ -24,6 +24,7 @@ import { Label } from "~components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~components/ui/radio";
 import { Paragraph } from "~components/ui/typography";
 import { tw } from "~lib/helpers";
+import { SITE_URL } from "~lib/utils/constants";
 import {
   withCustomSlugSchema,
   withoutCustomSlugSchema,
@@ -220,7 +221,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                https://mijikai.space/{detail.data.shortened_url}
+                {SITE_URL}/{detail.data.shortened_url}
               </Link>
               <div className="flex items-center space-x-2 mt-3">
                 <Button
@@ -229,9 +230,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                   aria-label="copy to clipboard"
                   className="space-x-2.5 font-bold"
                   onClick={() =>
-                    clipboard.copy(
-                      `https://mijikai.space/${detail.data.shortened_url}`
-                    )
+                    clipboard.copy(`${SITE_URL}/${detail.data.shortened_url}`)
                   }
                 >
                   {clipboard.copied ? (
