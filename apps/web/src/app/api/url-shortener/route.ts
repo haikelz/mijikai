@@ -35,7 +35,9 @@ export async function POST(req: Request) {
             status: "BAD REQUEST!",
             message: "Failed to shorten URL, found the same custom slug!",
           },
-          { status: 400 }
+          {
+            status: 400,
+          }
         );
       }
     }

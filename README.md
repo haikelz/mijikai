@@ -28,12 +28,17 @@
 
 ![ss 7](static/docs/ss-7.png)
 
-## Tech Stack
+## Technologies
 
-- Next JS 13
+## Frontend
+
+- Next JS 15
 - Tailwind CSS with shadcn/ui
 - Jotai
 - React Query
+
+## Backend
+
 - Supabase
 
 ## Support

@@ -1,38 +1,17 @@
 "use client";
 
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { Button } from "~components/ui/button";
 import { Modal } from "~components/ui/modal";
 import { Paragraph } from "~components/ui/typography";
-import { deleteUrl } from "~services";
-import { idLinkAtom, isShowModalAtom, isSuccessDeleteLinkAtom } from "~store";
+import { isShowModalAtom } from "~store";
 
-export function ModalConfirmDeleteLink() {
+export function ModalConfirmDeleteLink({
+  handleDelete,
+}: {
+  handleDelete: () => Promise<void>;
+}) {
   const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
-
-  const idLink = useAtomValue(idLinkAtom);
-  const setIsSuccessDelete = useSetAtom(isSuccessDeleteLinkAtom);
-
-  const queryClient: QueryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: async () => await deleteUrl(idLink),
-    mutationKey: [idLink],
-    onSuccess: () =>
-      queryClient.refetchQueries({ queryKey: [idLink], exact: true }),
-  });
-
-  async function handleDelete() {
-    await deleteMutation.mutateAsync().then(() => {
-      setIsShowModal(false);
-      setIsSuccessDelete(true);
-    });
-  }
 
   return (
     <>

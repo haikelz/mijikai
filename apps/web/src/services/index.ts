@@ -15,7 +15,7 @@ export async function createNewUrl({
 }: PostDataProps): Promise<{ data: ShortenedUrlProps }> {
   const response = await axiosClient.post(
     "/api/url-shortener",
-    { url: url, custom_slug: custom_slug, is_custom_slug: is_custom_slug },
+    { url, custom_slug: custom_slug, is_custom_slug: is_custom_slug },
     {
       method: "POST",
     }

@@ -1,11 +1,9 @@
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { options } from "~app/api/auth/[...nextauth]/options";
-import { Heading } from "~components/ui/typography";
-import { TableLinkList } from "~components/users-link-list/table-link-list";
+import UsersLinkListPage from "~components/users-link-list/users-link-list-page";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
 
@@ -63,38 +61,7 @@ export default async function UsersLinkList() {
 
   return (
     <>
-      <section className="max-w-5xl w-full flex flex-col justify-center items-center">
-        <div className="text-center">
-          <div className="flex justify-center items-center space-x-3">
-            {/** Title */}
-            <Heading
-              data-cy="heading-users-link-list"
-              as="h2"
-              className="font-bold border-b-0 pb-0 tracking-normal"
-            >
-              Your Link List
-            </Heading>
-            {/** User's image */}
-            <Image
-              data-cy="user-image"
-              className="rounded-full"
-              src={session.user.image ?? "/images/no-image.jpeg"}
-              alt={session.user.name}
-              width={40}
-              height={40}
-              draggable={false}
-            />
-          </div>
-          <p data-cy="user-email" className="font-medium mt-2">
-            {session.user.email}
-          </p>
-        </div>
-        {/** Table of data */}
-        <TableLinkList />
-      </section>
-      <BackToTop />
-      <ModalSuccessDeleteLink />
-      <ModalConfirmDeleteLink />
+      <UsersLinkListPage session={session} />
     </>
   );
 }

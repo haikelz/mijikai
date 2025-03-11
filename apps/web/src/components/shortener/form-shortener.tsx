@@ -10,14 +10,13 @@ import { ShortenedUrlProps } from "@types";
 import { atom, useAtom } from "jotai";
 import { CopyCheckIcon, CopyIcon, GithubIcon, QrCodeIcon } from "lucide-react";
 import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useClipboard } from "use-clipboard-copy";
 import { Info } from "~components/common/info";
-import { ErrorClient } from "~components/react-query/error-client";
-import { LoadingClient } from "~components/react-query/loading-client";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Input } from "~components/ui/input";
@@ -38,6 +37,7 @@ const QrCode = dynamic(() =>
 
 const isGenerateQrCodeAtom = atom<boolean>(false);
 const isCustomSlugAtom = atom<boolean>(true);
+const radioDefaultValueAtom = atom<string>("option-custom");
 
 type DataProps = {
   data: ShortenedUrlProps;
@@ -56,9 +56,12 @@ export function FormShortener({ session }: { session: Session | null }) {
     getValues,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: { original_url: "", custom_slug: "" },
+    defaultValues: isCustomSlug
+      ? { original_url: "", custom_slug: "" }
+      : { original_url: "" },
     resolver: zodResolver(
       isCustomSlug ? withCustomSlugSchema : withoutCustomSlugSchema
     ),
@@ -68,22 +71,27 @@ export function FormShortener({ session }: { session: Session | null }) {
     mutationFn: async () =>
       await createNewUrl({
         url: getValues("original_url"),
-        custom_slug: getValues("custom_slug"),
+        custom_slug: getValues("custom_slug") as string,
         is_custom_slug: isCustomSlug,
       }),
     mutationKey: ["post-data"],
-    onSuccess: () => queryClient.invalidateQueries(),
+    onSuccess: async () => await queryClient.invalidateQueries(),
   });
 
   async function onSubmit() {
-    // submit custom slug or random slug
     await createNewUrlMutation.mutateAsync();
   }
 
   const detail = createNewUrlMutation.data as DataProps;
 
-  if (createNewUrlMutation.isPending) return <LoadingClient />;
-  if (createNewUrlMutation.isError) return <ErrorClient />;
+  if (createNewUrlMutation.isPending)
+    return (
+      <div className="w-full text-left mt-2 bg-gray-200 dark:bg-gray-700 rounded-md h-32 animate-pulse"></div>
+    );
+  if (createNewUrlMutation.isError) {
+    setValue("custom_slug", "");
+    toast(createNewUrlMutation.error.message);
+  }
 
   return (
     <div>
@@ -92,7 +100,7 @@ export function FormShortener({ session }: { session: Session | null }) {
           {/** Slug Options */}
           <Paragraph className="mt-2 font-bold">Choose slug options</Paragraph>
           <RadioGroup
-            defaultValue="option-custom"
+            defaultValue={isCustomSlug ? "option-custom" : "option-random"}
             className="flex space-x-4 items-center mt-2"
           >
             <div className="flex items-center space-x-2">
@@ -138,7 +146,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                 />
               </div>
               {errors.original_url ? (
-                <p className="mt-2 font-semibold">
+                <p className="mt-2 text-xs text-red-500">
                   {errors.original_url.message}{" "}
                 </p>
               ) : null}
@@ -157,7 +165,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                     />
                   </div>
                   {errors.custom_slug ? (
-                    <p className="mt-2 font-semibold">
+                    <p className="mt-2 text-xs text-red-500">
                       {errors.custom_slug.message}
                     </p>
                   ) : null}
@@ -269,19 +277,5 @@ export function FormShortener({ session }: { session: Session | null }) {
         ) : null
       ) : null}
     </div>
-  );
-}
-
-export function SignOut() {
-  return (
-    <button
-      data-cy="sign-out-button"
-      className="font-bold underline underline-offset-2"
-      type="button"
-      aria-label="sign out"
-      onClick={() => signOut()}
-    >
-      Click here.
-    </button>
   );
 }

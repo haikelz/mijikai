@@ -1,9 +1,5 @@
-"use client";
-
-import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
 import Link from "next/link";
-import { ErrorClient } from "~components/react-query/error-client";
 import {
   Table,
   TableBody,
@@ -13,7 +9,6 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { replaceHttpsPrefix } from "~lib/helpers";
-import { getUsersLinkList } from "~services";
 import { ButtonDeleteLink } from "./button-delete-link";
 
 const tableHeadData: Array<{ id: number; content: string }> = [
@@ -40,38 +35,12 @@ const tableHeadData: Array<{ id: number; content: string }> = [
 ];
 
 const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
-const arr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-export function TableLinkList() {
-  const { data, isError, isPending } = useQuery({
-    queryKey: ["get-users-link-list"],
-    queryFn: async () => await getUsersLinkList(),
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
-
-  if (isPending)
-    return (
-      <section
-        data-cy="loading-users-link-list"
-        className="max-w-5xl w-full flex flex-col justify-center items-center"
-      >
-        <div className="flex flex-col justify-center items-center w-full">
-          <div className="mt-8 w-full space-y-2">
-            {arr.map((item) => (
-              <div
-                key={item}
-                className="h-12 bg-slate-300 dark:bg-accent animate-pulse w-full"
-              ></div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  if (isError) return <ErrorClient />;
-
-  const usersLinkList = data.data as ShortenedUrlProps[];
-
+export function TableLinkList({
+  usersLinkList,
+}: {
+  usersLinkList: ShortenedUrlProps[];
+}) {
   return (
     <Table className="mt-8">
       <TableHeader>

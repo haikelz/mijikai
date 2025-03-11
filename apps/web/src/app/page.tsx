@@ -11,8 +11,15 @@ import { Og } from "~lib/utils/enums";
 
 import { List } from "lucide-react";
 import { Info } from "~components/common/info";
-import { FormShortener, SignOut } from "~components/shortener/form-shortener";
+import { FormShortener } from "~components/shortener/form-shortener";
+import { SignOutButton } from "~components/shortener/sign-out-button";
 import { Button } from "~components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~components/ui/tooltip";
 import { getTotal, getUserTotal } from "./actions";
 
 const { NEXT_PUBLIC_PRODUCTION_URL } = env;
@@ -84,33 +91,60 @@ export default async function Home() {
               Mijikai / 短い
             </Heading>
             <div className="flex justify-center items-center space-x-2">
-              <Link href="/users-link-list">
-                <Button size="icon" variant="outline">
-                  <List />
-                </Button>
-              </Link>
-              <Info size="icon">
-                This service is under{" "}
-                <Link
-                  href="https://github.com/haikelz/mijikai/blob/master/LICENSE"
-                  className="font-semibold underline underline-offset-2"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Apache 2.0 License
-                </Link>
-                . Crafted by{" "}
-                <Link
-                  href="https://github.com/haikelz"
-                  className="font-semibold underline underline-offset-2"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  Haikel
-                </Link>
-                .
-              </Info>
-              <SwitchTheme />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link href="/users-link-list">
+                      <Button size="icon" variant="outline">
+                        <List />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Your Link List</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Info size="icon">
+                      This service is under{" "}
+                      <Link
+                        href="https://github.com/haikelz/mijikai/blob/master/LICENSE"
+                        className="font-semibold underline underline-offset-2"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Apache 2.0 License
+                      </Link>
+                      . Crafted by{" "}
+                      <Link
+                        href="https://github.com/haikelz"
+                        className="font-semibold underline underline-offset-2"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Haikel
+                      </Link>
+                      .
+                    </Info>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Info</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <SwitchTheme />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Switch Theme</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
           {/** Description */}
@@ -128,7 +162,7 @@ export default async function Home() {
               : null}{" "}
             {session ? (
               <>
-                <span>Want to logout?</span> <SignOut />
+                <span>Want to logout?</span> <SignOutButton />
               </>
             ) : null}
           </Paragraph>
