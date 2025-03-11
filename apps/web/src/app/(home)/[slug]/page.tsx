@@ -6,9 +6,9 @@ type SlugProps = {
   };
 };
 
-export async function generateStaticParams(
-  { params: { slug } }: SlugProps
-): Promise<{ slug: string }[]> {
+export async function generateStaticParams({
+  params: { slug },
+}: SlugProps): Promise<[{ slug: string }]> {
   return [{ slug }];
 }
 

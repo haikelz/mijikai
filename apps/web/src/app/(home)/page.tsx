@@ -16,7 +16,6 @@ import HomeClient, { SignOut } from "./client";
 const { NEXT_PUBLIC_PRODUCTION_URL } = env;
 
 const SwitchTheme = dynamic(() => import("~components/switch-theme"), {
-  ssr: false,
   loading: () => (
     <div className="w-10 h-10 bg-slate-300 animate-pulse dark:bg-slate-700 rounded-md"></div>
   ),
@@ -111,8 +110,8 @@ export default async function Home() {
                   target="_blank"
                 >
                   Apache 2.0 License
-                </Link>.{" "}
-                Crafted by{" "}
+                </Link>
+                . Crafted by{" "}
                 <Link
                   href="https://github.com/haikelz"
                   className="font-semibold underline underline-offset-2"
@@ -120,7 +119,8 @@ export default async function Home() {
                   target="_blank"
                 >
                   Haikel
-                </Link>.
+                </Link>
+                .
               </Info>
               <SwitchTheme />
             </div>
