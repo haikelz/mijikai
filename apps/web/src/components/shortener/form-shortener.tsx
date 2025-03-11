@@ -14,9 +14,9 @@ import { signIn } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { useClipboard } from "use-clipboard-copy";
 import { Info } from "~components/common/info";
+import { ErrorClient } from "~components/react-query/error-client";
 import { Button } from "~components/ui/button";
 import { GoogleIcon } from "~components/ui/icons";
 import { Input } from "~components/ui/input";
@@ -88,10 +88,7 @@ export function FormShortener({ session }: { session: Session | null }) {
     return (
       <div className="w-full text-left mt-2 bg-gray-200 dark:bg-gray-700 rounded-md h-32 animate-pulse"></div>
     );
-  if (createNewUrlMutation.isError) {
-    setValue("custom_slug", "");
-    toast(createNewUrlMutation.error.message);
-  }
+  if (createNewUrlMutation.isError) return <ErrorClient />;
 
   return (
     <div>
