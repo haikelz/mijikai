@@ -9,6 +9,8 @@ export const env = createEnv({
     NEXT_PUBLIC_GOOGLE_SECRET: z.string().min(1),
     NEXTAUTH_SECRET: z.string().min(1),
     NEXTAUTH_URL: z.string().url().min(1),
+    ADMIN_EMAIL: z.string().email().min(1),
+    ADMIN_PASSWORD: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_DEVELOPMENT_URL: z.string().url().min(1),

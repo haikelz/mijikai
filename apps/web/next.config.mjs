@@ -24,6 +24,7 @@ const nextConfig = withPWA({
   },
   experimental: {
     webpackBuildWorker: true,
+    optimizePackageImports: ["@radix-ui/*"],
   },
 });
 

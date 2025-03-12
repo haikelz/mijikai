@@ -36,3 +36,11 @@ export async function getUsersLinkList() {
   const response = await axiosClient.get("/api/users-link-list");
   return response.data;
 }
+
+export async function loginAdmin(email: string, password: string) {
+  const response = await axiosClient.post("/api/auth/login-admin", {
+    email,
+    password,
+  });
+  return response.data;
+}

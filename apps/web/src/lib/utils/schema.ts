@@ -24,3 +24,10 @@ export const withCustomSlugSchema = withoutCustomSlugSchema.extend({
       message: "Please input only alphabet or number!",
     }),
 });
+
+export const loginAdminSchema = z.object({
+  email: z.string().email().min(1),
+  password: z
+    .string()
+    .min(6, { message: "Password harus sama atau lebih dengan 6 huruf!" }),
+});

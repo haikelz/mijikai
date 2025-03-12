@@ -38,7 +38,6 @@ const QrCode = dynamic(() =>
 
 const isGenerateQrCodeAtom = atom<boolean>(false);
 const isCustomSlugAtom = atom<boolean>(true);
-const radioDefaultValueAtom = atom<string>("option-custom");
 
 type DataProps = {
   data: ShortenedUrlProps;
@@ -57,7 +56,6 @@ export function FormShortener({ session }: { session: Session | null }) {
     getValues,
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: isCustomSlug
