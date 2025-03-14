@@ -33,7 +33,6 @@ const tableHeadData: Array<{ id: number; content: string }> = [
 const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
 
 export function TableUsers({ users }: { users: ShortenedUrlProps[] }) {
-  console.log(users);
   return (
     <Table>
       <TableHeader>

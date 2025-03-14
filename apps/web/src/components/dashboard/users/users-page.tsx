@@ -11,6 +11,7 @@ export default function DashboardAdminUsersPage() {
     queryFn: async () => await getAllUsers(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   if (isPending)

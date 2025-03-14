@@ -1,32 +1,17 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
-import { useAtomValue } from "jotai";
 import { TableLinks } from "~components/dashboard/links/table-links";
-import { deleteUrl, getAllLinks } from "~services";
-import { idLinkStringAtom } from "~store";
+import { getAllLinks } from "~services";
 
 export default function DashboardAdminLinksPage() {
-  const idLinkString = useAtomValue(idLinkStringAtom);
-
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: async () => await deleteUrl(idLinkString),
-    mutationKey: [idLinkString],
-    onSuccess: async () =>
-      await queryClient.invalidateQueries({
-        queryKey: [idLinkString],
-        exact: true,
-      }),
-  });
-
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["get-links"],
     queryFn: async () => await getAllLinks(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   if (isPending)

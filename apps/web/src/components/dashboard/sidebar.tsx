@@ -1,10 +1,12 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { ChildrenProps } from "@types";
-import { Home, LinkIcon, User } from "lucide-react";
+import { Home, LinkIcon, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
+import { toast } from "sonner";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -28,6 +30,7 @@ import {
   SidebarTrigger,
 } from "~components/ui/sidebar";
 import { tw } from "~lib/helpers";
+import { logoutAdmin } from "~services";
 
 const items = [
   {
@@ -54,6 +57,25 @@ export function DashboardSidebar({ children }: ChildrenProps) {
     .slice(1)
     .split("/")
     .map((item) => item[0].toUpperCase() + item.slice(1));
+
+  const logoutMutation = useMutation({
+    mutationKey: ["logout-admin"],
+    mutationFn: async () => await logoutAdmin(),
+    onSuccess: async (data) => {
+      toast(data.message, { closeButton: true });
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    },
+    onError: (data: any) => {
+      toast(data.response.data.message);
+    },
+  });
+
+  async function handleLogout() {
+    await logoutMutation.mutateAsync();
+  }
 
   return (
     <SidebarProvider>
@@ -85,6 +107,15 @@ export function DashboardSidebar({ children }: ChildrenProps) {
                     </SidebarMenuItem>
                   );
                 })}
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className={tw("hover:bg-red-500 hover:text-slate-50")}
+                    onClick={handleLogout}
+                  >
+                    <LogOut />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

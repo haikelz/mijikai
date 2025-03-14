@@ -10,6 +10,7 @@ export default function DashboardAdmin() {
     queryFn: async () => await getAllLinks(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   const users = useQuery({
@@ -17,12 +18,13 @@ export default function DashboardAdmin() {
     queryFn: async () => await getAllUsers(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="rounded-xl grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-        <div className="w-full md:col-span-2 space-x-6 bg-slate-100 dark:bg-gray-900 p-4 flex flex-col md:flex-row justify-start items-start">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+        <div className="w-full md:col-span-2 space-x-6 bg-slate-100 rounded-xl dark:bg-gray-900 p-4 flex flex-col md:flex-row justify-start items-start">
           <Image
             src="/images/no-image.jpeg"
             alt="emu otori"
@@ -40,7 +42,10 @@ export default function DashboardAdmin() {
           </div>
         </div>
         {users.isPending ? (
-          <div className="bg-slate-100 dark:bg-gray-900 h-20 p-4"></div>
+          <div className="bg-slate-100 dark:bg-gray-900 h-20 p-4 rounded-xl">
+            <h3 className="text-2xl font-bold">Total Users</h3>
+            <p className="text-lg mt-3">No data</p>
+          </div>
         ) : (
           <div className="bg-slate-100 dark:bg-gray-900 h-fit p-4 rounded-xl">
             <h3 className="text-2xl font-bold">Total Users</h3>
@@ -48,7 +53,10 @@ export default function DashboardAdmin() {
           </div>
         )}
         {links.isPending ? (
-          <div className="bg-slate-100 dark:bg-gray-900 h-20 p-4"></div>
+          <div className="bg-slate-100 dark:bg-gray-900 h-20 p-4 rounded-xl">
+            <h3 className="text-2xl font-bold">Total Shortened Links</h3>
+            <p className="text-lg mt-3">No data</p>
+          </div>
         ) : (
           <div className="bg-slate-100 dark:bg-gray-900 h-fit p-4 rounded-xl">
             <h3 className="text-2xl font-bold">Total Shortened Links</h3>

@@ -1,7 +1,6 @@
 import { ShortenedUrlProps } from "@types";
 import { axiosClient } from "~lib/utils/axios-config";
 
-// post
 type PostDataProps = {
   url: string;
   custom_slug: string;
@@ -24,7 +23,6 @@ export async function createNewUrl({
   return response.data;
 }
 
-// delete
 export async function deleteUrl(id: string): Promise<void> {
   await axiosClient.delete("/api/url-shortener", {
     method: "DELETE",
@@ -52,5 +50,10 @@ export async function getAllLinks() {
 
 export async function getAllUsers() {
   const response = await axiosClient.get("/api/users");
+  return response.data;
+}
+
+export async function logoutAdmin() {
+  const response = await axiosClient.post("/api/auth/logout-admin");
   return response.data;
 }
