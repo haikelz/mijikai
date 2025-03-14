@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createSession } from "~app/actions";
 import { env } from "~env.mjs";
 
 const { ADMIN_PASSWORD, ADMIN_EMAIL } = env;
@@ -32,6 +33,12 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );
     }
+
+    await createSession({
+      email,
+      password,
+      role: "admin",
+    });
 
     return NextResponse.json(
       {

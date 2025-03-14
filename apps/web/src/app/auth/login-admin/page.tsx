@@ -12,7 +12,7 @@ import { Label } from "~components/ui/label";
 import { loginAdminSchema } from "~lib/utils/schema";
 import { loginAdmin } from "~services";
 
-export default function AdminPage() {
+export default function LoginAdmin() {
   const queryClient = useQueryClient();
 
   const router = useRouter();
@@ -81,7 +81,7 @@ export default function AdminPage() {
               disabled={loginAdminMutation.isPending}
             >
               {loginAdminMutation.isPending ? (
-                <Loader className="w-7 h-7 animate-spin" />
+                <Loader className="w-5 h-5 animate-spin" />
               ) : (
                 "Login"
               )}

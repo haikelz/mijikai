@@ -25,7 +25,7 @@ export async function createNewUrl({
 }
 
 // delete
-export async function deleteUrl(id: number): Promise<void> {
+export async function deleteUrl(id: number | string): Promise<void> {
   await axiosClient.delete("/api/url-shortener", {
     method: "DELETE",
     data: { id: id },
@@ -42,5 +42,15 @@ export async function loginAdmin(email: string, password: string) {
     email,
     password,
   });
+  return response.data;
+}
+
+export async function getAllLinks() {
+  const response = await axiosClient.get("/api/links");
+  return response.data;
+}
+
+export async function getAllUsers() {
+  const response = await axiosClient.get("/api/users");
   return response.data;
 }

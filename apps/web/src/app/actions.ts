@@ -1,5 +1,9 @@
 import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
+import { env } from "~env.mjs";
 import { db } from "~lib/utils/db";
+
+const { ADMIN_EMAIL, ADMIN_PASSWORD } = env;
 
 // get total shortened URL
 export async function getTotal(): Promise<number> {
@@ -33,11 +37,55 @@ export async function createSession<T>(data: T): Promise<void> {
     expires: expirationDate.toISOString(),
   };
 
-  (await cookies()).set("admin-token", btoa(JSON.stringify(sessionData)), {
+  (await cookies()).set("admin-auth-token", btoa(JSON.stringify(sessionData)), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     expires: expirationDate,
     path: "/",
   });
+}
+
+type AvailableAuthTokenProps = {
+  isExpired: boolean;
+  isAvailable: boolean;
+};
+
+export function checkAvailableAdminAuthToken(
+  req: NextRequest
+): AvailableAuthTokenProps {
+  const authToken = req.cookies.get("admin-auth-token");
+
+  if (!authToken) {
+    return {
+      isExpired: false,
+      isAvailable: false,
+    };
+  }
+
+  const tokenData = JSON.parse(atob(authToken?.value as string));
+  const expirationDate = new Date(tokenData.expires);
+
+  if (expirationDate < new Date()) {
+    return {
+      isExpired: true,
+      isAvailable: false,
+    };
+  }
+
+  if (
+    tokenData.user.role !== "admin" ||
+    tokenData.user.email !== ADMIN_EMAIL ||
+    tokenData.user.password !== ADMIN_PASSWORD
+  ) {
+    return {
+      isExpired: false,
+      isAvailable: false,
+    };
+  }
+
+  return {
+    isExpired: false,
+    isAvailable: true,
+  };
 }
