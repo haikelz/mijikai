@@ -1,3 +1,5 @@
+import { tw } from "~lib/helpers";
+
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
