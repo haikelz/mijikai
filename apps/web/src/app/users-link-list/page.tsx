@@ -1,25 +1,10 @@
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
-import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import { options } from "~app/api/auth/[...nextauth]/options";
 import UsersLinkListPage from "~components/users-link-list/users-link-list-page";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
-
-const ModalConfirmDeleteLink = dynamic(() =>
-  import("~components/users-link-list/modal-confirm-delete-link").then(
-    (comp) => comp.ModalConfirmDeleteLink
-  )
-);
-const ModalSuccessDeleteLink = dynamic(() =>
-  import("~components/users-link-list/modal-success-delete-link").then(
-    (comp) => comp.ModalSuccessDeleteLink
-  )
-);
-const BackToTop = dynamic(() =>
-  import("~components/common/back-to-top").then((comp) => comp.BackToTop)
-);
 
 const baseMetadata = {
   title: "Users Link List",
