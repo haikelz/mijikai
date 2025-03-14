@@ -25,10 +25,10 @@ export async function createNewUrl({
 }
 
 // delete
-export async function deleteUrl(id: number | string): Promise<void> {
+export async function deleteUrl(id: string): Promise<void> {
   await axiosClient.delete("/api/url-shortener", {
     method: "DELETE",
-    data: { id: id },
+    data: { id },
   });
 }
 

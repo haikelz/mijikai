@@ -5,7 +5,7 @@ export type ChildrenProps = {
 };
 
 export type ShortenedUrlProps = {
-  id: number;
+  id: string;
   created_at: string;
   original_url: string;
   shortened_url: string;

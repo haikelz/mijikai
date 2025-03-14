@@ -1,5 +1,24 @@
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
+import { Loader } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Button } from "~components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -9,7 +28,7 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { replaceHttpsPrefix } from "~lib/helpers";
-import { ButtonDeleteLink } from "./button-delete-link";
+import { deleteUrl } from "~services";
 
 const tableHeadData: Array<{ id: number; content: string }> = [
   {
@@ -36,11 +55,32 @@ const tableHeadData: Array<{ id: number; content: string }> = [
 
 const tableBodyNoData: Array<number> = [1, 2, 3, 4, 5];
 
-export function TableLinkList({
+export function TableLinksList({
   usersLinkList,
+  refetch,
 }: {
   usersLinkList: ShortenedUrlProps[];
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<any, Error>>;
 }) {
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => await deleteUrl(id),
+    onSuccess: async () =>
+      await queryClient.invalidateQueries({
+        exact: true,
+      }),
+  });
+
+  async function handleDelete(id: string) {
+    await deleteMutation.mutateAsync(id).then(() => {
+      refetch();
+      toast("Success delete URL!", { closeButton: true });
+    });
+  }
+
   return (
     <Table className="mt-8">
       <TableHeader>
@@ -87,7 +127,35 @@ export function TableLinkList({
                 </Link>
               </TableCell>
               <TableCell>
-                <ButtonDeleteLink data-cy="delete-link-button" id={item.id} />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="destructive">Delete</Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Warning!</DialogTitle>
+                      <DialogDescription>
+                        Are you sure you want to delete this link?
+                      </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button variant="outline">No</Button>
+                      </DialogClose>
+                      <Button
+                        type="button"
+                        onClick={() => handleDelete(item.id)}
+                        disabled={deleteMutation.isPending}
+                      >
+                        {deleteMutation.isPending ? (
+                          <Loader className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Yes"
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               </TableCell>
             </TableRow>
           ))

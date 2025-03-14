@@ -1,56 +1,17 @@
 "use client";
 
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { Session } from "next-auth";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { ErrorClient } from "~components/react-query/error-client";
 import { Heading } from "~components/ui/typography";
-import { TableLinkList } from "~components/users-link-list/table-link-list";
-import { deleteUrl, getUsersLinkList } from "~services";
-import { idLinkAtom, isShowModalAtom, isSuccessDeleteLinkAtom } from "~store";
-
-const ModalConfirmDeleteLink = dynamic(() =>
-  import("~components/users-link-list/modal-confirm-delete-link").then(
-    (comp) => comp.ModalConfirmDeleteLink
-  )
-);
-const ModalSuccessDeleteLink = dynamic(() =>
-  import("~components/users-link-list/modal-success-delete-link").then(
-    (comp) => comp.ModalSuccessDeleteLink
-  )
-);
-const BackToTop = dynamic(() =>
-  import("~components/common/back-to-top").then((comp) => comp.BackToTop)
-);
+import { getUsersLinkList } from "~services";
+import { TableLinksList } from "./table-links-list";
 
 const arr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export default function UsersLinkListPage({ session }: { session: Session }) {
-  const [isShowModal, setIsShowModal] = useAtom(isShowModalAtom);
-
-  const setIsSuccessDeleteLink = useSetAtom(isSuccessDeleteLinkAtom);
-  const idLink = useAtomValue(idLinkAtom);
-
-  const queryClient: QueryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: async () => await deleteUrl(idLink),
-    mutationKey: [idLink],
-    onSuccess: async () =>
-      await queryClient.invalidateQueries({
-        queryKey: [idLink],
-        exact: true,
-      }),
-  });
-
   const { data, isError, isPending, refetch } = useQuery({
     queryKey: ["get-users-link-list"],
     queryFn: async () => await getUsersLinkList(),
@@ -85,19 +46,6 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
 
   const usersLinkList = data.data as ShortenedUrlProps[];
 
-  async function handleDelete() {
-    await deleteMutation.mutateAsync().then(() => {
-      setIsShowModal(false);
-
-      refetch();
-      setIsSuccessDeleteLink(true);
-
-      setTimeout(() => {
-        setIsSuccessDeleteLink(false);
-      }, 1000);
-    });
-  }
-
   return (
     <>
       <section className="max-w-5xl w-full flex flex-col justify-center items-center">
@@ -127,11 +75,8 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
           </p>
         </div>
         {/** Table of data */}
-        <TableLinkList usersLinkList={usersLinkList} />
+        <TableLinksList usersLinkList={usersLinkList} refetch={refetch} />
       </section>
-      <BackToTop />
-      <ModalSuccessDeleteLink />
-      <ModalConfirmDeleteLink handleDelete={() => handleDelete()} />
     </>
   );
 }
