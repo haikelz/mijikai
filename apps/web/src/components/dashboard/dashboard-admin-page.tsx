@@ -48,7 +48,7 @@ export default function DashboardAdminPage() {
       ) : (
         <div className="bg-slate-100 dark:bg-slate-900 h-fit p-4 rounded-xl">
           <h3 className="text-2xl font-bold">Total Users</h3>
-          <p className="text-lg mt-3">{users.data.data.length} Users</p>
+          <p className="text-lg mt-3">{users.data?.data?.length} Users</p>
         </div>
       )}
       {links.isPending ? (
@@ -59,7 +59,7 @@ export default function DashboardAdminPage() {
       ) : (
         <div className="bg-slate-100 dark:bg-slate-900 h-fit p-4 rounded-xl">
           <h3 className="text-2xl font-bold">Total Shortened Links</h3>
-          <p className="text-lg mt-3">{links.data.data.length} Links</p>
+          <p className="text-lg mt-3">{links.data?.data?.length} Links</p>
         </div>
       )}
     </div>

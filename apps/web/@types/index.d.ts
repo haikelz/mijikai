@@ -13,3 +13,9 @@ export type ShortenedUrlProps = {
   image: string;
   name: string;
 };
+
+export type ResponseStatusProps<T> = {
+  status: string;
+  message: string;
+  data?: T;
+};
