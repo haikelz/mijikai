@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { ChildrenProps } from "@types";
-import { Home, LinkIcon, LogOut, User } from "lucide-react";
+import { Home, LinkIcon, Loader, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
@@ -15,8 +15,18 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "~components/ui/breadcrumb";
+import { Button } from "~components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~components/ui/dialog";
 import { Separator } from "~components/ui/separator";
-
 import {
   Sidebar,
   SidebarContent,
@@ -117,13 +127,40 @@ export function DashboardSidebar({ children }: ChildrenProps) {
                   );
                 })}
                 <SidebarMenuItem>
-                  <SidebarMenuButton
-                    className={tw("hover:bg-red-500 hover:text-slate-50")}
-                    onClick={handleLogout}
-                  >
-                    <LogOut />
-                    <span>Logout</span>
-                  </SidebarMenuButton>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <SidebarMenuButton
+                        className={tw("hover:bg-red-500 hover:text-slate-50")}
+                      >
+                        <LogOut />
+                        <span>Logout</span>
+                      </SidebarMenuButton>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>Warning!</DialogTitle>
+                        <DialogDescription>
+                          Are you sure you want to Logout?
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button variant="outline">No</Button>
+                        </DialogClose>
+                        <Button
+                          type="button"
+                          onClick={handleLogout}
+                          disabled={logoutMutation.isPending}
+                        >
+                          {logoutMutation.isPending ? (
+                            <Loader className="w-4 h-4 animate-spin" />
+                          ) : (
+                            "Yes"
+                          )}
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>

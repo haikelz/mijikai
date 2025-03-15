@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
 import { TableLinks } from "~components/dashboard/links/table-links";
+import { ErrorClient } from "~components/react-query/error-client";
 import { getAllLinks } from "~services";
 
 export default function DashboardAdminLinksPage() {
@@ -20,7 +21,7 @@ export default function DashboardAdminLinksPage() {
         <div className="aspect-video rounded-xl bg-slate-200 dark:bg-slate-900 p-4 animate-pulse" />
       </div>
     );
-  if (isError) return <p>500 Server Error!</p>;
+  if (isError) return <ErrorClient />;
 
   const links = data.data as ShortenedUrlProps[];
 

@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
 import { TableUsers } from "~components/dashboard/users/table-users";
+import { ErrorClient } from "~components/react-query/error-client";
 import { getAllUsers } from "~services";
 
 export default function DashboardAdminUsersPage() {
@@ -20,7 +21,7 @@ export default function DashboardAdminUsersPage() {
         <div className="aspect-video rounded-xl bg-slate-200 dark:bg-slate-900 p-4 animate-pulse" />
       </div>
     );
-  if (isError) return <p>500 Server Error!</p>;
+  if (isError) return <ErrorClient />;
 
   const users = data.data as ShortenedUrlProps[];
 

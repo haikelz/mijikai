@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await db
       .from("shortened_url")
-      .select("id, email, image, name");
+      .select("id, email, image, name")
+      .order("created_at", { ascending: true });
 
     const emails = new Set();
     const users = data?.filter(

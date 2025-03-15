@@ -7,6 +7,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
+import { format } from "date-fns";
 import { Loader } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -51,6 +52,10 @@ const tableHeadData: Array<{ id: number; content: string }> = [
   },
   {
     id: 5,
+    content: "Created At",
+  },
+  {
+    id: 6,
     content: "Actions",
   },
 ];
@@ -126,6 +131,9 @@ export function TableLinks({ links, refetch }: Props) {
                 >
                   {replaceHttpsPrefix(item.shortened_url)}
                 </Link>
+              </TableCell>
+              <TableCell data-cy="table-shortened-url" className="font-medium">
+                {format(item.created_at, "dd MMMM yyyy")}
               </TableCell>
               <TableCell>
                 <Dialog>

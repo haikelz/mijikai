@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
     }
     const { data, error } = await db
       .from("shortened_url")
-      .select("id, email, shortened_url, original_url, image, name");
+      .select("id, email, shortened_url, original_url, image, name, created_at")
+      .order("created_at", { ascending: true });
 
     if (error) {
       return NextResponse.json(
