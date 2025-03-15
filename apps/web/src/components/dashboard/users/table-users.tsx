@@ -48,10 +48,10 @@ export function TableUsers({ users }: { users: ShortenedUrlProps[] }) {
         {users.length && users ? (
           users.map((item) => (
             <TableRow key={item.id}>
-              <TableCell data-cy="table-name" className="font-medium">
+              <TableCell data-cy="table-id" className="font-medium">
                 {item.id}
               </TableCell>
-              <TableCell data-cy="table-name" className="font-medium">
+              <TableCell data-cy="table-image" className="font-medium">
                 <Image
                   className="rounded-full"
                   src={item.image}

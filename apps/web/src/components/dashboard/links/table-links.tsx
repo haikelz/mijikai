@@ -132,10 +132,10 @@ export function TableLinks({ links, refetch }: Props) {
                   {replaceHttpsPrefix(item.shortened_url)}
                 </Link>
               </TableCell>
-              <TableCell data-cy="table-shortened-url" className="font-medium">
-                {format(item.created_at, "dd MMMM yyyy")}
+              <TableCell data-cy="table-created-at" className="font-medium">
+                {format(item.created_at, "dd MMMM yyyy, HH.m")}
               </TableCell>
-              <TableCell>
+              <TableCell data-cy="table-actions">
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="destructive">Delete</Button>
