@@ -139,6 +139,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                   {...register("original_url", { required: true })}
                   type="text"
                   name="original_url"
+                  className="rounded-l-none h-11"
                 />
               </div>
               {errors.original_url ? (
@@ -158,6 +159,7 @@ export function FormShortener({ session }: { session: Session | null }) {
                       {...register("custom_slug", { required: true })}
                       type="text"
                       name="custom_slug"
+                      className="rounded-l-none h-11"
                     />
                   </div>
                   {errors.custom_slug ? (
