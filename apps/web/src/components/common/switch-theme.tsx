@@ -2,6 +2,7 @@
 
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Button } from "~components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,8 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "~components/ui/dropdown";
 import { tw } from "~lib/helpers";
-
-import { Button } from "../ui/button";
 
 export function SwitchTheme() {
   const { setTheme } = useTheme();

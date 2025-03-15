@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import { toast } from "sonner";
+import { SwitchTheme } from "~components/common/switch-theme";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +20,7 @@ import { Separator } from "~components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -56,7 +58,14 @@ export function DashboardSidebar({ children }: ChildrenProps) {
   const routesList = pathname
     .slice(1)
     .split("/")
-    .map((item) => item[0].toUpperCase() + item.slice(1));
+    .map((item) => {
+      return {
+        title: item[0].toUpperCase() + item.slice(1),
+        url: `/dashboard/admin/${
+          item === "dashboard" || item === "admin" ? "" : item
+        }`,
+      };
+    });
 
   const logoutMutation = useMutation({
     mutationKey: ["logout-admin"],
@@ -120,6 +129,9 @@ export function DashboardSidebar({ children }: ChildrenProps) {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
+        <SidebarFooter className="dark:bg-slate-900 bg-slate-100 flex items-end justify-center">
+          <SwitchTheme />
+        </SidebarFooter>
       </Sidebar>
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -131,7 +143,9 @@ export function DashboardSidebar({ children }: ChildrenProps) {
                 {routesList.map((item, index) => (
                   <Fragment key={index + 1}>
                     <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">{item}</BreadcrumbLink>
+                      <BreadcrumbLink href={item.url}>
+                        {item.title}
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
                     {index >= routesList.length - 1 ? null : (
                       <BreadcrumbSeparator className="hidden md:block" />

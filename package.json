@@ -1,6 +1,14 @@
 {
   "name": "mijikai",
+  "author": "Haikel Ilham Hakim",
+  "version": "1.0.0",
   "private": true,
+  "license": "Apache-2.0",
+  "description": "Mijikai is a free shorten URL Website. No ads, no tracker!",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haikelz/mijikai"
+  },
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",

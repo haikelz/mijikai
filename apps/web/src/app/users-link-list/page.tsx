@@ -7,8 +7,8 @@ import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
 
 const baseMetadata = {
-  title: "Users Link List",
-  description: "Users Link List",
+  title: "Users Link List | Mijikai",
+  description: "Mijikai is a free shorten URL Website. No ads, no tracker!",
   url: `${SITE_URL}/users-link-list`,
 };
 
