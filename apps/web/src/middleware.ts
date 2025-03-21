@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkAvailableAdminAuthToken } from "~app/actions";
-import { SITE_URL } from "~lib/utils/constants";
+import { CONDITION, SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 
 export default async function middleware(
@@ -10,6 +10,18 @@ export default async function middleware(
   headers.set("x-current-path", req.nextUrl.pathname);
 
   if (req.nextUrl.pathname.startsWith("/auth/login-admin")) {
+    const session = req.cookies.get(
+      CONDITION === "development"
+        ? "next-auth.session-token"
+        : "__Secure-next-auth.session-token"
+    );
+
+    // For admin side, we didn't use any next-auth services.
+    // So, we can redirect user who already logged in using Github/Google to homepage.
+    if (session) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
+
     const isAvailableAdminAuthToken = checkAvailableAdminAuthToken(req);
 
     if (

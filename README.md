@@ -34,7 +34,7 @@
 
 ## Technologies
 
-## Frontend
+### Frontend
 
 - Next JS 15
 - Tailwind CSS with shadcn/ui
@@ -42,7 +42,7 @@
 - Jotai
 - Turborepo
 
-## Backend
+### Backend
 
 - Supabase
 
