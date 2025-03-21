@@ -74,7 +74,6 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
             {session.user.email}
           </p>
         </div>
-        {/** Table of data */}
         <TableLinksList usersLinkList={usersLinkList} refetch={refetch} />
       </section>
     </>

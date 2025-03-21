@@ -50,6 +50,10 @@ const tableHeadData: Array<{ id: number; content: string }> = [
   },
   {
     id: 5,
+    content: "Created At",
+  },
+  {
+    id: 6,
     content: "Actions",
   },
 ];
@@ -127,13 +131,8 @@ export function TableLinksList({
                   {replaceHttpsPrefix(item.shortened_url)}
                 </Link>
               </TableCell>
-              <TableCell data-cy="table-created-at">
-                <TableCell
-                  data-cy="table-shortened-url"
-                  className="font-medium"
-                >
-                  {format(item.created_at, "dd MMMM yyyy, HH.m")}
-                </TableCell>
+              <TableCell data-cy="table-created-at" className="font-medium">
+                {format(item.created_at, "dd MMMM yyyy, HH.m")}
               </TableCell>
               <TableCell data-cy="table-actions">
                 <Dialog>

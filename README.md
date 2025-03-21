@@ -28,14 +28,19 @@
 
 ![ss 7](static/docs/ss-7.png)
 
+![ss 8](static/docs/ss-8.png)
+
+![ss 9](static/docs/ss-9.png)
+
 ## Technologies
 
 ## Frontend
 
 - Next JS 15
 - Tailwind CSS with shadcn/ui
-- Jotai
 - React Query
+- Jotai
+- Turborepo
 
 ## Backend
 

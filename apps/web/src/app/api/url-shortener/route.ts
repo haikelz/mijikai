@@ -1,9 +1,8 @@
 import { customAlphabet } from "nanoid";
 import { Session, getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { db } from "~lib/utils/db";
-
 import { ALPHABET_AND_NUMBER, SITE_URL } from "~lib/utils/constants";
+import { db } from "~lib/utils/db";
 import { options } from "../auth/[...nextauth]/options";
 
 export async function POST(req: Request) {
@@ -94,7 +93,15 @@ export async function DELETE(req: Request) {
     // delete data based on id
     const { error } = await db.from("shortened_url").delete().eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json(
+        {
+          status: "BAD REQUEST!",
+          message: "Failed to delete specified URL, bad request!",
+        },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json(
       {
