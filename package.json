@@ -20,7 +20,7 @@
     "@mijikai/typescript-config": "workspace:*",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "turbo": "^2.4.4"
+    "turbo": "^2.5.0"
   },
   "packageManager": "pnpm@9.10.0",
   "engines": {

@@ -33,11 +33,11 @@ export default function FormLoginAdmin() {
       await loginAdmin(getValues("email"), getValues("password")),
     mutationKey: ["login-admin"],
     onSuccess: async (data) => {
-      toast(data.message);
-
       setTimeout(() => {
         router.push("/dashboard/admin");
       }, 1000);
+
+      toast(data.message);
     },
     onError: (data: any) => {
       toast(data.response.data.message, { closeButton: true });

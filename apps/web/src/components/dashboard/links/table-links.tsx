@@ -140,6 +140,7 @@ export function TableLinks({ links, refetch }: Props) {
                   <DialogTrigger asChild>
                     <Button variant="destructive">Delete</Button>
                   </DialogTrigger>
+
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                       <DialogTitle>Warning!</DialogTitle>

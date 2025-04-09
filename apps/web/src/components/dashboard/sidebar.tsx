@@ -101,7 +101,7 @@ export function DashboardSidebar({ children }: ChildrenProps) {
       <Sidebar>
         <SidebarContent className="dark:bg-slate-900 bg-slate-100">
           <SidebarGroup>
-            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupLabel>Admin - Mijikai</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => {
@@ -136,6 +136,7 @@ export function DashboardSidebar({ children }: ChildrenProps) {
                         <span>Logout</span>
                       </SidebarMenuButton>
                     </DialogTrigger>
+
                     <DialogContent className="sm:max-w-md">
                       <DialogHeader>
                         <DialogTitle>Warning!</DialogTitle>

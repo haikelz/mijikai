@@ -62,7 +62,7 @@ export default function RootLayout({ children }: ChildrenProps) {
     <html lang="en" suppressHydrationWarning>
       <body className={tw(inter.className)}>
         <Wrapper>{children}</Wrapper>
-        <Toaster />
+        <Toaster expand richColors />
       </body>
     </html>
   );
