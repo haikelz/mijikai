@@ -5,7 +5,7 @@ import { db } from "~lib/utils/db";
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -26,7 +26,7 @@ export async function PUT(
     const { data, error } = await db
       .from("shortened_url")
       .update({ ...editData })
-      .eq("id", "sfasf");
+      .eq("id", id);
 
     if (error) {
       return NextResponse.json(
