@@ -232,7 +232,7 @@ export function TableLinksList({
                           <Button variant="outline">No</Button>
                         </DialogClose>
                         <Button type="submit" disabled={editMutation.isPending}>
-                          {deleteMutation.isPending ? (
+                          {editMutation.isPending ? (
                             <Loader className="w-4 h-4 animate-spin" />
                           ) : (
                             "Yes"
