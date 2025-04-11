@@ -1,6 +1,7 @@
 import { getServerSession, Session } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { options } from "~app/api/auth/[...nextauth]/options";
+import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 
 export async function PUT(
@@ -25,7 +26,10 @@ export async function PUT(
 
     const { data, error } = await db
       .from("shortened_url")
-      .update({ ...editData })
+      .update({
+        original_url: editData.original_url,
+        shortened_url: `${SITE_URL}/${editData.shortened_url}`,
+      })
       .eq("id", id);
 
     if (error) {

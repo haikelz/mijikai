@@ -17,6 +17,7 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
     queryFn: async () => await getUsersLinkList(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    staleTime: 1000 * 60 * 5,
   });
 
   if ((!data && isError) || isPending)
