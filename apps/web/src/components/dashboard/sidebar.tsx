@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ChildrenProps } from "@types";
 import { Home, LinkIcon, Loader, LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { toast } from "sonner";
 import { SwitchTheme } from "~components/common/switch-theme";
@@ -64,6 +64,7 @@ const items = [
 
 export function DashboardSidebar({ children }: ChildrenProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const routesList = pathname
     .slice(1)
@@ -84,7 +85,7 @@ export function DashboardSidebar({ children }: ChildrenProps) {
       toast(data.message, { closeButton: true });
 
       setTimeout(() => {
-        window.location.reload();
+        router.push("/auth/login-admin");
       }, 1000);
     },
     onError: (data: any) => {

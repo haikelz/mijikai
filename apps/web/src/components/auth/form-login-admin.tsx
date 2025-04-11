@@ -37,10 +37,10 @@ export default function FormLoginAdmin() {
         router.push("/dashboard/admin");
       }, 1000);
 
-      toast(data.message);
+      toast.success(data.message, { closeButton: true });
     },
     onError: (data: any) => {
-      toast(data.response.data.message, { closeButton: true });
+      toast.error(data.response.data.message, { closeButton: true });
     },
   });
 

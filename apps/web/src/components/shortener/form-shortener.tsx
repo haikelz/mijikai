@@ -14,6 +14,7 @@ import { signIn } from "next-auth/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useClipboard } from "use-clipboard-copy";
 import { Info } from "~components/common/info";
 import { ErrorClient } from "~components/react-query/error-client";
@@ -74,7 +75,13 @@ export function FormShortener({ session }: { session: Session | null }) {
         is_custom_slug: isCustomSlug,
       }),
     mutationKey: ["post-data"],
-    onSuccess: async () => await queryClient.invalidateQueries(),
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries();
+      toast.success(data.message, { closeButton: true });
+    },
+    onError: (data) => {
+      toast.error(data.message, { closeButton: true });
+    },
   });
 
   async function onSubmit() {

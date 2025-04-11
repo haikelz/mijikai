@@ -8,6 +8,17 @@ import { options } from "../auth/[...nextauth]/options";
 export async function POST(req: Request) {
   try {
     const session = (await getServerSession(options)) as Session;
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          status: "UNAUTHORIZED",
+          message: "Unauthorized! You're not logged in!",
+        },
+        { status: 401 }
+      );
+    }
+
     const { url, custom_slug, is_custom_slug } = await req.json();
 
     const customUrl = customAlphabet(ALPHABET_AND_NUMBER, 5);

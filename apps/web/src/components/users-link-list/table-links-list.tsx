@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -8,6 +9,7 @@ import { ShortenedUrlProps } from "@types";
 import { format } from "date-fns";
 import { Loader } from "lucide-react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "~components/ui/button";
 import {
@@ -17,9 +19,12 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "~components/ui/dialog";
+import { Input } from "~components/ui/input";
+import { Label } from "~components/ui/label";
 import {
   Table,
   TableBody,
@@ -29,7 +34,8 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { replaceHttpsPrefix } from "~lib/helpers";
-import { deleteUrl } from "~services";
+import { editShortenedLinkSchema } from "~lib/utils/schema";
+import { deleteUrl, editUrl } from "~services";
 
 const tableHeadData: Array<{ id: number; content: string }> = [
   {
@@ -69,21 +75,59 @@ export function TableLinksList({
     options?: RefetchOptions
   ) => Promise<QueryObserverResult<any, Error>>;
 }) {
+  const {
+    getValues,
+    formState: { errors },
+    register,
+    handleSubmit,
+    setValue,
+  } = useForm({
+    defaultValues: {
+      original_url: "",
+      custom_slug: "",
+    },
+    resolver: zodResolver(editShortenedLinkSchema),
+  });
+
   const queryClient = useQueryClient();
+
+  const editMutation = useMutation({
+    mutationFn: async (id: string) =>
+      await editUrl(id, {
+        url: getValues("original_url"),
+        custom_slug: getValues("custom_slug"),
+      }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        exact: true,
+      });
+
+      toast.success("Success edit URL!", { closeButton: true });
+    },
+    onError: (data) => {
+      return toast.error("Error edit URL!", { description: data.message });
+    },
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => await deleteUrl(id),
-    onSuccess: async () =>
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         exact: true,
-      }),
+      });
+      toast.success("Success delete URL!", { closeButton: true });
+    },
+    onError: (data) => {
+      return toast.error("Error delete URL!", { description: data.message });
+    },
   });
 
   async function handleDelete(id: string) {
-    await deleteMutation.mutateAsync(id).then(() => {
-      refetch();
-      toast("Success delete URL!", { closeButton: true });
-    });
+    await deleteMutation.mutateAsync(id);
+  }
+
+  async function handleEdit(id: string) {
+    await editMutation.mutateAsync(id);
   }
 
   return (
@@ -134,11 +178,74 @@ export function TableLinksList({
               <TableCell data-cy="table-created-at" className="font-medium">
                 {format(item.created_at, "dd MMMM yyyy, HH.m")}
               </TableCell>
-              <TableCell data-cy="table-actions">
+              <TableCell
+                data-cy="table-actions"
+                className="space-x-2 flex justify-center items-center"
+              >
+                <Dialog>
+                  <DialogTrigger
+                    asChild
+                    onClick={() => {
+                      setValue("original_url", item.original_url);
+                      setValue("custom_slug", item.shortened_url);
+                    }}
+                  >
+                    <Button>Edit</Button>
+                  </DialogTrigger>
+                  <DialogOverlay />
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Edit Shortened Link</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={handleSubmit(() => handleEdit(item.id))}>
+                      <div className="my-2 space-y-2">
+                        <div className="">
+                          <Label htmlFor="original_url">Original URL</Label>
+                          <Input
+                            id="original_url"
+                            {...register("original_url")}
+                            className="mt-1"
+                          />
+                          {errors.original_url ? (
+                            <span className="mt-1 text-red-500 font-semibold text-xs">
+                              {errors.original_url.message}
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="">
+                          <Label htmlFor="custom_slug">Custom Slug</Label>
+                          <Input
+                            id="custom_slug"
+                            {...register("custom_slug")}
+                            className="mt-1"
+                          />
+                          {errors.custom_slug ? (
+                            <span className="mt-1 text-red-500 font-semibold text-xs">
+                              {errors.custom_slug.message}
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                      <DialogFooter className="mt-4">
+                        <DialogClose asChild>
+                          <Button variant="outline">No</Button>
+                        </DialogClose>
+                        <Button type="submit" disabled={editMutation.isPending}>
+                          {deleteMutation.isPending ? (
+                            <Loader className="w-4 h-4 animate-spin" />
+                          ) : (
+                            "Yes"
+                          )}
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="destructive">Delete</Button>
                   </DialogTrigger>
+                  <DialogOverlay />
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                       <DialogTitle>Warning!</DialogTitle>
