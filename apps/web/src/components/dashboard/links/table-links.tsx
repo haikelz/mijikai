@@ -74,17 +74,20 @@ export function TableLinks({ links, refetch }: Props) {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => await deleteUrl(id),
-    onSuccess: async () =>
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         exact: true,
-      }),
+      });
+      refetch();
+      toast.success("Success delete URL!", { closeButton: true });
+    },
+    onError: () => {
+      return toast.error("Error delete URL!", { closeButton: true });
+    },
   });
 
   async function handleDelete(id: string) {
-    await deleteMutation.mutateAsync(id).then(() => {
-      refetch();
-      toast("Success delete URL!", { closeButton: true });
-    });
+    await deleteMutation.mutateAsync(id);
   }
 
   return (

@@ -101,7 +101,7 @@ export function TableLinksList({
       await queryClient.invalidateQueries({
         exact: true,
       });
-
+      refetch();
       toast.success("Success edit URL!", { closeButton: true });
     },
     onError: (data) => {
@@ -115,6 +115,7 @@ export function TableLinksList({
       await queryClient.invalidateQueries({
         exact: true,
       });
+      refetch();
       toast.success("Success delete URL!", { closeButton: true });
     },
     onError: (data) => {
