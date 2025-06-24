@@ -19,3 +19,9 @@ export type ResponseStatusProps<T> = {
   message: string;
   data?: T;
 };
+
+export type CreateNewUrlProps = {
+  url: string;
+  custom_slug: string;
+  is_custom_slug: boolean;
+};

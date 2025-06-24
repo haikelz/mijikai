@@ -30,7 +30,7 @@ import {
   withCustomSlugSchema,
   withoutCustomSlugSchema,
 } from "~lib/utils/schema";
-import { createNewUrl } from "~services";
+import { createNewUserUrl } from "~services/user";
 import { isShowModalAtom } from "~store";
 
 const QrCode = dynamic(() =>
@@ -69,7 +69,7 @@ export function FormShortener({ session }: { session: Session | null }) {
 
   const createNewUrlMutation = useMutation({
     mutationFn: async () =>
-      await createNewUrl({
+      await createNewUserUrl({
         url: getValues("original_url"),
         custom_slug: getValues("custom_slug") as string,
         is_custom_slug: isCustomSlug,

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkAvailableAdminAuthToken } from "~app/actions";
 import { db } from "~lib/utils/db";
 
-export async function GET(req: NextRequest) {
+export async function DELETE(req: NextRequest) {
   try {
     const isAvailableAdminAuthToken = checkAvailableAdminAuthToken(req);
 
@@ -18,16 +18,16 @@ export async function GET(req: NextRequest) {
         { status: 401 }
       );
     }
-    const { data, error } = await db
-      .from("shortened_url")
-      .select("id, email, shortened_url, original_url, image, name, created_at")
-      .order("created_at", { ascending: true });
+
+    const { ids } = await req.json();
+
+    const { error } = await db.from("shortened_url").delete().in("id", ids);
 
     if (error) {
       return NextResponse.json(
         {
           status: "BAD REQUEST!",
-          message: "Failed to get all users, bad request!",
+          message: "Failed to delete specified list of URL, bad request!",
         },
         { status: 400 }
       );
@@ -36,8 +36,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         status: "SUCCESS!",
-        message: "Success get all users!",
-        data,
+        message: "Success delete specified list of URL!",
       },
       { status: 200 }
     );
@@ -45,7 +44,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         status: "SERVER ERROR!",
-        message: "There is something wrong in server side!",
+        message: `Failed to do DELETE Operation, server error!`,
       },
       { status: 500 }
     );

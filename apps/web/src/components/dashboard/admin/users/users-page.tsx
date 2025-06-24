@@ -2,9 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ShortenedUrlProps } from "@types";
-import { TableUsers } from "~components/dashboard/users/table-users";
 import { ErrorClient } from "~components/react-query/error-client";
-import { getAllUsers } from "~services";
+import { getAllUsers } from "~services/admin";
+import { TableUsers } from "./table-users";
 
 export default function DashboardAdminUsersPage() {
   const { data, isPending, isError } = useQuery({

@@ -37,7 +37,7 @@ import {
 } from "~components/ui/table";
 import { replaceHttpsPrefix } from "~lib/helpers";
 import { editShortenedLinkSchema } from "~lib/utils/schema";
-import { deleteUrl, editUrl } from "~services";
+import { deleteUserUrl, editUserUrl } from "~services/user";
 
 const tableHeadData: Array<{ id: number; content: string }> = [
   {
@@ -95,7 +95,7 @@ export function TableLinksList({
 
   const editMutation = useMutation({
     mutationFn: async (id: string) =>
-      await editUrl(id, {
+      await editUserUrl(id, {
         url: getValues("original_url"),
         custom_slug: getValues("custom_slug"),
       }),
@@ -112,7 +112,7 @@ export function TableLinksList({
   });
 
   const deleteMutation = useMutation({
-    mutationFn: async (id: string) => await deleteUrl(id),
+    mutationFn: async (id: string) => await deleteUserUrl(id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         exact: true,

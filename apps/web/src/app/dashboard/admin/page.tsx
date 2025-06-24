@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import DashboardAdminPage from "~components/dashboard/dashboard-admin-page";
+import { DashboardAdminPage } from "~components/dashboard/admin/dashboard-admin-page";
 import { Og } from "~lib/utils/enums";
 
 const title = "Dashboard Admin | Mijikai";

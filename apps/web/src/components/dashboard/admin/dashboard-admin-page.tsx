@@ -2,12 +2,12 @@
 
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { getAllLinks, getAllUsers } from "~services";
+import { getAllUsers, getAllUsersLinksAdmin } from "~services/admin";
 
-export default function DashboardAdminPage() {
+export function DashboardAdminPage() {
   const links = useQuery({
     queryKey: ["get-all-links"],
-    queryFn: async () => await getAllLinks(),
+    queryFn: async () => await getAllUsersLinksAdmin(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     staleTime: 1000 * 60 * 5,

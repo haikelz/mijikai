@@ -1,17 +1,10 @@
 import { getServerSession, Session } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { options } from "~app/api/auth/[...nextauth]/options";
-import { SITE_URL } from "~lib/utils/constants";
 import { db } from "~lib/utils/db";
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(req: Request) {
   try {
-    const { id } = await params;
-
-    const editData = await req.json();
     const session = (await getServerSession(options)) as Session;
 
     if (!session) {
@@ -24,19 +17,19 @@ export async function PUT(
       );
     }
 
-    const { data, error } = await db
+    const { ids, email } = await req.json();
+
+    const { error } = await db
       .from("shortened_url")
-      .update({
-        original_url: editData.original_url,
-        shortened_url: `${SITE_URL}/${editData.shortened_url}`,
-      })
-      .eq("id", id);
+      .delete()
+      .in("id", ids)
+      .eq("email", email);
 
     if (error) {
       return NextResponse.json(
         {
           status: "BAD REQUEST!",
-          message: "Failed to get all users, bad request!",
+          message: "Failed to delete specified list of URL, bad request!",
         },
         { status: 400 }
       );
@@ -45,8 +38,7 @@ export async function PUT(
     return NextResponse.json(
       {
         status: "SUCCESS!",
-        message: "Success edit user!",
-        data,
+        message: "Success delete specified list of URL!",
       },
       { status: 200 }
     );
@@ -54,7 +46,7 @@ export async function PUT(
     return NextResponse.json(
       {
         status: "SERVER ERROR!",
-        message: "There is something wrong in server side!",
+        message: `Failed to do DELETE Operation, server error!`,
       },
       { status: 500 }
     );

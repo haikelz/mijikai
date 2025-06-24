@@ -1,10 +1,10 @@
 import { ChildrenProps } from "@types";
 import { Metadata } from "next";
-import { DashboardSidebar } from "~components/dashboard/sidebar";
+import { DashboardSidebar } from "~components/dashboard/admin/sidebar";
 import { SITE_URL } from "~lib/utils/constants";
 import { Og } from "~lib/utils/enums";
 
-const title = "Mijikai";
+const title = "Dashboard Admin | Mijikai";
 const description =
   "Mijikai is a free shorten URL Website. No ads, no tracker!";
 const url = SITE_URL;
@@ -35,9 +35,5 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: ChildrenProps) {
-  return (
-    <>
-      <DashboardSidebar>{children}</DashboardSidebar>
-    </>
-  );
+  return <DashboardSidebar>{children}</DashboardSidebar>;
 }

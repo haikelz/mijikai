@@ -96,38 +96,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json();
-
-    // delete data based on id
-    const { error } = await db.from("shortened_url").delete().eq("id", id);
-
-    if (error) {
-      return NextResponse.json(
-        {
-          status: "BAD REQUEST!",
-          message: "Failed to delete specified URL, bad request!",
-        },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        status: "SUCCESS!",
-        message: "Success delete specified URL!",
-      },
-      { status: 200 }
-    );
-  } catch (err) {
-    return NextResponse.json(
-      {
-        status: "SERVER ERROR!",
-        message: `Failed to do DELETE Operation, server error!`,
-      },
-      { status: 500 }
-    );
-  }
-}

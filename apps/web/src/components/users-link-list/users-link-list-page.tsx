@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import { ErrorClient } from "~components/react-query/error-client";
 import { Heading } from "~components/ui/typography";
-import { getUsersLinkList } from "~services";
+import { getUserLinkList } from "~services/user";
 import { TableLinksList } from "./table-links-list";
 
 const arr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -14,7 +14,7 @@ const arr: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 export default function UsersLinkListPage({ session }: { session: Session }) {
   const { data, isError, isPending, refetch } = useQuery({
     queryKey: ["get-users-link-list"],
-    queryFn: async () => await getUsersLinkList(),
+    queryFn: async () => await getUserLinkList(),
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     staleTime: 1000 * 60 * 5,
