@@ -11,7 +11,7 @@ import { Button } from "~components/ui/button";
 import { Input } from "~components/ui/input";
 import { Label } from "~components/ui/label";
 import { loginAdminSchema } from "~lib/utils/schema";
-import { loginAdmin } from "~services/user";
+import { loginAdmin } from "~services/admin";
 
 export default function FormLoginAdmin() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);

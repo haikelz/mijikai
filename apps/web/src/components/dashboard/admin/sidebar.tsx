@@ -23,6 +23,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "~components/ui/dialog";
@@ -137,7 +138,7 @@ export function DashboardSidebar({ children }: ChildrenProps) {
                         <span>Logout</span>
                       </SidebarMenuButton>
                     </DialogTrigger>
-
+                    <DialogOverlay />
                     <DialogContent className="sm:max-w-md">
                       <DialogHeader>
                         <DialogTitle>Warning!</DialogTitle>
@@ -173,7 +174,7 @@ export function DashboardSidebar({ children }: ChildrenProps) {
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="flex sticky top-0 z-20 backdrop-blur-md bg-white/70 dark:bg-slate-950/70 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        <header className="flex sticky top-0 backdrop-blur-md bg-white/70 dark:bg-slate-950/70 h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />

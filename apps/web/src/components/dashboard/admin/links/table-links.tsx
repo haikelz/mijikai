@@ -244,6 +244,7 @@ export function TableLinks({ links, refetch }: Props) {
               <DialogTrigger asChild>
                 <Button variant="destructive">Delete</Button>
               </DialogTrigger>
+              <DialogOverlay />
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>Warning!</DialogTitle>
@@ -397,6 +398,7 @@ export function TableLinks({ links, refetch }: Props) {
               Bulk Delete ({selectedIds.length})
             </Button>
           </DialogTrigger>
+          <DialogOverlay />
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Warning!</DialogTitle>
@@ -475,11 +477,12 @@ export function TableLinks({ links, refetch }: Props) {
             ))
           ) : (
             <TableRow>
-              {tableBodyNoData.map((item) => (
-                <TableCell key={item} className="font-medium">
-                  No data
-                </TableCell>
-              ))}
+              <TableCell
+                colSpan={table.getHeaderGroups().length}
+                className="font-medium text-center"
+              >
+                No data
+              </TableCell>
             </TableRow>
           )}
         </TableBody>

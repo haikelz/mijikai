@@ -427,7 +427,10 @@ export function TableLinksList({ usersLinkList, refetch, session }: Props) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={5} className="text-center">
+              <TableCell
+                colSpan={table.getHeaderGroups().length}
+                className="text-center font-medium"
+              >
                 No data
               </TableCell>
             </TableRow>
