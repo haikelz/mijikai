@@ -47,10 +47,13 @@ export async function bulkDeleteUserUrl({
   email: string;
 }) {
   try {
-    const response = await axiosClient.delete("/api/url-shortener", {
-      method: "DELETE",
-      data: { ids, email },
-    });
+    const response = await axiosClient.delete(
+      "/api/users-link-list/bulk-delete",
+      {
+        method: "DELETE",
+        data: { ids, email },
+      }
+    );
 
     return response.data;
   } catch (err: any) {

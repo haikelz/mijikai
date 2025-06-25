@@ -72,10 +72,14 @@ export default function UsersLinkListPage({ session }: { session: Session }) {
             />
           </div>
           <p data-cy="user-email" className="font-medium mt-2">
-            {session.user.email}
+            {session.user.name} - {session.user.email}
           </p>
         </div>
-        <TableLinksList usersLinkList={usersLinkList} refetch={refetch} />
+        <TableLinksList
+          usersLinkList={usersLinkList}
+          refetch={refetch}
+          session={session}
+        />
       </section>
     </>
   );

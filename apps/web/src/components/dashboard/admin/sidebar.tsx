@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { ChildrenProps } from "@types";
-import { Home, LinkIcon, Loader, LogOut, Settings, User } from "lucide-react";
+import { Home, LinkIcon, Loader, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment } from "react";
@@ -59,11 +59,6 @@ const items = [
     title: "Links",
     icon: LinkIcon,
     url: "/dashboard/admin/links",
-  },
-  {
-    title: "Profile",
-    icon: Settings,
-    url: "/dashboard/admin/profile",
   },
 ];
 

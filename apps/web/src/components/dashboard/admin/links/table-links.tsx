@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -31,6 +32,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "~components/ui/dialog";
@@ -45,6 +47,7 @@ import {
   TableRow,
 } from "~components/ui/table";
 import { replaceHttpsPrefix } from "~lib/helpers";
+import { editShortenedLinkSchema } from "~lib/utils/schema";
 import {
   bulkDeleteUserUrlAdmin,
   deleteUserUrlAdmin,
@@ -100,7 +103,14 @@ export function TableLinks({ links, refetch }: Props) {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<FormData>({});
+    getValues,
+  } = useForm<FormData>({
+    defaultValues: {
+      original_url: "",
+      custom_slug: "",
+    },
+    resolver: zodResolver(editShortenedLinkSchema),
+  });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => await deleteUserUrlAdmin(id),
@@ -118,7 +128,10 @@ export function TableLinks({ links, refetch }: Props) {
 
   const editMutation = useMutation({
     mutationFn: async (id: string) =>
-      await editUserUrlAdmin(id, { custom_slug: "", url: "" }),
+      await editUserUrlAdmin(id, {
+        custom_slug: getValues("custom_slug"),
+        url: getValues("original_url"),
+      }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         exact: true,
@@ -261,11 +274,15 @@ export function TableLinks({ links, refetch }: Props) {
                 asChild
                 onClick={() => {
                   setValue("original_url", row.original.original_url);
-                  setValue("custom_slug", row.original.shortened_url);
+                  setValue(
+                    "custom_slug",
+                    row.original.shortened_url.split("/")[3] || ""
+                  );
                 }}
               >
                 <Button>Edit</Button>
               </DialogTrigger>
+              <DialogOverlay />
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>Edit Shortened Link</DialogTitle>
