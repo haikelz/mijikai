@@ -33,6 +33,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "~components/ui/dialog";
@@ -209,6 +210,7 @@ export function TableLinksList({ usersLinkList, refetch, session }: Props) {
                   Edit
                 </Button>
               </DialogTrigger>
+              <DialogOverlay />
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>Edit Shortened Link</DialogTitle>
@@ -427,10 +429,7 @@ export function TableLinksList({ usersLinkList, refetch, session }: Props) {
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={table.getHeaderGroups().length}
-                className="text-center font-medium"
-              >
+              <TableCell colSpan={5} className="text-center font-medium">
                 No data
               </TableCell>
             </TableRow>

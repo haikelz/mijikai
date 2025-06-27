@@ -1,5 +1,4 @@
 import { QRCodeSVG } from "qrcode.react";
-
 import { Modal } from "../ui/modal";
 import { Heading } from "../ui/typography";
 

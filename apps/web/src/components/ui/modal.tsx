@@ -3,7 +3,7 @@
 import { ChildrenProps } from "@types";
 import { useAtom } from "jotai";
 import { HTMLAttributes, useRef } from "react";
-import { useClickOutside } from "~hooks";
+import { useClickOutside } from "~hooks/use-click-outside";
 import { tw } from "~lib/helpers";
 import { isShowModalAtom } from "~store";
 

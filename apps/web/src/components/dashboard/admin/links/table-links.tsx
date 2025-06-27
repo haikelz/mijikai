@@ -477,10 +477,7 @@ export function TableLinks({ links, refetch }: Props) {
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={table.getHeaderGroups().length}
-                className="font-medium text-center"
-              >
+              <TableCell colSpan={6} className="font-medium text-center">
                 No data
               </TableCell>
             </TableRow>
