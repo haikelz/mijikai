@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowUpIcon } from "lucide-react";
-import { useScroll } from "~hooks";
 
+import { useScroll } from "~hooks/use-scroll";
 import { Button } from "../ui/button";
 
 export function BackToTop() {
