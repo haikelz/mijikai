@@ -20,7 +20,6 @@ export async function DELETE(req: NextRequest) {
     }
 
     const { ids } = await req.json();
-
     const { error } = await db.from("shortened_url").delete().in("id", ids);
 
     if (error) {

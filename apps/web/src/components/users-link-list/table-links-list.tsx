@@ -351,6 +351,7 @@ export function TableLinksList({ usersLinkList, refetch, session }: Props) {
               Bulk Delete ({selectedIds.length})
             </Button>
           </DialogTrigger>
+          <DialogOverlay />
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Warning!</DialogTitle>
